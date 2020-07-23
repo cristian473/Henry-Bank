@@ -4,6 +4,7 @@ const Product = (sequelize, S) => {
     id: {
       type: S.INTEGER,
       allowNull: false,
+      primaryKey: true,
       autoIncrement: true,
     },
   });
