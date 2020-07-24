@@ -34,7 +34,7 @@ const Users = (sequelize, S) => {
       unique: true,
     },
     birthDate: {
-      type: S.INTEGER,
+      type: S.DATEONLY,
       allowNull: true,
     },
     address: {
@@ -52,6 +52,11 @@ const Users = (sequelize, S) => {
     status: {
       type: S.BOOLEAN,
       defaultValue: false,
+    },
+    contacts: { 
+      type: S.ARRAY(S.INTEGER), 
+      defaultValue: null,
+      allowNull: true,
     },
   });
 
