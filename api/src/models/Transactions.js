@@ -3,36 +3,32 @@ const S = Sequelize;
 
 const Transactions = (sequelize, S) => {
     // defino el modelo
-    const H = sequelize.define('transactions', {
-      idMovimiento: {
+    const T = sequelize.define('transactions', {
+      idSender: {
         type: S.INTEGER,
         allowNull: false,
         primaryKey: true,
         autoIncrement: true,
       },
-      idWallet: {
+      idReceiver: {
         type: S.INTEGER,
         allowNull: false
       },
-      idUser: {
+      value: {
         type: S.INTEGER,
         allowNull: false
       },
-      status: {
-        type: S.BOOLEAN,
+      state: {
+        type: S.ENUM(['Aceptado','Procesada','Rechazada']),
         allowNull: false
       },
-      reason: {
+      description: {
         type: S.TEXT,
-        allowNull: true
-      },
-      idComercio: {
-        type: S.INTEGER,
         allowNull: true
       }
     });
     
-    return H;
+    return T;
   };
   
   module.exports = Transactions;

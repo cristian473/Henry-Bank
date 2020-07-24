@@ -4,38 +4,23 @@ const S = Sequelize;
 const Wallet = (sequelize, S) => {
     // defino el modelo
     const W = sequelize.define('wallet', {
-      idWallet: {
+      idUsuario: {
         type: S.INTEGER,
         allowNull: false,
         primaryKey: true,
-        autoIncrement: true,
       },
-      movimiento: {
+      type: {
         type: S.STRING,
         allowNull: false
       },
-      valor: {
+      saldo: {
         type: S.REAL,
         allowNull: false
       },
-      comentario: {
+      divisa: {
         type: S.TEXT,
         allowNull: true
-      },
-      validado: {
-        type: S.BOOLEAN,
-        allowNull: false
-      },
-      pasarela: {
-        type: S.INTEGER,
-        allowNull: false
-      },
-    //   pasarelaForma: {
-    //     type: S.INTEGER,
-    //     allowNull: false,
-    //     primaryKey: true,
-    //     autoIncrement: true,
-    //   },
+      }
     });
     
     return W;
