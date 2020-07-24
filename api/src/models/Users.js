@@ -53,11 +53,12 @@ const Users = (sequelize, S) => {
       type: S.BOOLEAN,
       defaultValue: false,
     },
-    contacts: { 
-      type: S.ARRAY(S.INTEGER), 
+    contacts: {
+      type: S.ARRAY(S.INTEGER),
       defaultValue: null,
       allowNull: true,
     },
+    timestamps: false,
   });
 
   U.addHook("beforeCreate", function (Users, options) {
