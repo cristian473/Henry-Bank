@@ -1,9 +1,10 @@
 import React from 'react';
 import './css/App.css';
-import { Route } from 'wouter'
-import { useDispatch } from 'react-redux'
+import { Route } from 'wouter';
+import { useDispatch } from 'react-redux';
 
-import AddUserForm from './components/FormularioAltaCliente.jsx'
+import AddUserForm from './components/FormularioAltaCliente.jsx';
+import LoginForm from './components/Login.jsx';
 
 function App() {
 
@@ -11,6 +12,7 @@ function App() {
   return (
     <div>
       <Route path='/addUser' component={AddUserForm} />
+      <Route path='/login' component={LoginForm} />
     </div>
   );
 }
