@@ -1,13 +1,14 @@
-const { Router } = require('express');
-// import all routers;
-const authRouter = require('./auth.js');
-
-
+const { Router } = require("express");
 const router = Router();
+const passport = require("passport");
+const configPassport = require("./pass");
+const session = require("express-session");
 
-// load each router on a route
-// i.e: router.use('/auth', authRouter);
-router.use('/auth', authRouter);
-// router.use('/products', productRouter);
+// import all routers;
+const authPath = require("./auth.js");
+const usersPath = require("./users.js");
+
+router.use("/auth", authPath);
+router.use("/users", usersPath);
 
 module.exports = router;

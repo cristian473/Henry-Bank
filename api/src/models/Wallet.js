@@ -4,18 +4,20 @@ const S = Sequelize;
 const Wallet = (sequelize, S) => {
   // defino el modelo
   const W = sequelize.define("wallet", {
-    idUsuario: {
+    idUser: {
       type: S.INTEGER,
       allowNull: false,
-      primaryKey: true,
     },
+
     type: {
       type: S.STRING,
-      allowNull: false,
+      defaultValue: "Cuenta Corriente",
+      allowNull: true,
     },
     saldo: {
-      type: S.REAL,
-      allowNull: false,
+      type: S.DECIMAL(10, 2),
+      defaultValue: 0.0,
+      allowNull: true,
     },
     divisa: {
       type: S.TEXT,

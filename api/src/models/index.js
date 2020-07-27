@@ -18,7 +18,7 @@ fs.readdirSync(__dirname)
     models[name] = model;
   });
 
-const { Users } = models;
+const { Users, Transactions, Wallet } = models;
 
 // Add model relationships here
 
