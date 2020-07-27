@@ -6,13 +6,13 @@ export default function LoginForm(){
   return(
     <div id="login">
       {/* Cambiar el puerto por el corresponiente */}
-      <form action="http://localhost:1337" method="POST">
+      <form action="http://localhost:3080" method="POST">
         <img src={loginPortada} alt="loginPortada"/>
         <div className="form-group col-md-12">
           <h4>Iniciar Sesión</h4>
           <div className="input-group mb-3">
             <input 
-              // name="username" 
+              name="username" 
               className="form-control" 
               placeholder="Usuario"            
               required/>
@@ -21,7 +21,7 @@ export default function LoginForm(){
         <div className="form-group col-md-12 ">
           <div className="input-group mb-3">
             <input 
-              // name="password" 
+              name="password" 
               type="password"
               className="form-control" 
               placeholder="Contraseña" 
