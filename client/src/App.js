@@ -5,7 +5,7 @@ import { useDispatch } from 'react-redux';
 
 import AddUserForm from './components/FormularioAltaCliente.jsx';
 import LoginForm from './components/Login.jsx';
-
+import General from './components/General/index.js'
 function App() {
 
   const dispatch = useDispatch();
@@ -13,6 +13,7 @@ function App() {
     <div>
       <Route path='/addUser' component={AddUserForm} />
       <Route path='/login' component={LoginForm} />
+      <Route path='/general' component={General} />
     </div>
   );
 }

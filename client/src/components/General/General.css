@@ -1,0 +1,46 @@
+.container {
+    border: solid 1px black;
+    top: 5px;
+    border-radius: 3px;
+    position: relative;
+    height: 300px;
+    width: 600px;
+}
+
+.general {
+    position: relative;
+    text-align: center;
+    top: 30px;
+}
+
+.income {
+    color: gray;
+    text-align: center;
+     position: relative;
+    top: 60px;
+    left: 35px;
+    float: left;
+    width: 25%px;
+}
+
+.expense{
+    color: gray;
+    text-align: center;
+    position: relative;
+    top: 60px;
+    right: 35px;
+    float: right;
+    width: 25%px;
+}
+
+.record {
+    background: transparent;
+    text-align: center;
+    position: relative;
+    top: 150px;
+
+}
+
+.value {
+    color: black;
+}
