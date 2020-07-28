@@ -7,12 +7,6 @@ const Wallet = (sequelize, S) => {
       primaryKey: true,
       autoIncrement: true,
     },
-
-    idUser: {
-      type: S.INTEGER,
-      allowNull: false,
-    },
-
     type: {
       type: S.STRING,
       defaultValue: "Cuenta Corriente",
