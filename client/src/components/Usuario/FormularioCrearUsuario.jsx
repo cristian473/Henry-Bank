@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import { addUser } from '../actions/AddUserActions'
-import '../css/agregarusuario.css'
+import { addUser } from '../../actions/AddUserActions'
+import './CSS/agregarusuario.css'
 import { connect } from 'react-redux'
 
 function FormularioUsuario({addUser}){

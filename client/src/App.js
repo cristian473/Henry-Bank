@@ -2,11 +2,12 @@ import React from 'react';
 import './css/App.css';
 import { Route } from 'wouter';
 import { useDispatch } from 'react-redux';
-import AddUserForm from './components/FormularioAltaCliente.jsx';
-import LoginForm from './components/Login.jsx';
-import Home from './components/Onboarding.jsx';
+
+import AddUserForm from './components/Cliente/FormularioAltaCliente.jsx';
+import LoginForm from './components/Usuario/Login.jsx';
+import Home from './components/Usuario/Onboarding.jsx';
 import General from './components/General/index.js'
-import FormularioUsuario from './components/FormularioCrearUsuario.jsx'
+import FormularioUsuario from './components/Usuario/FormularioCrearUsuario.jsx'
 
 function App() {
 

@@ -1,6 +1,6 @@
 import React from 'react';
-import loginPortada from '../images/login.png';
-import '../css/login.css';
+import loginPortada from './images/login.png';
+import './CSS/login.css';
 
 export default function LoginForm() {
   return (
