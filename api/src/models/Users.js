@@ -1,9 +1,7 @@
 const Users = (sequelize, S) => {
   // defino el modelo
-  const U = sequelize.define(
-    "users",
-    {
-      userId: {
+  const U = sequelize.define("users", {
+      id: {
         type: S.INTEGER,
         allowNull: false,
         primaryKey: true,
@@ -20,11 +18,11 @@ const Users = (sequelize, S) => {
       },
       password: {
         type: S.STRING,
-        allowNull: true,
+        allowNull: false,
       },
       email: {
         type: S.STRING,
-        allowNull: true,
+        allowNull: false,
         unique: true,
         validate: {
           isEmail: true,
@@ -52,8 +50,9 @@ const Users = (sequelize, S) => {
         allowNull: true,
       },
       status: {
-        type: S.BOOLEAN,
-        defaultValue: false,
+        type: S.ENUM,
+        values: ['Pendiente', 'Validado', 'Bloqueado'],
+        defaultValue: 'Pendiente',
       },
       contacts: {
         type: S.ARRAY(S.INTEGER),
@@ -61,7 +60,6 @@ const Users = (sequelize, S) => {
         allowNull: true,
       },
     },
-
     {
       timestamps: false,
     }

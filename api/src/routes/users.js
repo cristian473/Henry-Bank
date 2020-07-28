@@ -50,7 +50,7 @@ server.post("/new", async (req, res) => {
     .then((user) => {
       console.log(user);
       Wallet.create({
-        idUser: user.userId,
+        userId: user.id,
       });
     });
 });
@@ -85,4 +85,19 @@ server.post("/login", (req, res, next) => {
     });
   });
 });
+
+//Get Wallet for IdUser
+
+server.get('/wallet/:id', (req, res) => {
+
+  Wallet.findOne({where: {userId: req.params.id}})
+    .then(user => {
+      console.log(user)
+      res.status(200).json(user)
+    })
+    .catch(err => {
+      res.status(404).json({err})
+    })
+});
+
 module.exports = server;

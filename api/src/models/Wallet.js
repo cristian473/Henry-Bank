@@ -1,12 +1,11 @@
-const Sequelize = require("sequelize");
-const S = Sequelize;
-
 const Wallet = (sequelize, S) => {
   // defino el modelo
   const W = sequelize.define("wallet", {
-    idUser: {
+    id: {
       type: S.INTEGER,
       allowNull: false,
+      primaryKey: true,
+      autoIncrement: true,
     },
 
     type: {
@@ -14,12 +13,12 @@ const Wallet = (sequelize, S) => {
       defaultValue: "Cuenta Corriente",
       allowNull: true,
     },
-    saldo: {
+    balance: {
       type: S.DECIMAL(10, 2),
       defaultValue: 0.0,
       allowNull: true,
     },
-    divisa: {
+    currency: {
       type: S.TEXT,
       allowNull: true,
     },
