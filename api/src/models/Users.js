@@ -3,7 +3,7 @@ const Users = (sequelize, S) => {
   const U = sequelize.define(
     "users",
     {
-      userId: {
+      id: {
         type: S.INTEGER,
         allowNull: false,
         primaryKey: true,
@@ -34,6 +34,10 @@ const Users = (sequelize, S) => {
         type: S.STRING,
         allowNull: true,
         unique: true,
+      },
+      phone: {
+        type: S.STRING,
+        allowNull: true,
       },
       birthDate: {
         type: S.DATEONLY,

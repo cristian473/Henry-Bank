@@ -4,11 +4,15 @@ const S = Sequelize;
 const Transactions = (sequelize, S) => {
   // defino el modelo
   const T = sequelize.define("transactions", {
-    idSender: {
+    id: {
       type: S.INTEGER,
       allowNull: false,
       primaryKey: true,
       autoIncrement: true,
+    },
+    idSender: {
+      type: S.INTEGER,
+      allowNull: false,
     },
     idReceiver: {
       type: S.INTEGER,

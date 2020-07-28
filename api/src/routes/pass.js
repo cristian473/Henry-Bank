@@ -14,7 +14,7 @@ function passportLocal() {
     new LocalStrategy(
       {
         usernameField: "email",
-        passwordField: "contraseña",
+        passwordField: "password",
       },
       function (email, password, done) {
         console.log("Hola Local");

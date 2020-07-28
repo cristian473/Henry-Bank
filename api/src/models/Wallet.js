@@ -4,6 +4,13 @@ const S = Sequelize;
 const Wallet = (sequelize, S) => {
   // defino el modelo
   const W = sequelize.define("wallet", {
+    id: {
+      type: S.INTEGER,
+      allowNull: false,
+      primaryKey: true,
+      autoIncrement: true,
+    },
+
     idUser: {
       type: S.INTEGER,
       allowNull: false,

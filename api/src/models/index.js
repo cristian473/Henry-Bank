@@ -21,5 +21,7 @@ fs.readdirSync(__dirname)
 const { Users, Transactions, Wallet } = models;
 
 // Add model relationships here
+Users.hasOne(Wallet);
+Wallet.belongsTo(Users);
 
 module.exports = models;
