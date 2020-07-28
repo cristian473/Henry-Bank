@@ -5,23 +5,27 @@ const Transactions = (sequelize, S) => {
       type: S.INTEGER,
       allowNull: false,
       primaryKey: true,
-      autoIncrement: true,
+      autoIncrement: true
     },
     idSender: {
       type: S.INTEGER,
-      allowNull: false,
+      allowNull: true,
     },
     idReceiver: {
       type: S.INTEGER,
-      allowNull: false,
+      allowNull: true,
     },
     value: {
-      type: S.INTEGER,
-      allowNull: false,
+      type: S.DECIMAL(10, 2),
+      allowNull: true,
+    },
+    type:{
+      type: S.STRING,
+      allowNull: false
     },
     state: {
       type: S.ENUM(["Procesada", "Aceptada", "Rechazada"]),
-      allowNull: false,
+      allowNull: true,
     },
     description: {
       type: S.TEXT,
