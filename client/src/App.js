@@ -11,8 +11,8 @@ function App() {
   const dispatch = useDispatch();
   return (
     <div>
-      <Route path='/addUser' component={AddUserForm} />
-      <Route path='/login' component={LoginForm} />
+      <Route path='/users/new' component={AddUserForm} />
+      <Route path='/users/login' component={LoginForm} />
     </div>
   );
 }
