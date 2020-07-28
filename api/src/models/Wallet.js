@@ -11,8 +11,6 @@ const Wallet = (sequelize, S) => {
     idUser: {
       type: S.INTEGER,
       allowNull: false,
-      primaryKey: true,
-      autoIncrement: true,
     },
 
     type: {
