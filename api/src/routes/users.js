@@ -74,7 +74,7 @@ server.post("/new", async (req, res) => {
 
 server.post("/login", (req, res, next) => {
   //  console.log(req.body);
-  console.log(req.session);
+
   passport.authenticate("local", (err, user, info) => {
     if (err) {
       return json({
@@ -93,6 +93,11 @@ server.post("/login", (req, res, next) => {
       if (err) {
         return res.json(err);
       }
+      console.log(req.session);
+      req.session.cookie.expires = 1000;
+      console.log((req.session.cookie.expires = 1000));
+      req.session.cookie.user = "prueba de usuario";
+      console.log(req.session);
       return res.json({
         success: true,
         message: "You have successfully logged in!",
