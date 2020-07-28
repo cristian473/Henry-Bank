@@ -112,7 +112,7 @@ server.get("/wallet/:id", (req, res) => {
       res.status(200).json(user);
     })
     .catch((err) => {
-      res.status(404).json({ err });
+      res.status(err).json({ err });
     });
 });
 
