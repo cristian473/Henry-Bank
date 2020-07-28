@@ -31,28 +31,29 @@ server.use(passport.session());
 
 server.post("/new", async (req, res) => {
   console.log(req.body);
-  const contraseñahash = await bcrypt.hash(req.body.password, 10);
+  const { email, password, firstName, lastName, identification, birthDate, address, city, country } = req.body;
+  const hashedPassword = await bcrypt.hash(password, 10);
   Users.create({
-    email: req.body.email,
-    password: contraseñahash,
-    firstName: req.body.firstName,
-    lastName: req.body.lastName,
-    identification: req.body.identification,
-    birthDate: req.body.birthdate,
-    address: req.body.address,
-    city: req.body.city,
-    country: req.body.country,
+    firstName,
+    lastName,
+    password: hashedPassword,
+    email,
+    identification,
+    birthDate,
+    address,
+    city,
+    country,
   })
-    .then((user) => {
-      res.json(user);
-      return user;
-    })
-    .then((user) => {
-      console.log(user);
-      Wallet.create({
-        idUser: user.userId,
-      });
+  .then((user) => {
+    console.log(user);
+    Wallet.create({
+      userId: user.id,
     });
+    return res.json(user);
+  })
+  .catch((e) => {
+    res.sendStatus(404);
+  });
 });
 
 server.post("/login", (req, res, next) => {

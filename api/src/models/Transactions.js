@@ -1,14 +1,16 @@
-const Sequelize = require("sequelize");
-const S = Sequelize;
-
 const Transactions = (sequelize, S) => {
   // defino el modelo
   const T = sequelize.define("transactions", {
-    idSender: {
+    id: {
       type: S.INTEGER,
       allowNull: false,
       primaryKey: true,
       autoIncrement: true,
+    },
+
+    idSender: {
+      type: S.INTEGER,
+      allowNull: false,
     },
     idReceiver: {
       type: S.INTEGER,
@@ -19,7 +21,7 @@ const Transactions = (sequelize, S) => {
       allowNull: false,
     },
     state: {
-      type: S.ENUM(["Aceptado", "Procesada", "Rechazada"]),
+      type: S.ENUM(["Procesada", "Aceptada", "Rechazada"]),
       allowNull: false,
     },
     description: {
