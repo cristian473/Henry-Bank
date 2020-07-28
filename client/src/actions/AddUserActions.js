@@ -8,3 +8,28 @@ export function addUsers(user) {
     });
   };
 }
+
+export function addUser(user) {
+    return function(dispatch) {
+        return fetch('http://localhost:3080/users', {
+                headers: {
+                    'Accept': '*/*',
+                    'Content-Type': 'application/json'
+                },
+                method: 'POST',
+                body: JSON.stringify(user),
+                credentials: 'include'
+
+            })
+            .then((res) => {
+                if (res.status === 200) {
+                    return (
+                        dispatch({ type: ADD_USER }),
+                        window.history.back()
+                    )
+                } else {
+                    alert("Error en campos")
+                }
+            })
+    }
+}
