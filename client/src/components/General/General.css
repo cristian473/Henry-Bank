@@ -1,6 +1,8 @@
 .container {
     border: solid 1px black;
     top: 5px;
+    display: flex;
+    flex-direction: column;
     border-radius: 3px;
     position: relative;
     height: 300px;
@@ -8,37 +10,30 @@
 }
 
 .general {
-    position: relative;
     text-align: center;
-    top: 30px;
+    margin-top: 7px;
+}
+
+.props {
+    display: flex;
+    margin: 35px;
 }
 
 .income {
-    color: gray;
     text-align: center;
-     position: relative;
-    top: 60px;
-    left: 35px;
-    float: left;
-    width: 25%px;
+    align-self: flex-start;
+    width: 150px;
 }
 
-.expense{
-    color: gray;
+.expenses {
+    margin-left: 150px;
     text-align: center;
-    position: relative;
-    top: 60px;
-    right: 35px;
-    float: right;
-    width: 25%px;
+    width: 150px;
 }
 
 .record {
     background: transparent;
     text-align: center;
-    position: relative;
-    top: 150px;
-
 }
 
 .value {
