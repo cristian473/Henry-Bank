@@ -58,14 +58,14 @@ server.post("/new", async (req, res) => {
     country,
   })
     .then((user) => {
-      res.json(user);
-      return user;
-    })
-    .then((user) => {
       console.log(user);
       Wallet.create({
-        idUser: user.userId,
+        userId: user.id,
       });
+      return res.json(user);
+    })
+    .catch((e) => {
+      res.sendStatus(404);
     });
 });
 

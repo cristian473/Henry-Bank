@@ -1,6 +1,3 @@
-const Sequelize = require("sequelize");
-const S = Sequelize;
-
 const Transactions = (sequelize, S) => {
   // defino el modelo
   const T = sequelize.define("transactions", {
@@ -23,7 +20,7 @@ const Transactions = (sequelize, S) => {
       allowNull: false,
     },
     state: {
-      type: S.ENUM(["Aceptado", "Procesada", "Rechazada"]),
+      type: S.ENUM(["Procesada", "Aceptada", "Rechazada"]),
       allowNull: false,
     },
     description: {
