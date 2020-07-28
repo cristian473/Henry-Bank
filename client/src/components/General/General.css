@@ -1,0 +1,41 @@
+.container {
+    border: solid 1px black;
+    top: 5px;
+    display: flex;
+    flex-direction: column;
+    border-radius: 3px;
+    position: relative;
+    height: 300px;
+    width: 600px;
+}
+
+.general {
+    text-align: center;
+    margin-top: 7px;
+}
+
+.props {
+    display: flex;
+    margin: 35px;
+}
+
+.income {
+    text-align: center;
+    align-self: flex-start;
+    width: 150px;
+}
+
+.expenses {
+    margin-left: 150px;
+    text-align: center;
+    width: 150px;
+}
+
+.record {
+    background: transparent;
+    text-align: center;
+}
+
+.value {
+    color: black;
+}
