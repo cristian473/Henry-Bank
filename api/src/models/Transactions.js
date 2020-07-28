@@ -16,12 +16,16 @@ const Transactions = (sequelize, S) => {
       allowNull: false,
     },
     value: {
-      type: S.INTEGER,
+      type: S.DECIMAL(10, 2),
+      allowNull: true,
+    },
+    type: {
+      type: S.STRING,
       allowNull: false,
     },
     state: {
       type: S.ENUM(["Procesada", "Aceptada", "Rechazada"]),
-      allowNull: false,
+      allowNull: true,
     },
     description: {
       type: S.TEXT,
