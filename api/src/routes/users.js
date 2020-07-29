@@ -5,8 +5,7 @@ const { Users, Wallet } = require("../models/index.js");
 server.get("/", (req, res) => {
   Users.findAll({
     order: [["id", "ASC"]],
-  })
-  .then((e) => {
+  }).then((e) => {
     res.send(e);
   });
 });
@@ -47,8 +46,8 @@ server.post("/new", async (req, res) => {
       return res.json(user);
     })
     .catch((err) => {
-      if(err.original) res.send(err.original.messageDetail);
-      else res.send('Error de validación de datos');
+      if (err.original) res.send(err.original.messageDetail);
+      else res.send("Error de validación de datos");
       //res.status(500).json({ err });
     });
 });
