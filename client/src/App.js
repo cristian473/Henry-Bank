@@ -6,6 +6,7 @@ import AddUserForm from './components/Cliente/FormularioAltaCliente.jsx';
 import LoginForm from './components/Usuario/Login.jsx';
 import General from './components/General/index.js'
 import FormularioUsuario from './components/Usuario/FormularioCrearUsuario.jsx'
+import LoginGoogle from './components/Usuario/LoginGoogle.jsx';
 
 function App() {
 
@@ -16,6 +17,7 @@ function App() {
       <Route path='/addUsuario' component={FormularioUsuario} />
       <Route path='/login' component={LoginForm} />
       <Route path='/general' component={General} />
+      <Route path='/logingoogle' component={LoginGoogle} />
     </div>
   );
 }
