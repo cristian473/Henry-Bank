@@ -42,7 +42,7 @@ server.post(
 
 server.get("/me");
 
-//Adminsitrador puede cambiar status de usuario.
+//Administrador puede cambiar status de usuario.
 server.put("/cambiarstatus/", (req, res) => {
   Users.findOne({
     where: {

@@ -80,22 +80,21 @@ server.put("/:idSender/:idReceiver", (req, res) => {
             idSender: req.params.idSender,
             idReceiver: req.params.idReceiver,
             type: "Transferencia",
-            balanceType: "decrement & increment",
             value: req.body.money,
-            state: "Aceptado",
+            state: "Aceptada",
           })
             .then((transaccion) =>
-              res
-                .status(200)
-                .json({
-                  message:
-                    "transaccion N°" + transaccion.id + " realizada con exito!",
-                  transaccion,
-                })
+              res.status(200).json({
+                message:
+                  "transaccion N°" + transaccion.id + " realizada con exito!",
+                transaccion,
+              })
             )
-            .catch((err) =>
-              res.status(400).json({ message: "No se registró el movimiento" })
-            );
+            .catch((err) => {
+              res.status(400).json({
+                message: "No se registro el movimiento",
+              });
+            });
         })
 
         .catch((err) => {
@@ -106,13 +105,11 @@ server.put("/:idSender/:idReceiver", (req, res) => {
     })
 
     .catch((err) =>
-      res
-        .status(400)
-        .json({
-          message:
-            "Usuario no encontrado! por favor ingrese nuevamente los usuarios",
-          error: err,
-        })
+      res.status(400).json({
+        message:
+          "Usuario no encontrado! por favor ingrese nuevamente los usuarios",
+        error: err,
+      })
     );
 });
 
