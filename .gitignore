@@ -118,6 +118,11 @@ dist
 .yarn/build-state.yml
 .yarn/install-state.gz
 .pnp.*
+<<<<<<< HEAD
+api/package.json
+api/package-lock.json
+api/package-lock.json
+=======
 
 # db
 .src/db.js
@@ -126,3 +131,4 @@ dist
 
 #DS_Store
 ../.DS_Store
+>>>>>>> 9a1982a1002c126780e2200872dc03db5be29817

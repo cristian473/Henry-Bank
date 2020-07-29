@@ -1,6 +1,4 @@
-import {
-    ADD_USERS,
-} from '../constants/userConstants';
+import { ADD_USERS } from '../constants/userConstants';
 
 const initialState = [];
 

@@ -4,7 +4,8 @@ import { addUsers } from '../actions/AddUserActions'
 
 const AddUserForm = props => {
     const initialUserState = {
-        userId: null, documentType: '',
+        userId: null,
+        documentType: '',
         documentNumber: '',
         name: '',
         lastname: '',
