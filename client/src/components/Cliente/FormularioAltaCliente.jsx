@@ -12,12 +12,6 @@ const AddUserForm = props => {
         name: '',
         lastname: '',
         birthdate: '',
-        phone: '',
-        street: '',
-        houseNumber: '',
-        city: '',
-        province: '',
-        country: ''
     }
 
     const [user, setUser] = useState(initialUserState)
@@ -25,7 +19,6 @@ const AddUserForm = props => {
 
     const handleInputChange = event => {
         const { name, value } = event.target
-
         setUser({ ...user, [name]: value })
     }
 
@@ -33,7 +26,6 @@ const AddUserForm = props => {
         <div>
             <div id="login">
                 <img src={header} alt="header" />
-                <h2>Alta Cliente</h2>
                 <form onSubmit={event => {
                     event.preventDefault()
                     if (!user.name) return
@@ -49,10 +41,12 @@ const AddUserForm = props => {
                         <p>Fecha de nacimiento</p>
                         <input class='form-control' type="date" name="birthdate" placeholder="Fecha de nacimiento" value={user.birthdate} onChange={handleInputChange} />
                     </div>
-                    <button>Continuar</button>
-                    <button>Atrás</button>
                 </form>
-                <h4>¿Necesitás ayuda?</h4>
+                <div className='altaButtons'>
+                    <a id="buttons" href="/">Atrás</a>
+                    <a id="buttons" href='/users/new2'>Continuar</a>
+                </div>
+                <a href="/">¿Necesitás ayuda?</a>
             </div>
         </div>
     )

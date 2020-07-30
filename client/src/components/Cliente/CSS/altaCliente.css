@@ -16,50 +16,53 @@
   #login div p{
     position: relative;
     margin-top: 10px;
+    margin-left: 10%;
     margin-bottom: 0px;
-    text-align: center;
+    text-align: left;
   }
 
   .form-control {
     position: relative;
     box-sizing: border-box;
+    width: 80%;
     height: auto;
+    margin-left: 10%;
+    margin-top: 10px;
+    margin-bottom: 10px;
     padding: 10px;
     font-size: 16px;
+}
+.altaButtons {
+  display: flex;
+  justify-content: center;
+  margin-top: 35px;
+}
+
+#buttons {
+  font-family: 'Roboto', sans-serif;
+  color: #000;
+  border: none;
+  font-weight: 500;
+  border-radius: 0%;
+  margin-right: 5px;
+  margin-left: 5px;
+  font-size: 18px;
+  background-color: rgba(200, 196, 196, 0.664);
+box-shadow: 3px 3px 5px rgba(68, 68, 68, 0.575);
+
 }
 
   #login .contenedor{
     margin-top: 30px;
     padding-bottom: 20px;
   }
-  #login .link{
-    margin-left: 0px;
-  }
-  #login .link a{
+  
+  #login a{
+    display: flex;
+    justify-content: center;
+margin-top: 20px;
     color: #666666;
     font-size: 15px;
     position: relative;
-    left: 15px;
+   
   }
-  #login .inicio input{
-    margin-left: 0px;
-    background-color: yellow;
-    color: #000;
-    border: none;
-    font-weight: bold;
-    border-radius: 0%;
-    padding: 12px 40px !important;
-    box-shadow: 5px 5px 5px rgb(167, 167, 167);
-  }
-  #login .inicio input:hover{
-    color: #fff;
-    box-shadow: none;
-  }
-.form-signin {
-    width: 100%;
-    max-width: 330px;
-    padding: 15px;
-    margin: auto;
-}
-
-

@@ -2,16 +2,10 @@ import React, { useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { addUsers } from '../../actions/AddUserActions'
 import './CSS/altaCliente.css';
+import header from './images/header.png';
 
-const AddUserForm = props => {
+const AddUserForm2 = props => {
     const initialUserState = {
-        userId: null,
-        documentType: '',
-        documentNumber: '',
-        name: '',
-        lastname: '',
-        birthdate: '',
-        phone: '',
         street: '',
         houseNumber: '',
         city: '',
@@ -31,28 +25,30 @@ const AddUserForm = props => {
     return (
         <div>
             <div id="login">
-                <h2>Alta Cliente</h2>
+                <img src={header} alt="header" />
                 <form onSubmit={event => {
                     event.preventDefault()
                     if (!user.name) return
                     dispatch(addUsers(user))
                     setUser(initialUserState)
-                }}
-                >
-                    <input type="text" name="phone" placeholder="Teléfono" value={user.phone} onChange={handleInputChange} />
-                    <input type="text" name="street" placeholder="Domicilio calle" value={user.street} onChange={handleInputChange} />
-                    <input type="text" name="houseNumber" placeholder="Número" value={user.houseNumber} onChange={handleInputChange} />
-                    <input type="text" name="city" placeholder="Ciudad" value={user.city} onChange={handleInputChange} />
-                    <input type="text" name="province" placeholder="Provincia" value={user.province} onChange={handleInputChange} />
-                    <input type="text" name="country" placeholder="Pais" value={user.country} onChange={handleInputChange} />
-
-                    <button>Darme de alta</button>
-                    <button>Atrás</button>
+                }}>
+                    <div class='input-gruop mb-3'>
+                        <input class='form-control' type="text" name="phone" placeholder="Teléfono" value={user.phone} onChange={handleInputChange} />
+                        <input class='form-control' type="text" name="street" placeholder="Domicilio calle" value={user.street} onChange={handleInputChange} />
+                        <input class='form-control' type="text" name="houseNumber" placeholder="Número" value={user.houseNumber} onChange={handleInputChange} />
+                        <input class='form-control' type="text" name="city" placeholder="Ciudad" value={user.city} onChange={handleInputChange} />
+                        <input class='form-control' type="text" name="province" placeholder="Provincia" value={user.province} onChange={handleInputChange} />
+                        <input class='form-control' type="text" name="country" placeholder="Pais" value={user.country} onChange={handleInputChange} />
+                    </div>
+                    <div className='altaButtons'>
+                        <a id="buttons" href="../users/new">Atrás</a>
+                        <a id="buttons">Darme de Alta</a>
+                    </div>
                 </form>
-                <h4>¿Necesitás ayuda?</h4>
+                <a href="/">¿Necesitás ayuda?</a>
             </div>
         </div>
     )
 }
 
-export default AddUserForm
+export default AddUserForm2

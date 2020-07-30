@@ -8,6 +8,5 @@ export function getDataUser(state = initialState, action) {
 
         return state.concat(action.payload)
     }
-
     return state;
 }

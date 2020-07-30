@@ -4,6 +4,7 @@ import { Route } from 'wouter';
 import { useDispatch } from 'react-redux';
 
 import AddUserForm from './components/Cliente/FormularioAltaCliente.jsx';
+import AddUserForm2 from './components/Cliente/FormularioAltaDomicilio.jsx';
 import LoginForm from './components/Usuario/Login.jsx';
 import Home from './components/Usuario/Onboarding.jsx';
 import General from './components/General/index.js'
@@ -17,6 +18,7 @@ function App() {
     <div>
       <Route exact path='/' component={Home} />
       <Route exact path='/users/new' component={AddUserForm} />
+      <Route exact path='/users/new2' component={AddUserForm2} />
       <Route exact path='/users/login' component={LoginForm} />
       <Route path='/addUsuario' component={FormularioUsuario} />
       <Route path='/general' component={General} />
