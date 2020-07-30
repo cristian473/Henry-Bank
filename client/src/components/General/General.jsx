@@ -15,7 +15,7 @@ export default function General() {
                     <h3 className='value' > $2,334.12 </h3>
                 </div>
                 <div className = 'expenses' >
-                    <h5>< Link to='expenses' >Expenses </Link> </h5>
+                    <h5><Link to='expenses' > Expenses </Link> </h5>
                     <h3 className='value' > $1,153.15 </h3>
                 </div>
             </div>
