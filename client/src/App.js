@@ -6,8 +6,9 @@ import { useDispatch } from 'react-redux';
 import AddUserForm from './components/Cliente/FormularioAltaCliente.jsx';
 import LoginForm from './components/Usuario/Login.jsx';
 import Home from './components/Usuario/Onboarding.jsx';
-import General from './components/General/index.js'
-import FormularioUsuario from './components/Usuario/FormularioCrearUsuario.jsx'
+import General from './components/General/index.js';
+import FormularioUsuario from './components/Usuario/FormularioCrearUsuario.jsx';
+import Cliente from './components/Cliente/Cliente.jsx';
 
 function App() {
 
@@ -19,6 +20,7 @@ function App() {
       <Route exact path='/users/login' component={LoginForm} />
       <Route path='/addUsuario' component={FormularioUsuario} />
       <Route path='/general' component={General} />
+      <Route exact path='/cliente' component={Cliente}/>
     </div>
   );
 }
