@@ -1,0 +1,110 @@
+#cliente {
+  display: flex;
+  width: 100%;
+  height: 100vh;
+  color: white;
+}
+
+
+.left{
+  width: 75%;
+  background-color: black;
+  color: white;
+}
+.left .header{
+  display: flex;
+  width: 600px;
+  margin: 0px auto;
+}
+.left .header .perfil{
+  font-size: 12px;
+  text-align: center;
+}
+.left .header .perfil h2{
+  font-weight: 200;
+  padding: 0px 20px;
+  padding-top: 15px;
+  font-size: 20px;
+  color: rgb(167, 167, 167);
+}
+.left .header .perfil span{
+  font-weight: 600;
+  color: white;
+}
+.left .header .perfil img{
+  width: 120px;
+  height: 125px;
+}
+.left .header .saldo{
+  margin-left: 30px;
+}
+.left .header .saldo h3{
+  font-size: 2.3em;
+  margin-bottom: 0px;
+  margin-top: 33%;
+}
+.left .header .saldo p{
+  text-align: center;
+  color: rgb(87, 86, 86);
+}
+.left .acciones{
+  position: relative;
+  top: 20%;
+  text-align: center;
+}
+.left .acciones ul{
+  margin-bottom: 0px;
+  padding-left: 0px;
+  list-style: none;
+  display: flex;
+}
+.left .acciones ul li:first-child{
+  margin-left: auto;
+  margin-right: 15px;
+}
+.left .acciones ul li:last-child{
+  margin-right: auto;
+}
+.left .acciones ul li a{
+  border-radius: 0px;
+  font-size: 18px;
+  height: 45px;
+  width: 200px;
+  border: white solid 1px;
+  font-weight: 600;
+  color: white;
+}
+.left .acciones ul li:hover{
+  background-color: rgba(37, 37, 37, 0.541);
+}
+
+
+
+
+
+.right{
+  width: 25%;
+  background-color: #fffe00;
+  display: flex;
+}
+.right .rutas{
+  margin: auto;
+  font-weight: 800;
+  font-size: 20px;
+  text-align: left;
+}
+.right .rutas ul{
+  margin-bottom: 0px;
+  padding-left: 0px;
+  list-style: none;
+}
+.right .rutas ul li{
+  padding-bottom: 7px;
+}
+.right .rutas ul li a{
+  text-decoration: none;
+  color: black;
+}
+.right .rutas  ul li a:hover{
+  color: rgb(77, 77, 77);
+}

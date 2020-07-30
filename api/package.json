@@ -4,10 +4,10 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "NODE_PATH=./src nodemon -L",
-    "forever": "NODE_PATH=./src forever index.js",
-    "test": "NODE_PATH=./src mocha -w ./tests/**/*.spec.js",
-    "build:symlinked": "NODE_PATH=./src nodemon -L"
+    "start": "cross-env NODE_PATH=./src nodemon -L",
+    "forever": "cross-env NODE_PATH=./src forever index.js",
+    "test": "cross-env NODE_PATH=./src mocha -w ./tests/**/*.spec.js",
+    "build:symlinked": "cross-env NODE_PATH=./src nodemon -L"
   },
   "author": "Dev5",
   "license": "ISC",
