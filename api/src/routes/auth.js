@@ -40,7 +40,19 @@ server.post(
   }
 );
 
-server.get("/me");
+server.get("/profileuser", (req, res) => {
+  const profile = Users.findOne({
+    where: {
+      id: req.body.id,
+    },
+  }).then((result) => {
+    if (result === null) {
+      res.send("el usuario no ha sido encontrado")
+    } else {
+      res.send(result)
+    }
+  });
+});
 
 //Administrador puede cambiar status de usuario.
 server.put("/cambiarstatus/", (req, res) => {
