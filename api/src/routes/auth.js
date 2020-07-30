@@ -1,5 +1,6 @@
 const server = require("express").Router();
 const passport = require("passport");
+const { SMTPClient } = require("emailjs");
 const { Users, Wallet } = require("../models/index.js");
 
 server.post("/changepassword");
@@ -36,9 +37,39 @@ server.post(
   }),
   (req, res) => {
     console.log("registered", req.user);
+    validateEmail(req.user.email, req.user.email_hash);
     res.send(req.user);
   }
 );
+
+//Validar y continuar con el registro de un Usuario.
+server.put("/validate/:email_hash", async (req, res) => {
+  const user = await Users.findOne({ where: { email_hash: req.params.email_hash, } });
+  if (user === null) {
+    console.log('Not found!');
+    res.status(404).send({status: `No se ha encontrado al Usuario especificado. Contacte a su Administrador`});
+  } else {
+    console.log('Valor de user:');
+    console.log(user);
+    switch (user.status) {
+      case 'Pendiente':
+        user.update({
+          status: 'Validado',
+        });
+        res.send({status: `El Usuario ${user.email} ha sido validado correctamente`});
+        break;
+      case 'Validado':
+        res.send({status: `El Usuario ${user.email} ya está validado`});
+        break;
+      case 'Bloqueado':
+        res.send({status: `El Usuario ${user.email} se encuentra bloqueado. Contacte a su Administrador`});
+        break;
+      default:
+        res.send({status: `Acción no válida. Contacte a su Administrador`});
+        break;
+    }
+  }
+});
 
 server.get("/me");
 
@@ -64,13 +95,38 @@ function isLoggedIn(req, res, next) {
     console.log(req.session);
     var user = {
       id: req.session.passport.user,
-      isloggedin: req.isAuthenticated(),
+      isLoggedIn: req.isAuthenticated(),
     };
     console.log("###### Variable user del isLoggedIn ######");
     console.log(user);
     return next();
   }
   res.redirect("/login");
+}
+
+function validateEmail(email, email_hash) {
+  const valUrl = `http://localhost:3001/auth/validate/${email_hash}`;
+
+  const client = new SMTPClient({
+    user: 'henrybank@mauricioarizaga.com.ar',
+    password: 'Henrybank12345',
+    host: 'smtp.hostinger.com.ar',
+    ssl: false,
+    port: 587
+  });
+  
+  const message = {
+    text: `Bienvenido. Se adjunta enlace para validar y continuar con el registro :${valUrl}`,
+    from: 'Henry Bank FT02 <henrybank@mauricioarizaga.com.ar>',
+    to: `Nuevo Usuario <${email}>`,
+    // cc: 'else <else@your-email.com>',
+    subject: 'Henry Bank - Validación de Usuario',
+  };
+  
+  // send the message and get a callback with an error or details of the message that was sent
+  client.send(message, function (err, message) {
+    console.log(err || message);
+  });
 }
 
 module.exports = server;

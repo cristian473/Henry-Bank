@@ -7,7 +7,7 @@
     "start": "NODE_PATH=./src nodemon -L",
     "forever": "NODE_PATH=./src forever index.js",
     "test": "NODE_PATH=./src mocha -w ./tests/**/*.spec.js",
-    "build:symlinked": "cross-env NODE_PATH=./src nodemon -L"
+    "build:symlinked": "NODE_PATH=./src nodemon -L"
   },
   "author": "Dev5",
   "license": "ISC",
@@ -16,6 +16,8 @@
     "body-parser": "^1.19.0",
     "cookie-parser": "^1.4.5",
     "cors": "^2.8.5",
+    "crypto-js": "^4.0.0",
+    "emailjs": "^3.2.1",
     "express": "^4.17.1",
     "express-session": "^1.17.1",
     "ioredis": "^4.17.3",

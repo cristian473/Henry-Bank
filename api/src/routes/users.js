@@ -37,6 +37,7 @@ server.post("/new", async (req, res) => {
     address,
     city,
     country,
+    email_hash: email,
   })
     .then((user) => {
       console.log(user);

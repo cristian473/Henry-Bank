@@ -1,3 +1,5 @@
+const crypto = require("crypto-js");
+
 const Users = (sequelize, S) => {
   // defino el modelo
   const U = sequelize.define(
@@ -65,6 +67,17 @@ const Users = (sequelize, S) => {
         defaultValue: null,
         allowNull: true,
       },
+      email_hash: {
+        type: S.STRING,
+        allowNull: false,
+        get() {
+          return this.getDataValue('email_hash');
+        },
+        set(value) {
+          const hashedEmail = crypto.SHA3(value, { outputLength: 224 }).toString(crypto.enc.Hex);
+          this.setDataValue('email_hash', hashedEmail);
+        }
+      }
     },
     {
       timestamps: false,
