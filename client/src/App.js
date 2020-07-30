@@ -2,15 +2,16 @@ import React from 'react';
 import './css/App.css';
 import { Route } from 'wouter';
 import { useDispatch } from 'react-redux';
-
+import NavBar from './components/NavBar/NavBar'
 import AddUserForm from './components/Cliente/FormularioAltaCliente.jsx';
 import LoginForm from './components/Usuario/Login.jsx';
 import Home from './components/Usuario/Onboarding.jsx';
 import General from './components/General/index.js'
 import FormularioUsuario from './components/Usuario/FormularioCrearUsuario.jsx'
 import LoginGoogle from './components/Usuario/LoginGoogle.jsx';
-
+import RecargarDinero from './components/RecargarDinero/RecargarDinero'
 function App() {
+
 
   const dispatch = useDispatch();
   return (
