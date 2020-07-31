@@ -13,7 +13,6 @@ const AddUserForm = props => {
         lastname: '',
         birthdate: '',
     }
-
     const [user, setUser] = useState(initialUserState)
     const dispatch = useDispatch();
 
@@ -21,7 +20,6 @@ const AddUserForm = props => {
         const { name, value } = event.target
         setUser({ ...user, [name]: value })
     }
-
     return (
         <div>
             <div id="login">
@@ -44,7 +42,7 @@ const AddUserForm = props => {
                 </form>
                 <div className='altaButtons'>
                     <a id="buttons" href="/">Atrás</a>
-                    <a id="buttons" href='/users/new2'>Continuar</a>
+                    <a type="submit" id="buttons" href='/users/new2' >Continuar</a>
                 </div>
                 <a href="/">¿Necesitás ayuda?</a>
             </div>
