@@ -44,28 +44,38 @@ server.post(
   }
 );
 
-//Validar y continuar con el Registro de un Usuario
+//Validar y continuar con el registro de un Usuario.
 server.put("/validate/account/:email_hash", async (req, res) => {
-  const user = await Users.findOne({ where: { email_hash: req.params.email_hash, } });
+  const user = await Users.findOne({
+    where: { email_hash: req.params.email_hash },
+  });
   if (user === null) {
-    console.log('Not found!');
-    res.status(404).send({status: `No se ha encontrado al Usuario especificado. Contacte a su Administrador`});
+    console.log("Not found!");
+    res
+      .status(404)
+      .send({
+        status: `No se ha encontrado al Usuario especificado. Contacte a su Administrador`,
+      });
   } else {
     switch (user.status) {
-      case 'Pendiente':
+      case "Pendiente":
         user.update({
-          status: 'Validado',
+          status: "Validado",
         });
-        res.send({status: `El Usuario ${user.email} ha sido validado correctamente`});
+        res.send({
+          status: `El Usuario ${user.email} ha sido validado correctamente`,
+        });
         break;
-      case 'Validado':
-        res.send({status: `El Usuario ${user.email} ya está validado`});
+      case "Validado":
+        res.send({ status: `El Usuario ${user.email} ya está validado` });
         break;
-      case 'Bloqueado':
-        res.send({status: `El Usuario ${user.email} se encuentra bloqueado. Contacte a su Administrador`});
+      case "Bloqueado":
+        res.send({
+          status: `El Usuario ${user.email} se encuentra bloqueado. Contacte a su Administrador`,
+        });
         break;
       default:
-        res.send({status: `Acción no válida. Contacte a su Administrador`});
+        res.send({ status: `Acción no válida. Contacte a su Administrador` });
         break;
     }
   }
@@ -104,15 +114,15 @@ server.get("/profileuser", (req, res) => {
     },
   }).then((result) => {
     if (result === null) {
-      res.send("el usuario no ha sido encontrado")
+      res.send("el usuario no ha sido encontrado");
     } else {
-      res.send(result)
+      res.send(result);
     }
   });
 });
 
 //Administrador puede cambiar status de usuario.
-server.put("/cambiarstatus/", (req, res) => {
+server.put("/changestatus/", (req, res) => {
   Users.findOne({
     where: {
       id: req.body.id,
@@ -146,21 +156,21 @@ function validateEmail(email, email_hash) {
   const valUrl = `http://localhost:3001/auth/validate/account/${email_hash}`;
 
   const client = new SMTPClient({
-    user: 'henrybank@mauricioarizaga.com.ar',
-    password: 'Henrybank12345',
-    host: 'smtp.hostinger.com.ar',
+    user: "henrybank@mauricioarizaga.com.ar",
+    password: "Henrybank12345",
+    host: "smtp.hostinger.com.ar",
     ssl: false,
-    port: 587
+    port: 587,
   });
-  
+
   const message = {
     text: `Bienvenido. Se adjunta enlace para validar y continuar con el registro :${valUrl}`,
-    from: 'Henry Bank FT02 <henrybank@mauricioarizaga.com.ar>',
+    from: "Henry Bank FT02 <henrybank@mauricioarizaga.com.ar>",
     to: `Nuevo Usuario <${email}>`,
     // cc: 'else <else@your-email.com>',
-    subject: 'Henry Bank - Validación de Usuario',
+    subject: "Henry Bank - Validación de Usuario",
   };
-  
+
   // send the message and get a callback with an error or details of the message that was sent
   client.send(message, function (err, message) {
     //console.log(err || message);
