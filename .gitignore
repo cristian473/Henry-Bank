@@ -1,6 +1,12 @@
 # Project Files
+api/package-lock.json
+
+# db
 api/src/db.js
+.src/db.js
+# index
 api/index.js
+.index.js
 
 # Logs
 logs
