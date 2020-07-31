@@ -23,7 +23,7 @@ function App() {
       <Route path='/general' component={General} />
       <Route path='/logingoogle' component={LoginGoogle} />
       <Route exact path='/NavBar' component={NavBar} />
-      <Route exact path='/RecargarDinero' component={RecargarDinero}  />
+      <Route exact path='/recargardinero' component={RecargarDinero}  />
     </div>
   );
 }

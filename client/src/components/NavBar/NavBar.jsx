@@ -15,20 +15,20 @@ import './navbar.css'
 const NavBar = () => {
   return (
     <Navbar  className='m-auto' fixed="bottom"  expand={"md"} variant="light" bg="light">     
-      <div className="conttop">
+      
+      <div className="conttop" align="right">
         <Link to='/'  >
             <Button href="#" className="btn btn-dark" variant="top" size="lg">
-              <div>
+              
                 <IoIosPaperPlane size="32" />
-                </div>
+                <br></br>
                Transacciones
             </Button>
         </Link>
         <Link to='/'>
             <Button href="#" className="btn btn-light" variant="top" size="lg">
-              <div>
                 <BsGraphUp size="32" />
-              </div>
+              <br></br>              
              Estadisticas
             </Button>
         </Link>
@@ -36,9 +36,8 @@ const NavBar = () => {
  
         <Link to='/' href="#">
           <Button className="btn btn-light" variant="top" size="lg">
-            <div>
               <MdLanguage size="32"/>
-            </div>
+              <br></br>            
               Mis Datos
           </Button>
         </Link>
@@ -46,17 +45,15 @@ const NavBar = () => {
   
         <Link to='/'>
             <Button href="#" className="btn btn-dark" variant="top" size="lg">
-              <div>
+              
                 <RiProductHuntLine size="32"/>
-              </div>
+               <br></br>
                  Mis Productos
             </Button>
         </Link>
       </div>
-      <br>
-      </br>
-     <div className="contbot">
-          <Link to='/'>
+     <div className="contbot" align="center">
+          <Link to='/recargardinero'>
             <Button href="#" className="btn btn-dark" variant="bottom" size="sm" >
               <RiDownload2Line size="32"/>
                 Recargar Dinero
