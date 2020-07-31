@@ -7,7 +7,6 @@ const Wallet = (sequelize, S) => {
       primaryKey: true,
       autoIncrement: true,
     },
-
     type: {
       type: S.STRING,
       defaultValue: "Cuenta Corriente",
@@ -17,6 +16,9 @@ const Wallet = (sequelize, S) => {
       type: S.DECIMAL(10, 2),
       defaultValue: 0.0,
       allowNull: true,
+      validate: {
+        min: 0,
+      },
     },
     currency: {
       type: S.TEXT,
