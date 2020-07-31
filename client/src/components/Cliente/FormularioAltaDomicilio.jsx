@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { addUsers } from '../../actions/AddUserActions'
 import './CSS/altaCliente.css';
-import header from './images/header.png';
+import header from './Images/header.png';
 
 const AddUserForm2 = props => {
     const initialUserState = {
