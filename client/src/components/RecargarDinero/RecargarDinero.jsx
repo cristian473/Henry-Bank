@@ -1,7 +1,7 @@
 import React from 'react';
 import henry from '../Usuario/images/henry.svg';
 import './recargardinero.css'
-
+import Button from 'react-bootstrap/Button'
 
 const RecargarDinero = () => {
    
@@ -19,7 +19,7 @@ const RecargarDinero = () => {
         <path fill="#fffe00" fill-opacity="1" d="M0,288L80,277.3C160,267,320,245,480,240C640,235,800,245,960,213.3C1120,181,1280,107,1360,69.3L1440,32L1440,0L1360,0C1280,0,1120,0,960,0C800,0,640,0,480,0C320,0,160,0,80,0L0,0Z"></path>
       </svg>
       <div className="form-group col-md-5 login">
-        <a className="btn btn-outline-dark estilo" href="users/login">Confirmar Recarga</a>
+        <Button  className="btn btn-dark" href="users/login" variant="top" size="lg" >Confirmar Recarga</Button>
       </div>
       <div className="form-group col-md-5 signin"> 
 

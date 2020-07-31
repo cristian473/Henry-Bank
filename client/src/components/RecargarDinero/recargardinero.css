@@ -70,13 +70,11 @@
     z-index: 5;
    }
   
-.login a{
-    background-color: #fffe00;
+.btn-dark {
+    background-color: #cf3232;
     box-shadow: 3px 3px 5px rgba(51, 50, 50, 0.575);
   }
-.login a:hover{
-    box-shadow: none;
-  }
+
   
 .signin{
     margin: 0px auto;
@@ -87,49 +85,4 @@
     top: 60px;
     z-index: 5;
   }
-  #onboarding .signin a{
-    background-color: rgba(200, 196, 196, 0.664);
-    box-shadow: 3px 3px 5px rgba(68, 68, 68, 0.575);
-  }
-  #onboarding .signin a:hover{
-    box-shadow: none;
-  } 
-  
-  
-  
-  
-  @media only screen and (max-width: 390px) {
-    
-    #onboarding .titulo h1{
-      color: white;
-      margin-left: 15px;
-      margin-top: auto;
-      margin-bottom: auto;
-      font-weight: bold;
-      font-size: 27px;
-    }
-    #onboarding .titulo img{
-      width: 75px;
-    }
-    #onboarding #svg1{
-      position: absolute;
-      top: 59%;
-      height: 150px;
-      z-index: 5;
-    }
-    #onboarding #svg2{
-      transform: scaleX(-1);
-      position: absolute;
-      height: 150px;
-      top: 65%;
-      z-index: 4;
-    }
-    #onboarding #svg3{
-      position: relative;
-      height: 150px;
-      top: 85%;
-      z-index: 3;
-    }
-  }
-  
   
