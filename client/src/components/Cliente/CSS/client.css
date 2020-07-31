@@ -49,7 +49,7 @@
 }
 .left .acciones{
   position: relative;
-  top: 20%;
+  top: 15%;
   text-align: center;
 }
 .left .acciones ul{
@@ -81,7 +81,6 @@
 
 
 
-
 .right{
   width: 25%;
   background-color: #fffe00;
@@ -107,4 +106,54 @@
 }
 .right .rutas  ul li a:hover{
   color: rgb(77, 77, 77);
+}
+
+
+@media only screen and (max-width: 850px){
+  .left{
+    width: 70%;
+  }
+  .left .header{
+    display: flex;
+    width: 380px;
+    margin: 0px auto;
+  }
+  .left .acciones{
+     top: 15%;
+  }
+  .left .acciones ul li a{
+    width: 150px;
+  }
+  .right{
+      width: 30%;
+  }
+}
+
+
+
+@media only screen and (max-width: 650px){
+  .left{
+    width: 100%;
+  }
+  .left .header{
+    width: 100%;
+    height: 20%;
+    margin-top: 5%;
+    padding: 0px 20px;
+  }
+  .left .header .perfil img{
+    width: 90px;
+    height: 90px;
+  }
+  .left .header .saldo{
+    margin-left: 15px;
+  }
+  .left .header .saldo h3{
+    margin-top: 45px;
+    font-size: 30px;
+  }
+  .right{
+    display: none;
+  }
+
 }
