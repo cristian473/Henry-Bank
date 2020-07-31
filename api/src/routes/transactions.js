@@ -8,10 +8,14 @@ const { Users, Wallet, Transactions } = require("../models/index.js");
 
 //cargar dinero//
 
-server.post("/loadBalance/:idUser", (req, res) => {
+server.post("/loadBalance/:idUser", async (req, res) => {
+  const saldo = await Wallet.findOne({
+    where: { userId: req.params.idUser },
+  });
+  const saldoConsolidado = parseFloat(saldo.balance) + parseFloat(req.body.value)
   Wallet.update(
     {
-      balance: req.body.money,
+      balance: saldoConsolidado,
     },
     {
       returning: true,
@@ -21,11 +25,11 @@ server.post("/loadBalance/:idUser", (req, res) => {
     .then((newBalance) => {
       res.status(200).send(newBalance);
       Transactions.create({
+        idSender: 0,
         idReceiver: req.params.idUser,
         type: "Carga",
-        balanceType: "increment",
-        value: req.body.money,
-        state: "Aceptado",
+        value: req.body.value,
+        state: "Aceptada",
       });
     })
     .catch((err) => {
@@ -48,11 +52,11 @@ server.put("/:idSender/:idReceiver", (req, res) => {
     .then((users) => {
       //convertir los valores a decimal
       let moneyFloat = parseFloat(money);
-      let ballanceReceiver = parseFloat(users[1].balance);
-      let ballanceSender = parseFloat(users[0].balance);
-      //suma y resta de de montos
-      let newBalanceSender = ballanceSender - moneyFloat;
-      let newBalanceReceiver = ballanceReceiver + moneyFloat;
+      let balanceReceiver = parseFloat(users[1].balance);
+      let balanceSender = parseFloat(users[0].balance);
+      //suma y resta de montos
+      let newBalanceSender = balanceSender - moneyFloat;
+      let newBalanceReceiver = balanceReceiver + moneyFloat;
 
       //updates en las dos billeteras
       let receiver = Wallet.update(
@@ -149,16 +153,16 @@ server.get("/history/:idUser", (req, res) => {
 
 //RUTA PARA RETORNAR SUMA GENERAL POR FECHA DE INGRESOS Y EGRESOS X USUARIO//
 
-server.get("/history/time/:idUser", (req, res) => {
+server.get("/history/time/:idUser", async (req, res) => {
   //LA FECHA LE LLEGA POR BODY.DATE EN FORMATO "new Date()"
   var d = req.body.date;
   const idUser = req.params.idUser;
   //busco todas las transacciones del cliente y las separo por ingresos y decrementos
-  let ingresos = Transactions.findAll({
-    where: { idReceiver: idUser, createdAt: { [Op.gt]: d } },
+  let ingresos = await Transactions.findAll({
+    where: { idReceiver: req.params.idUser, createdAt: { [Op.gt]: d } },
   });
-  let decrements = Transactions.findAll({
-    where: { idSender: idUser, createdAt: { [Op.gt]: d } },
+  let decrements = await Transactions.findAll({
+    where: { idSender: req.params.idUser, createdAt: { [Op.gt]: d } },
   });
 
   Promise.all([ingresos, decrements])
@@ -168,11 +172,13 @@ server.get("/history/time/:idUser", (req, res) => {
 
       transacciones[0].forEach((element) => {
         //parseo a Decimal de nuevo ¬¬
-        ing = parseFloat(ing) + parseFloat(element.value);
+        const e = element.dataValues;
+        ing = parseFloat(ing) + parseFloat(e.value);
       });
 
       transacciones[1].forEach((element) => {
-        dec = parseFloat(dec) + parseFloat(element.value);
+        const e = element.dataValues;
+        dec = parseFloat(dec) + parseFloat(e.value);
       });
       res.status(200).json({ ingresos: ing, decrements: dec });
     })
