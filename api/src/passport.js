@@ -9,11 +9,9 @@ module.exports = function(passport) {
         {
             usernameField: 'email',
             passwordField: 'password',
-            passReqToCallback: true // allows us to pass back the entire request to the callback
-     
+            passReqToCallback: true // allows us to pass back the entire request to the callback     
         },
         function(req, email, password, done) {
-            console.log(Users);
             Users.findOne({
                 where: {
                     email: email
@@ -26,12 +24,10 @@ module.exports = function(passport) {
                     });
                 } 
                 else {
-                    console.log(req.body);
                     const {
                         email,
                         password,
                     } = req.body;
-                    console.log(req.body);
                     const contraseñahash = bcrypt.hashSync(password, 10);
                     Users.create({
                         email,
@@ -39,7 +35,6 @@ module.exports = function(passport) {
                         email_hash: email,
                     })
                     .then((user) => {
-                        console.log(user);
                         if (!user) {
                             return done(null, false);
                         }
@@ -77,7 +72,6 @@ module.exports = function(passport) {
             passReqToCallback: true // allows us to pass back the entire request to the callback
         },
         function(req, email, password, done) {
-            console.log(Users);
             var isValidPassword = function(password, userpass) {
                 return bcrypt.compareSync(password, userpass);
             }
@@ -96,15 +90,14 @@ module.exports = function(passport) {
                     });
                 }
                 //Comprobación de contraseñas
-                //1. Si está previamente encriptada del registro, usa la comprobación por hash
-                //2. Si no lo está, usa comprobación normal de strings
+                //1. Si está previamente encriptada del registro, usar la comprobación por hash
+                //2. Si no lo está, usar comprobación normal de strings
                 if (!isValidPassword(password, user.password)) {
                     console.log('Incorrect password.')
                     return done(null, false, {
                         message: 'Incorrect password.'
                     });
                 }
-                // else 
                 // if (password !== user.password) {
                 //     console.log('Incorrect password.')
                 //     return done(null, false, {

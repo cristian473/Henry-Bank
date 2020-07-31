@@ -11,7 +11,6 @@ server.get("/", (req, res) => {
 });
 
 server.post("/new", async (req, res) => {
-  console.log(req.body);
   const {
     email,
     password,
@@ -24,7 +23,6 @@ server.post("/new", async (req, res) => {
     city,
     country,
   } = req.body;
-  console.log(req.body);
   const contraseñahash = await bcrypt.hash(password, 10);
   Users.create({
     email,
@@ -40,7 +38,6 @@ server.post("/new", async (req, res) => {
     email_hash: email,
   })
     .then((user) => {
-      console.log(user);
       Wallet.create({
         userId: user.id,
       });
@@ -57,11 +54,10 @@ server.post("/new", async (req, res) => {
 server.get("/wallet/:id", (req, res) => {
   Wallet.findOne({ where: { userId: req.params.id } })
     .then((user) => {
-      console.log(user);
       res.status(200).json(user);
     })
     .catch((err) => {
-      res.status(err).json({ err });
+      res.json({ err });
     });
 });
 
