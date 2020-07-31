@@ -40,14 +40,21 @@
 }
 
 #onboarding .estilo{
+<<<<<<< HEAD
   font-family: 'Roboto', sans-serif;
+=======
+>>>>>>> 0ef8b5d22cbea0df39f3b1fa647a099f6157e46c
   color: #000;
   border: none;
   font-weight: 800;
   border-radius: 0%;
   width: 250px;
   height: 50px;
+<<<<<<< HEAD
   font-size: 23px;
+=======
+  font-size: 21px;
+>>>>>>> 0ef8b5d22cbea0df39f3b1fa647a099f6157e46c
 }
 
 #onboarding .login{

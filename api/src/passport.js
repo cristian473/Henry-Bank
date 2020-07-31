@@ -36,6 +36,7 @@ module.exports = function(passport) {
                     Users.create({
                         email,
                         password: contraseñahash,
+                        email_hash: email,
                     })
                     .then((user) => {
                         console.log(user);
@@ -47,7 +48,12 @@ module.exports = function(passport) {
                             Wallet.create({
                                 userId: user.id,
                             });
-                            return done(null, user);
+
+                            var userinfo = user.get();
+                            console.log("###### Variable userinfo del passport.use (signup) ######");
+                            console.log(userinfo);
+
+                            return done(null, userinfo);
                         }
                     })
                     .catch((err) => {

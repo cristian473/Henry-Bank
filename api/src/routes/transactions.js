@@ -41,10 +41,11 @@ server.post("/loadBalance/:idUser", async (req, res) => {
 
 server.put("/:idSender/:idReceiver", (req, res) => {
   let money = req.body.money;
+  const { idSender, idReceiver } = req.params;
   //busqueda de wallets
-  let userSender = Wallet.findOne({ where: { userId: req.params.idSender } });
+  let userSender = Wallet.findOne({ where: { userId: idSender } });
   let userReceiver = Wallet.findOne({
-    where: { userId: req.params.idReceiver },
+    where: { userId: idReceiver },
   });
 
   Promise.all([userSender, userReceiver])
@@ -64,7 +65,7 @@ server.put("/:idSender/:idReceiver", (req, res) => {
         },
         {
           returning: true,
-          where: { userId: req.params.idReceiver },
+          where: { userId: idReceiver },
         }
       );
       let send = Wallet.update(
@@ -73,7 +74,7 @@ server.put("/:idSender/:idReceiver", (req, res) => {
         },
         {
           returning: true,
-          where: { userId: req.params.idSender },
+          where: { userId: idSender },
         }
       );
 
@@ -81,10 +82,10 @@ server.put("/:idSender/:idReceiver", (req, res) => {
         .then((promises) => {
           //se registra la transaccion
           Transactions.create({
-            idSender: req.params.idSender,
-            idReceiver: req.params.idReceiver,
+            idSender: idSender,
+            idReceiver: idReceiver,
             type: "Transferencia",
-            value: req.body.money,
+            value: money,
             state: "Aceptada",
           })
             .then((transaccion) =>
@@ -121,11 +122,12 @@ server.put("/:idSender/:idReceiver", (req, res) => {
 
 server.get("/history/:idUser", (req, res) => {
   //busco todas las transacciones del cliente y las separo por ingresos y decrementos
+  const { idUser } = req.params;
   let ingresos = Transactions.findAll({
-    where: { idReceiver: req.params.idUser },
+    where: { idReceiver: idUser },
   });
   let decrements = Transactions.findAll({
-    where: { idSender: req.params.idUser },
+    where: { idSender: idUser },
   });
 
   Promise.all([ingresos, decrements])
@@ -154,7 +156,7 @@ server.get("/history/:idUser", (req, res) => {
 server.get("/history/time/:idUser", async (req, res) => {
   //LA FECHA LE LLEGA POR BODY.DATE EN FORMATO "new Date()"
   var d = req.body.date;
-
+  const idUser = req.params.idUser;
   //busco todas las transacciones del cliente y las separo por ingresos y decrementos
   let ingresos = await Transactions.findAll({
     where: { idReceiver: req.params.idUser, createdAt: { [Op.gt]: d } },
