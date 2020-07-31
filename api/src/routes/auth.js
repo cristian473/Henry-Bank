@@ -1,7 +1,9 @@
 const server = require("express").Router();
 const passport = require("passport");
+const axios = require("axios");
 const { SMTPClient } = require("emailjs");
-const { Users, Wallet } = require("../models/index.js");
+const { Users } = require("../models/index.js");
+const { GOOGLE_API_KEY } = require("../env-config.js");
 
 server.post("/changepassword");
 
@@ -43,7 +45,7 @@ server.post(
 );
 
 //Validar y continuar con el registro de un Usuario.
-server.put("/validate/:email_hash", async (req, res) => {
+server.put("/validate/account/:email_hash", async (req, res) => {
   const user = await Users.findOne({
     where: { email_hash: req.params.email_hash },
   });
@@ -55,8 +57,6 @@ server.put("/validate/:email_hash", async (req, res) => {
         status: `No se ha encontrado al Usuario especificado. Contacte a su Administrador`,
       });
   } else {
-    console.log("Valor de user:");
-    console.log(user);
     switch (user.status) {
       case "Pendiente":
         user.update({
@@ -79,6 +79,31 @@ server.put("/validate/:email_hash", async (req, res) => {
         break;
     }
   }
+});
+
+//Normalizar una Dirección
+server.get("/validate/street", async (req, res) => {
+  const { street, city, country } = req.body;
+  var input = `${street ? street : ''} ${city ? city : ''} ${country ? country : ''}`.trim();
+  await axios.get('https://maps.googleapis.com/maps/api/place/autocomplete/json', {
+    params: {
+      key: GOOGLE_API_KEY,
+      input, 
+      language: "es"
+    }
+  })
+  .then((response) => {
+    if (response.data.status === 'OK') {
+      const results = response.data.predictions;
+      var streetArr = []
+      results.forEach(r => {
+        streetArr.push({street: r.description})
+      })
+      res.json(streetArr);
+    } else {
+      res.json({status: 'Sin resultados. Intente usar términos más específicos'})
+    }
+  });
 });
 
 server.get("/me");
@@ -128,7 +153,7 @@ function isLoggedIn(req, res, next) {
 }
 
 function validateEmail(email, email_hash) {
-  const valUrl = `http://localhost:3001/auth/validate/${email_hash}`;
+  const valUrl = `http://localhost:3001/auth/validate/account/${email_hash}`;
 
   const client = new SMTPClient({
     user: "henrybank@mauricioarizaga.com.ar",
@@ -148,7 +173,7 @@ function validateEmail(email, email_hash) {
 
   // send the message and get a callback with an error or details of the message that was sent
   client.send(message, function (err, message) {
-    console.log(err || message);
+    //console.log(err || message);
   });
 }
 

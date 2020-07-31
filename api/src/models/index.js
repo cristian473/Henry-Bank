@@ -1,6 +1,6 @@
 const fs = require("fs");
 const path = require("path");
-const db = require("db.js");
+const db = require("../db.js");
 
 const basename = path.basename(__filename);
 const models = {};

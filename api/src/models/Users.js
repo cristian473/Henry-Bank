@@ -23,6 +23,9 @@ const Users = (sequelize, S) => {
       password: {
         type: S.STRING,
         allowNull: false,
+        validation: {
+          min: 6,
+        },
       },
       email: {
         type: S.STRING,
@@ -44,6 +47,9 @@ const Users = (sequelize, S) => {
       birthDate: {
         type: S.DATEONLY,
         allowNull: true,
+        validation: {
+          isDate: true,
+        },
       },
       address: {
         type: S.STRING,
