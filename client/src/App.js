@@ -22,8 +22,8 @@ function App() {
       <Route path='/addUsuario' component={FormularioUsuario} />
       <Route path='/general' component={General} />
       <Route path='/logingoogle' component={LoginGoogle} />
-      <Route exact path='/' component={NavBar} />
-      <Route exact path='/RecargarDinero' component={RecargarDinero} component={NavBar} />
+      <Route exact path='/NavBar' component={NavBar} />
+      <Route exact path='/RecargarDinero' component={RecargarDinero}  />
     </div>
   );
 }

@@ -1,8 +1,9 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import Navbar from "react-bootstrap/Navbar";
-import Container from "react-bootstrap/Navbar";
+
 import Button from 'react-bootstrap/Button';
+
 import { IoIosPaperPlane } from "react-icons/io";
 import { BsGraphUp } from "react-icons/bs";
 import { MdLanguage } from "react-icons/md";
@@ -13,68 +14,65 @@ import './navbar.css'
 
 const NavBar = () => {
   return (
-    <Container expand={"sm"}>
-      <Navbar fixed="bottom" expand={"lg"} variant="light" bg="light">
-        <Link to='/' >
-          <div class="d-flex justify-content-start alert fade show" href="#">
-            <Button variant="secondary" size="lg">
+    <Navbar  className='m-auto' fixed="bottom"  expand={"md"} variant="light" bg="light">     
+      <div className="conttop">
+        <Link to='/'  >
+            <Button href="#" className="btn btn-dark" variant="top" size="lg">
               <div>
-                <IoIosPaperPlane />
-              </div>
+                <IoIosPaperPlane size="32" />
+                </div>
                Transacciones
-            </Button>{' '}
-          </div>
+            </Button>
         </Link>
         <Link to='/'>
-          <div class="d-flex justify-content-start alert fade show" href="#">
-            <Button variant="primary" size="lg">
+            <Button href="#" className="btn btn-light" variant="top" size="lg">
               <div>
-                <BsGraphUp />
+                <BsGraphUp size="32" />
               </div>
              Estadisticas
             </Button>
-          </div >
         </Link>
-        <Link to='/'>
-          <div class="d-flex justify-content-start alert fade show" href="#">
-            <Button variant="primary" size="lg">
-              <div>
-                <MdLanguage />
-              </div>
-                   Mis Datos
-            </Button>
-          </div>
+ 
+ 
+        <Link to='/' href="#">
+          <Button className="btn btn-light" variant="top" size="lg">
+            <div>
+              <MdLanguage size="32"/>
+            </div>
+              Mis Datos
+          </Button>
         </Link>
+
+  
         <Link to='/'>
-          <div class="d-flex justify-content-start alert fade show" href="#">
-            <Button variant="secondary" size="lg">
+            <Button href="#" className="btn btn-dark" variant="top" size="lg">
               <div>
-                <RiProductHuntLine />
+                <RiProductHuntLine size="32"/>
               </div>
                  Mis Productos
             </Button>
-          </div>
         </Link>
-        <div className="recarga">
+      </div>
+      <br>
+      </br>
+     <div className="contbot">
           <Link to='/'>
-            <div className="mb-3" href="#">
-              <Button variant="primary" size="sm" >
-                <RiDownload2Line />
-                  Recargar Dinero
-         </Button>{' '}
-            </div>
+            <Button href="#" className="btn btn-dark" variant="bottom" size="sm" >
+              <RiDownload2Line size="32"/>
+                Recargar Dinero
+            </Button>
           </Link>
+
+
           <Link to='/'>
-            <div className="mb-3" href="#">
-              <Button className="btn btn-light" variant="primary" size="sm">
-                <RiUpload2Line />
+              <Button href="#" className="btn btn-light" variant="bottom" size="sm">
+                <RiUpload2Line size="32"/>
                   Mandar Dinero
-         </Button>
-            </div>
+              </Button>
           </Link>
         </div>
       </Navbar>
-    </Container>
+    
 
 
   );
