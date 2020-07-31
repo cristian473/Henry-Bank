@@ -25,7 +25,7 @@ function App() {
       <Route exact path='/logingoogle' component={LoginGoogle} />
       <Route exact path='/cliente' component={Cliente}/>
       <Route exact path='/NavBar' component={NavBar} />
-      <Route exact path='/RecargarDinero' component={RecargarDinero}  />
+      <Route exact path='/recargardinero' component={RecargarDinero}  />
     </div>
   );
 }

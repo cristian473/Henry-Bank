@@ -16,62 +16,43 @@ const NavBar = () => {
   return (
     <Navbar className='m-auto' id='nav' fixed="bottom" expand={"md"} variant="light" bg="light">     
       <div className="conttop">
-        <Link to='/'>
-            <Button href="#" className="btn btn-dark" variant="top" size="lg">
-              <div>
-                <IoIosPaperPlane size="32" />
-                </div>
-               Transacciones
-            </Button>
-        </Link>
-        <Link to='/'>
-            <Button href="#" className="btn btn-light" variant="top" size="lg">
-              <div>
-                <BsGraphUp size="32" />
-              </div>
-             Estadisticas
-            </Button>
-        </Link>
- 
- 
-        <Link to='/' href="#">
-          <Button className="btn btn-light" variant="top" size="lg">
-            <div>
-              <MdLanguage size="32"/>
-            </div>
-              Mis Datos
-          </Button>
-        </Link>
 
+        <Button href="#" className="btn btn-dark" variant="top" size="lg">      
+          <IoIosPaperPlane size="32"/>
+          <br></br>
+          Transacciones
+        </Button>
+
+        <Button href="#" className="btn btn-light" variant="top" size="lg">
+          <BsGraphUp size="32"/>
+          <br></br>              
+          Estadisticas
+        </Button>
   
-        <Link to='/'>
-            <Button href="#" className="btn btn-dark" variant="top" size="lg">
-              <div>
-                <RiProductHuntLine size="32"/>
-              </div>
-                 Mis Productos
-            </Button>
-        </Link>
+        <Button href="#" className="btn btn-light" variant="top" size="lg">
+          <MdLanguage size="32"/>
+          <br></br>            
+          Mis Datos
+        </Button>
+
+        <Button href="#" className="btn btn-dark" variant="top" size="lg">           
+          <RiProductHuntLine size="32"/>
+          <br></br>
+          Mis Productos
+        </Button>
+  
       </div>
-      <br>
-      </br>
-     <div className="contbot">
-          <Link to='/'>
-            <Button href="#" className="btn btn-dark" variant="bottom" size="sm" >
-              <RiDownload2Line size="32"/>
-                Recargar Dinero
-            </Button>
-          </Link>
-
-
-          <Link to='/'>
-              <Button href="#" className="btn btn-light" variant="bottom" size="sm">
-                <RiUpload2Line size="32"/>
-                  Mandar Dinero
-              </Button>
-          </Link>
-        </div>
-      </Navbar>
+      <div className="contbot" align="center">
+        <Button href="/recargardinero" className="btn btn-dark" variant="bottom" size="sm" >
+          <RiDownload2Line size="32"/>
+          Recargar Dinero
+        </Button> 
+        <Button href="/mandardinero" className="btn btn-light" variant="bottom" size="sm">
+          <RiUpload2Line size="32"/>
+          Mandar Dinero
+        </Button>
+      </div>
+    </Navbar>
     
 
 
