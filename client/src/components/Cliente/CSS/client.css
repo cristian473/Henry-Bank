@@ -77,6 +77,9 @@
 .left .acciones ul li:hover{
   background-color: rgba(37, 37, 37, 0.541);
 }
+.left .acciones .navBar{
+  display: none;
+}
 
 
 
@@ -134,6 +137,10 @@
 @media only screen and (max-width: 650px){
   .left{
     width: 100%;
+    background-color: rgb(228, 228, 228);
+    background-image: url('../Images/background.png');
+    background-size: 150%;
+    background-repeat: no-repeat;
   }
   .left .header{
     width: 100%;
@@ -151,6 +158,12 @@
   .left .header .saldo h3{
     margin-top: 45px;
     font-size: 30px;
+  }
+  .left .acciones ul{
+    display: none;
+  }
+  .left .acciones .navBar{
+    display: block;
   }
   .right{
     display: none;

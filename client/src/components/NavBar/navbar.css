@@ -1,31 +1,38 @@
-.btn-light {
+#nav{
+    background-color: transparent !important;
+}
+.btn-light{
     font-size: medium;
+    background-color: white;
+    border-radius: 0px;
 }
 
-.btn-dark {
+.btn-dark{
     font-size: medium;
+    background-color: black;
+    border-radius: 0px;
 }
-
 
 .m-auto {
  display:flex;
- 
  align-content: flex-start;
- background-color: brown;
  height: 200px;
-
-
 }
-
 
 .contbot {
     display:flex;
-    align-content: space-around;
-
+    align-content: space-between;
 }
 
+
 .conttop {
-    display:flex;
-    align-content: flex-start;
-    justify-content: flex-start;
+    margin: 0px auto;
+}
+.conttop a{
+    font-size: 10px;
+    width: 60px;
+    height: 70px;
+}
+.conttop a:not(:last-child){
+    margin-right: 10px;
 }

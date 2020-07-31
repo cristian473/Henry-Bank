@@ -74,16 +74,20 @@
 @media only screen and (max-width: 650px){
     .container {
         padding: 0px;
+        width: 90%;
         min-width: 300px;
-        height: 160px;
+        height: 25%;
         min-height: 160px;
         margin-top: 0px;
         position: relative;
         top: 5em;
+        background-color: white;
+        border-color: transparent;
     }
     .general h4{
         font-size: 20px;
         margin-bottom: 0px;
+        margin-top: 10px;
     }
     .props{
         margin: 10px;
@@ -93,6 +97,14 @@
     }
     .props h3{
         font-size: 23px;
+        color: black;
+    }
+    .record .link{
+        color: black;
+    }
+    .record .link:hover{
+        color: #fffe00;
+        font-weight: bold;
     }
     .record .link:not(:last-child){
         margin-right: 5px;

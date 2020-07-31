@@ -14,9 +14,9 @@ import './navbar.css'
 
 const NavBar = () => {
   return (
-    <Navbar  className='m-auto' fixed="bottom"  expand={"md"} variant="light" bg="light">     
+    <Navbar className='m-auto' id='nav' fixed="bottom" expand={"md"} variant="light" bg="light">     
       <div className="conttop">
-        <Link to='/'  >
+        <Link to='/'>
             <Button href="#" className="btn btn-dark" variant="top" size="lg">
               <div>
                 <IoIosPaperPlane size="32" />
