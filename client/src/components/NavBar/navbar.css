@@ -1,0 +1,52 @@
+.btn-light {
+    font-size: medium;
+    margin-right: 15px;
+    transition: box-shadow .2s ease;
+    box-shadow: 2px 2px 3px 3px gray;
+}
+
+.btn-light:hover {
+    background-color: yellow;
+}
+
+.btn-dark {
+    font-size: medium;
+    margin-right: 15px;
+    background-color: black;
+    transition: box-shadow .2s ease;
+    box-shadow: 2px 2px 3px 3px gray;
+}
+
+.btn-dark:hover {
+    background-color: darkgray;
+}
+
+.m-auto {
+ height: 200px;
+ 
+ margin-bottom: 10%;
+}
+
+.conttop {
+    position: absolute;
+    top:25%;
+    text-align: center;
+    display:flex;
+    margin-left: 35%;
+    margin-right: 40%;
+    height: 100%;
+    width: 100%;
+}
+
+.contbot {
+    position: absolute;
+    align-content: space-around;
+    top:70%;
+    padding: 10px;
+    height: 100%;
+    width: 100%;
+    margin-left: 5%;
+    margin-right: 50%;
+    
+}
+

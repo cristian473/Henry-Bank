@@ -11,15 +11,7 @@ export function addUsers(user) {
 
 export function addUser(user) {
   return function (dispatch) {
-    return fetch("http://localhost:3080/users", {
-      headers: {
-        Accept: "*/*",
-        "Content-Type": "application/json",
-      },
-      method: "POST",
-      body: JSON.stringify(user),
-      credentials: "include",
-    }).then((res) => {
+    axios.post("http://localhost:3001/users", user).then((res) => {
       if (res.status === 200) {
         return dispatch({ type: ADD_USERS }), window.history.back();
       } else {
