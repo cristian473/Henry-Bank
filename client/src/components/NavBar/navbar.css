@@ -1,0 +1,31 @@
+.btn-light {
+    font-size: medium;
+}
+
+.btn-dark {
+    font-size: medium;
+}
+
+
+.m-auto {
+ display:flex;
+ 
+ align-content: flex-start;
+ background-color: brown;
+ height: 200px;
+
+
+}
+
+
+.contbot {
+    display:flex;
+    align-content: space-around;
+
+}
+
+.conttop {
+    display:flex;
+    align-content: flex-start;
+    justify-content: flex-start;
+}
