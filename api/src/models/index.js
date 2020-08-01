@@ -21,7 +21,7 @@ fs.readdirSync(__dirname)
 const { Users, Transactions, Wallet } = models;
 
 // Add model relationships here
-Users.hasOne(Wallet);
+Users.hasOne(Wallet, { onDelete: 'CASCADE', });
 Wallet.belongsTo(Users);
 
 module.exports = models;
