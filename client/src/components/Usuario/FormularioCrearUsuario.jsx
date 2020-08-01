@@ -6,9 +6,9 @@ import { connect } from 'react-redux'
 function FormularioUsuario({ addUser }) {
 
     const [input, setInput] = useState({
-        nombreUser: null,
-        contraUser: null,
-        emailUser: null
+          
+        email: null,
+        password: null
     })
 
     const handleInputChange = function (e) {
@@ -30,15 +30,12 @@ function FormularioUsuario({ addUser }) {
     return (
         <div className="container">
             <form className="form-signin" >
-                <h1>Crear Usuario </h1>
-                <label htmlFor="nombreUser" className="sr-only">Nombre de Usuario*</label>
-                <input className="form-control" required type="text" name="nombreUser" placeholder="Nombre de Usuario" onChange={handleInputChange} />
-
+                <h1>Crear Usuario </h1>                
                 <label htmlFor="emailUser" className="sr-only">Email*</label>
-                <input className="form-control" required type="email" name="emailUser" placeholder="Email" onChange={handleInputChange} />
+                <input className="form-control" required type="email" name="email" placeholder="Email" onChange={handleInputChange} />
 
-                <label htmlFor="contraUser" className="sr-only">Constraseña*</label>
-                <input className="form-control" required type="password" name="contraUser" placeholder="Contraseña" onChange={handleInputChange} />
+                <label htmlFor="password" className="sr-only">Contraseña*</label>
+                <input className="form-control" required type="password" name="password" placeholder="Contraseña" onChange={handleInputChange} />
 
                 <button type="submit" className=" btn-lg btn-primary btn-block" value="Enviar" onClick={enviarFormulario} >Crear</button>
                 <button type="button" className=" btn-lg btn-danger btn-block" value="Cancelar" onClick={cancelar} >Cancelar</button>

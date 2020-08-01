@@ -1,4 +1,4 @@
-import { ADD_USERS } from "../constants/userConstants";
+import { ADD_USERS, ADD_USER } from "../constants/userConstants";
 import axios from "axios";
 
 export function addUsers(user) {
@@ -9,14 +9,18 @@ export function addUsers(user) {
   };
 }
 
+
 export function addUser(user) {
   return function (dispatch) {
-    axios.post("http://localhost:3001/users", user).then((res) => {
+    axios.post("http://localhost:3001/users/new", user).then((res) => {
       if (res.status === 200) {
-        return dispatch({ type: ADD_USERS }), window.history.back();
+        return dispatch({ type: ADD_USER }), window.history.back();
       } else {
         alert("Error en campos");
       }
     });
   };
 }
+
+
+
