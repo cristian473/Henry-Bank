@@ -1,0 +1,68 @@
+#login{
+    margin: 20px auto;
+    width: 400px;
+    background-color: rgba(243, 242, 242, 0.233);
+  }
+  #login img{
+    width: 400px;
+  }
+  #login h2{
+    font-size: 1.5rem;
+    position: relative;
+    top: -5px;
+    margin-bottom: 30px;
+    text-align: center;
+  }
+  #login div p{
+    position: relative;
+    margin-top: 10px;
+    margin-left: 10%;
+    margin-bottom: 0px;
+    text-align: left;
+  }
+
+  .form-control {
+    position: relative;
+    box-sizing: border-box;
+    width: 80%;
+    height: auto;
+    margin-left: 10%;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    padding: 10px;
+    font-size: 16px;
+}
+.altaButtons {
+  display: flex;
+  justify-content: center;
+  margin-top: 35px;
+}
+
+#buttons {
+  font-family: 'Roboto', sans-serif;
+  color: #000;
+  border: none;
+  font-weight: 500;
+  border-radius: 0%;
+  margin-right: 5px;
+  margin-left: 5px;
+  font-size: 18px;
+  background-color: rgba(200, 196, 196, 0.664);
+box-shadow: 3px 3px 5px rgba(68, 68, 68, 0.575);
+
+}
+
+  #login .contenedor{
+    margin-top: 30px;
+    padding-bottom: 20px;
+  }
+  
+  #login a{
+    display: flex;
+    justify-content: center;
+margin-top: 20px;
+    color: #666666;
+    font-size: 15px;
+    position: relative;
+   
+  }

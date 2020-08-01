@@ -1,0 +1,64 @@
+#nav{
+    background-color: transparent !important;
+    display:flex;
+    padding: 0px;
+    width: 100%;
+}
+.btn-light{
+    margin-right: 15px;
+    border-radius: 0px;
+    border-color: transparent !important;
+    transition: box-shadow .2s ease;
+    box-shadow: 2px 2px 3px 3px gray;
+}
+.btn-light:hover {
+    background-color: rgb(167, 167, 167) !important;
+    box-shadow: none !important;
+}
+
+.btn-dark{
+    margin-right: 15px;
+    border-radius: 0px;
+    border-color: transparent !important;
+    background-color: black !important;
+    transition: box-shadow .2s ease;
+    box-shadow: 2px 2px 3px 3px gray !important;
+}
+
+.btn-dark:hover {
+    background-color: rgb(80, 80, 80) !important;
+    box-shadow: none !important;
+}
+
+.m-auto {
+    height: 200px;
+    margin-bottom: 10%;
+}
+
+.conttop {
+    margin: 0px auto;
+    width: 100%;
+}
+.conttop a{
+    font-size: 10px;
+    width: 70px;
+    height: 70px;
+    margin: 0px;
+    padding: 0px;
+    padding-top: 10px;
+}
+.conttop a:not(:last-child){
+    margin-right: 3%;
+}
+
+
+.contbot {
+    top:70%;
+    padding: 10px;
+    width: 100%;
+    display: flex;
+    margin: 0px auto;
+}
+.contbot a{
+    margin: 0px auto;
+}

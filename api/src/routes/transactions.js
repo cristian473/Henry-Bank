@@ -2,31 +2,33 @@ const { Router } = require("express");
 const server = require("express").Router();
 const router = Router();
 const { Op } = require("sequelize");
-const { Users, Wallet, Transactions } = require("../models/index.js");
+const { Wallet, Transactions } = require("../models/index.js");
 
 //do transactions
 
 //cargar dinero//
 
 server.post("/loadBalance/:idUser", async (req, res) => {
+  const { idUser } = req.params;
   const saldo = await Wallet.findOne({
     where: { userId: req.params.idUser },
   });
-  const saldoConsolidado = parseFloat(saldo.balance) + parseFloat(req.body.value)
+  const saldoConsolidado =
+    parseFloat(saldo.balance) + parseFloat(req.body.value);
   Wallet.update(
     {
       balance: saldoConsolidado,
     },
     {
       returning: true,
-      where: { userId: req.params.idUser },
+      where: { userId: idUser },
     }
   )
     .then((newBalance) => {
       res.status(200).send(newBalance);
       Transactions.create({
         idSender: 0,
-        idReceiver: req.params.idUser,
+        idReceiver: idUser,
         type: "Carga",
         value: req.body.value,
         state: "Aceptada",

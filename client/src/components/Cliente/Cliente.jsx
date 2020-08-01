@@ -1,7 +1,8 @@
 import React from 'react';
 import General from '../General/General.jsx'; 
+import NavBar from '../NavBar/NavBar.jsx';
 import './CSS/client.css';
-// import Nav from '../General/NavBar.jsx';
+
 export default function Onboarding(){
 
   const imgMuestra = 'https://images.vexels.com/media/users/3/136558/isolated/preview/43cc80b4c098e43a988c535eaba42c53-icono-de-usuario-de-la-persona-by-vexels.png'
@@ -27,7 +28,11 @@ export default function Onboarding(){
             <li>
               <a href="/" className="btn">ENVIAR</a>
             </li>
-          </ul>     
+          </ul> 
+          <div className="navBar">
+            <NavBar/>
+          </div>
+
         </div>
       </div>
 
