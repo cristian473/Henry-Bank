@@ -38,6 +38,7 @@
 }
 
 .buttonRW {
+    transition: box-shadow .2s ease;
     box-shadow: 2px 2px 3px 3px gray;
     margin-bottom: 5%;
 }
