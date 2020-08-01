@@ -1,6 +1,6 @@
 const fs = require("fs");
 const path = require("path");
-const db = require("db.js");
+const db = require("../db.js");
 
 const basename = path.basename(__filename);
 const models = {};
@@ -21,7 +21,7 @@ fs.readdirSync(__dirname)
 const { Users, Transactions, Wallet } = models;
 
 // Add model relationships here
-Users.hasMany(Wallet, { foreignKey: "userId" });
-Wallet.belongsTo(Users, { foreignKey: "userId" });
+Users.hasOne(Wallet);
+Wallet.belongsTo(Users);
 
 module.exports = models;

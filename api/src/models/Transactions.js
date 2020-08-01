@@ -1,13 +1,6 @@
-
 const Transactions = (sequelize, S) => {
   // defino el modelo
   const T = sequelize.define("transactions", {
-    id: {
-      type: S.INTEGER,
-      allowNull: false,
-      primaryKey: true,
-      autoIncrement: true
-    },
     idSender: {
       type: S.INTEGER,
       allowNull: true,
@@ -20,16 +13,12 @@ const Transactions = (sequelize, S) => {
       type: S.DECIMAL(10, 2),
       allowNull: true,
     },
-    type:{
+    type: {
       type: S.STRING,
-      allowNull: false
-    },
-    balanceType:{
-      type: S.STRING,
-      allowNull: false
+      allowNull: true,
     },
     state: {
-      type: S.ENUM(["Aceptado", "Procesada", "Rechazada"]),
+      type: S.ENUM(["Procesada", "Aceptada", "Rechazada"]),
       allowNull: true,
     },
     description: {
