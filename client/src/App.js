@@ -23,10 +23,8 @@ function App() {
       <Route exact path='/users/new2' component={AddUserForm2} />
       <Route exact path='/users/login' component={LoginForm} />
       <Route exact path='/addUsuario' component={FormularioUsuario} />
-      <Route exact path='/general' component={General} />
       <Route exact path='/logingoogle' component={LoginGoogle} />
       <Route exact path='/cliente' component={Cliente}/>
-      <Route exact path='/NavBar' component={NavBar} />
       <Route exact path='/recargardinero' component={RecargarDinero}  />
     </div>
   );
