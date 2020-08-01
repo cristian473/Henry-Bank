@@ -1,52 +1,67 @@
-.btn-light {
+.buttonSW {
+    height: 80px;
+    text-align: center;
     font-size: medium;
     margin-right: 15px;
     transition: box-shadow .2s ease;
     box-shadow: 2px 2px 3px 3px gray;
+    
 }
 
 .btn-light:hover {
     background-color: yellow;
 }
 
-.btn-dark {
+.buttonSB {
     font-size: medium;
     margin-right: 15px;
     background-color: black;
     transition: box-shadow .2s ease;
     box-shadow: 2px 2px 3px 3px gray;
+    height: 80px;
 }
 
 .btn-dark:hover {
     background-color: darkgray;
 }
 
+.buttonRB {
+    margin-right: 15px;
+    margin-left: 10px;
+    transition: box-shadow .2s ease;
+    box-shadow: 2px 2px 3px 3px gray;
+}
+
+.buttonRW {
+    box-shadow: 2px 2px 3px 3px gray;
+    margin-bottom: 5%;
+}
+
 .m-auto {
  height: 200px;
  
- margin-bottom: 10%;
+ margin-bottom: 5%;
 }
 
 .conttop {
     position: absolute;
-    top:25%;
-    text-align: center;
-    display:flex;
-    margin-left: 35%;
-    margin-right: 40%;
+    top:20%;
+    margin-left: 0%;
+    margin-right: 30%;
     height: 100%;
     width: 100%;
 }
 
 .contbot {
     position: absolute;
-    align-content: space-around;
-    top:70%;
+    text-align: center;
+    top:65%;
+    right: 70%;
+    left: 0%;
     padding: 10px;
     height: 100%;
     width: 100%;
-    margin-left: 5%;
-    margin-right: 50%;
+    
     
 }
 

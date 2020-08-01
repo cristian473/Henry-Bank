@@ -1,9 +1,6 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
 import Navbar from "react-bootstrap/Navbar";
-
 import Button from 'react-bootstrap/Button';
-
 import { IoIosPaperPlane } from "react-icons/io";
 import { BsGraphUp } from "react-icons/bs";
 import { MdLanguage } from "react-icons/md";
@@ -14,61 +11,40 @@ import './navbar.css'
 
 const NavBar = () => {
   return (
-    <Navbar  className='m-auto' fixed="bottom"  expand={"md"} variant="light" bg="light">     
-      
-      <div className="conttop" align="right">
-        <Link to='/'  >
-            <Button href="#" className="btn btn-dark" variant="top" size="lg">
-              
-                <IoIosPaperPlane size="32" />
-                <br></br>
-               Transacciones
-            </Button>
-        </Link>
-        <Link to='/'>
-            <Button href="#" className="btn btn-light" variant="top" size="lg">
-                <BsGraphUp size="32" />
-              <br></br>              
-             Estadisticas
-            </Button>
-        </Link>
- 
- 
-        <Link to='/' href="#">
-          <Button className="btn btn-light" variant="top" size="lg">
-              <MdLanguage size="32"/>
-              <br></br>            
+    <Navbar  className='m-auto' fixed="bottom"  expand={"md"}  bg="light">           
+      <div className="conttop" align="center">
+        <Button href="/transactions" className="buttonSB" variant="bbtn btn-dark" size="lg">
+          <IoIosPaperPlane size="32" />
+            <br></br>
+              Transacciones
+        </Button>
+        <Button href="/stadistics" className="buttonSW" variant="bbtn btn-light" size="lg">
+          <BsGraphUp size="32" />
+            <br></br>              
+              Estadisticas
+        </Button>
+        <Button href="/myinfo" className="buttonSW" variant="bbtn btn-light" size="lg">
+          <MdLanguage size="32"/>
+            <br></br>            
               Mis Datos
-          </Button>
-        </Link>
-
-  
-        <Link to='/'>
-            <Button href="#" className="btn btn-dark" variant="top" size="lg">
-              
-                <RiProductHuntLine size="32"/>
+        </Button>  
+        <Button href="/myproducts" className="buttonSB" variant="bbtn btn-dark" size="lg">
+            <RiProductHuntLine size="32"/>
                <br></br>
-                 Mis Productos
-            </Button>
-        </Link>
+                Mis Productos
+        </Button>
       </div>
-     <div className="contbot" align="center">
-          <Link to='/recargardinero'>
-            <Button href="#" className="btn btn-dark" variant="bottom" size="sm" >
-              <RiDownload2Line size="32"/>
+      <div className="contbot" align="center">
+        <Button href="/reloadmoney'" className="buttonRB" variant="bbtn btn-dark" size="sm" >
+            <RiDownload2Line size="32"/>
                 Recargar Dinero
-            </Button>
-          </Link>
-
-
-          <Link to='/'>
-              <Button href="#" className="btn btn-light" variant="bottom" size="sm">
-                <RiUpload2Line size="32"/>
-                  Mandar Dinero
-              </Button>
-          </Link>
-        </div>
-      </Navbar>
+        </Button>
+        <Button href="/sendmoney" className="buttonWR" variant="bbtn btn-light" size="sm">
+            <RiUpload2Line size="32"/>
+                Mandar Dinero
+        </Button>
+      </div>
+    </Navbar>
     
 
 
