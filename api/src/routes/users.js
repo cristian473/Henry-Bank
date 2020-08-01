@@ -23,10 +23,10 @@ server.post("/new", async (req, res) => {
     city,
     country,
   } = req.body;
-  const contraseñahash = await bcrypt.hash(password, 10);
+  const hashedPassword = await bcrypt.hash(password, 10);
   Users.create({
     email,
-    password: contraseñahash,
+    password: hashedPassword,
     firstName,
     lastName,
     identification,
@@ -37,20 +37,117 @@ server.post("/new", async (req, res) => {
     country,
     email_hash: email,
   })
-    .then((user) => {
-      Wallet.create({
-        userId: user.id,
+  .then((user) => {
+    Wallet.create({
+      userId: user.id,
+    });
+    return res.json(user);
+  })
+  .catch((err) => {
+    if (err.original) res.send(err.original.messageDetail);
+    else res.send("Error de validación de datos");
+    //res.status(500).json({ err });
+  });
+});
+
+//Edita un Usuario por ID
+server.put('/modify/:id', async (req, res) => {
+  const { id } = req.params;
+  const user = await Users.findOne({
+    where: {
+      id,
+    },
+  });
+  if (user === null) {
+    res
+      .status(404)
+      .send({
+        status: `No se ha encontrado al Usuario especificado. Contacte a su Administrador`,
       });
-      return res.json(user);
+  } else {
+    const { 
+      firstName,
+      lastName,
+      identification,
+      phone,
+      birthDate,
+      address,
+      city,
+      country, 
+    } = req.body;
+    Users.update({
+      firstName,
+      lastName,
+      identification,
+      phone,
+      birthDate,
+      address,
+      city,
+      country,
+    },
+    {
+      where: {
+          id,
+      }
+    })
+    .then(() => {
+      res.send({
+        status: `El Usuario ${user.email} ha sido actualizado correctamente`,
+      });
     })
     .catch((err) => {
       if (err.original) res.send(err.original.messageDetail);
       else res.send("Error de validación de datos");
-      //res.status(500).json({ err });
     });
+  }
 });
 
-//Get Wallet for IdUser
+//Elimina un Usuario por ID
+server.delete("/delete/:id", async (req, res, next) => {
+  const { id } = req.params;
+  const user = await Users.findOne({
+    where: {
+      id,
+    },
+    include: [
+      {
+        model: Wallet,
+        as: "wallet",
+      },
+    ],
+  });
+  if (user === null) {
+    res
+      .status(404)
+      .send({
+        status: `No se ha encontrado al Usuario especificado. Contacte a su Administrador`,
+      });
+  } else {
+    const balance = parseFloat(user.wallet.balance);
+    if (balance > 0) {
+      res.send({
+        status: `El Usuario ${user.email} no se puede eliminar; aún tiene un saldo de ${balance} en su cuenta`,
+      });
+    } else {
+      await Users.destroy({
+        where: {
+          id,
+        },
+      })
+      .then(() => {
+        res.send({
+          status: `El Usuario ${user.email} ha sido eliminado correctamente`,
+        });
+      })
+      .catch((err) => {
+        if (err.original) res.send(err.original.messageDetail);
+        else res.send("Error de validación de datos");
+      });
+    }
+  }
+});
+
+//Obtener la Billetera de un Usuario
 server.get("/wallet/:id", (req, res) => {
   Wallet.findOne({ where: { userId: req.params.id } })
     .then((user) => {
