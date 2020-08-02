@@ -17,13 +17,11 @@ function Cliente({usuarioConectado, getProfile}){
       <div className="left">
         <div className="header">
           <div className="perfil">
-              {usuarioConectado ? 
-                <div>
-                <h2>Hola <span>{usuarioConectado.firstName}</span></h2>             
-                </div>               
-              : <div>
-              <h2>Hola <span>Usuario</span></h2>     
-              </div>}
+            {usuarioConectado ?           
+              <h2>Hola, <span>{usuarioConectado.firstName}</span></h2>             
+            :            
+              <h2>Hola, <span>Usuario</span></h2>               
+            }
             <img src={imgMuestra} width="100px" alt="photo"></img>
           </div>
           <div className="saldo">

@@ -21,7 +21,7 @@ export default function usuario(state = initialState, action) {
         case GET_PROFILE:
             return {
                 ...state,
-                usuarioConectado: action.payload
+                usuarioConectado: action.payload[0]
             }
         case LOGGIN:
             return {
