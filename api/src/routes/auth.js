@@ -45,7 +45,7 @@ server.post(
 );
 
 //Validar y continuar con el registro de un Usuario.
-server.put("/validate/account/:email_hash", async (req, res) => {
+server.get("/validate/account/:email_hash", async (req, res) => {
   const user = await Users.findOne({
     where: { email_hash: req.params.email_hash },
   });
@@ -61,6 +61,7 @@ server.put("/validate/account/:email_hash", async (req, res) => {
         user.update({
           status: "Validado",
         });
+        res.redirect(`http://localhost:3000/users/new3/${user.id}`);
         res.send({
           status: `El Usuario ${user.email} ha sido validado correctamente`,
         });

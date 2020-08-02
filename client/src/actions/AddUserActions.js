@@ -12,7 +12,7 @@ export function addUsers(user) {
 
 export function addUser(user) {
   return function (dispatch) {
-    axios.post("http://localhost:3001/users/new", user).then((res) => {
+    axios.post("http://localhost:3001/auth/register", user).then((res) => {
       if (res.status === 200) {
         return dispatch({ type: ADD_USER }), window.history.back();
       } else {
