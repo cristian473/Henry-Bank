@@ -10,7 +10,7 @@ function Cliente({usuarioConectado, getProfile}){
   useEffect(() => {
     getProfile()
   }, []);
-
+console.log(usuarioConectado.email, "holaaa")
   const imgMuestra = 'https://images.vexels.com/media/users/3/136558/isolated/preview/43cc80b4c098e43a988c535eaba42c53-icono-de-usuario-de-la-persona-by-vexels.png'
   return(
     <div id="cliente">  
@@ -19,7 +19,7 @@ function Cliente({usuarioConectado, getProfile}){
           <div className="perfil">
               {usuarioConectado ? 
                 <div>
-                <h2>Hola <span>{usuarioConectado.firstName}</span></h2>             
+                <h2>Hola <span>{usuarioConectado.email}</span></h2>             
                 </div>               
               : <div>
               <h2>Hola <span>Usuario</span></h2>     
