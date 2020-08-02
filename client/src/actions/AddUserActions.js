@@ -32,18 +32,7 @@ export function loggin(user) {
               method: 'POST',
               body: JSON.stringify(user),
               credentials: 'include'
-              
-export function modifyUser(id, user) {
-  return (dispatch) => {
-    axios.put(`http://localhost:3001/users/modify/${id}`, user).then((res) => {
-      if (res.status === 200) {
-        return dispatch({ type: MODIFY_USER, payload: res.data });
-      } else {
-        alert("Error en campos");
-      }
-    });
-  };
-}
+
 
           })
           .then((res) => {
@@ -101,4 +90,16 @@ export function getUserLoggedIn(email) {
           })
 
   }
+}
+
+export function modifyUser(id, user) {
+  return (dispatch) => {
+    axios.put(`http://localhost:3001/users/modify/${id}`, user).then((res) => {
+      if (res.status === 200) {
+        return dispatch({ type: MODIFY_USER, payload: res.data });
+      } else {
+        alert("Error en campos");
+      }
+    });
+  };
 }
