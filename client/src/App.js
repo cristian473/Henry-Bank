@@ -19,10 +19,10 @@ function App() {
   return (
     <div>
       <Route exact path='/' component={Home} />
-      <Route exact path='/users/new' component={AddUserForm} />
+      <Route exact path='/users/new3' component={AddUserForm} />
       <Route exact path='/users/new2' component={AddUserForm2} />
       <Route exact path='/users/login' component={LoginForm} />
-      <Route exact path='/addUsuario' component={FormularioUsuario} />
+      <Route exact path='/users/new' component={FormularioUsuario} />
       <Route exact path='/general' component={General} />
       <Route exact path='/logingoogle' component={LoginGoogle} />
       <Route exact path='/cliente' component={Cliente}/>
