@@ -3,7 +3,6 @@ import './css/App.css';
 import { Route } from 'react-router-dom';
 
 import AddUserForm from "./components/Cliente/FormularioAltaCliente.jsx";
-import AddUserForm2 from "./components/Cliente/FormularioAltaDomicilio.jsx";
 import LoginForm from './components/Usuario/Login.jsx';
 import Home from './components/Usuario/Onboarding.jsx';
 import FormularioUsuario from './components/Usuario/FormularioCrearUsuario.jsx'
@@ -16,8 +15,12 @@ function App() {
   return (
     <div>
       <Route exact path='/' component={Home} />
-      <Route exact path='/users/new3' component={AddUserForm} />
-      <Route exact path='/users/new2' component={AddUserForm2} />
+      <Route 
+        exact path='/users/new3/:id' 
+        component={({ match }) => 
+          <AddUserForm id={match.params.id}/>
+        } 
+      />
       <Route exact path='/users/login' component={LoginForm} />
       <Route exact path='/users/new' component={FormularioUsuario} />
       <Route exact path='/logingoogle' component={LoginGoogle} />

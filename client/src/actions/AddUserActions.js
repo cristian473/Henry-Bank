@@ -1,4 +1,4 @@
-import { ADD_USERS, ADD_USER, LOGGIN, GET_USER, GET_USER_LOGGED } from "../constants/userConstants";
+import { ADD_USERS, ADD_USER, LOGGIN, GET_USER, GET_USER_LOGGED, MODIFY_USER  } from "../constants/userConstants";
 import axios from "axios";
 
 export function addUsers(user) {
@@ -32,6 +32,18 @@ export function loggin(user) {
               method: 'POST',
               body: JSON.stringify(user),
               credentials: 'include'
+              
+export function modifyUser(id, user) {
+  return (dispatch) => {
+    axios.put(`http://localhost:3001/users/modify/${id}`, user).then((res) => {
+      if (res.status === 200) {
+        return dispatch({ type: MODIFY_USER, payload: res.data });
+      } else {
+        alert("Error en campos");
+      }
+    });
+  };
+}
 
           })
           .then((res) => {
