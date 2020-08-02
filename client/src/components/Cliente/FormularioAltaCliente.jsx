@@ -1,20 +1,20 @@
 import React, { useState } from "react";
 import { modifyUser } from "../../actions/AddUserActions";
+import { connect } from 'react-redux'
 import "./CSS/altaCliente.css";
 import header from "./Images/header.png";
 
-const AddUserForm = ({ id }) => {
+const AddUserForm = function ({ id, modifyUser }){
   const initialUserState = {
-    userId: id,
+    id: id,
+    firstName: "",
+    lastName: "",
     documentType: "",
-    documentNumber: "",
-    name: "",
-    lastname: "",
-    birthdate: "",
-    street: "",
-    houseNumber: "",
+    identification: "",
+    phone: "",
+    birthDate: "",
+    address: "", 
     city: "",
-    province: "",
     country: ""
   };
   const [user, setUser] = useState(initialUserState);
@@ -37,6 +37,20 @@ const AddUserForm = ({ id }) => {
           <div class="input-gruop mb-3">
             <input
               class="form-control"
+              name="firstName"
+              placeholder="Nombre"
+              value={user.firstName}
+              onChange={handleInputChange}
+            />
+            <input
+              class="form-control"
+              name="lastName"
+              placeholder="Apellido"
+              value={user.lastName}
+              onChange={handleInputChange}
+            />
+            <input
+              class="form-control"
               name="documentType"
               placeholder="Tipo de doc"
               value={user.documentType}
@@ -44,32 +58,9 @@ const AddUserForm = ({ id }) => {
             />
             <input
               class="form-control"
-              name="documentNumber"
+              name="identification"
               placeholder="Número"
-              value={user.documentNumber}
-              onChange={handleInputChange}
-            />
-            <input
-              class="form-control"
-              name="name"
-              placeholder="Nombre"
-              value={user.name}
-              onChange={handleInputChange}
-            />
-            <input
-              class="form-control"
-              name="lastname"
-              placeholder="Apellido"
-              value={user.lastname}
-              onChange={handleInputChange}
-            />
-            <p>Fecha de nacimiento</p>
-            <input
-              class="form-control"
-              type="date"
-              name="birthdate"
-              placeholder="Fecha de nacimiento"
-              value={user.birthdate}
+              value={user.identification}
               onChange={handleInputChange}
             />
             <input 
@@ -79,18 +70,20 @@ const AddUserForm = ({ id }) => {
               value={user.phone}
               onChange={handleInputChange} 
             />
-            <input 
-              class='form-control' 
-              name="street" 
-              placeholder="Domicilio calle" 
-              value={user.street} 
-              onChange={handleInputChange} 
+            <p>Fecha de nacimiento</p>
+            <input
+              class="form-control"
+              type="date"
+              name="birthDate"
+              placeholder="Fecha de nacimiento"
+              value={user.birthDate}
+              onChange={handleInputChange}
             />
             <input 
               class='form-control' 
-              name="houseNumber" 
-              placeholder="Número" 
-              value={user.houseNumber} 
+              name="address" 
+              placeholder="Domicilio calle + Número" 
+              value={user.address} 
               onChange={handleInputChange} 
             />
             <input 
@@ -102,30 +95,24 @@ const AddUserForm = ({ id }) => {
             />
             <input 
               class='form-control' 
-              name="province" 
-              placeholder="Provincia" 
-              value={user.province} 
-              onChange={handleInputChange} 
-            />
-            <input 
-              class='form-control' 
               name="country" 
               placeholder="Pais" 
               value={user.country} 
               onChange={handleInputChange} 
             />
           </div>
+        
+          <div className="altaButtons">
+            <a id="buttons" href="/">
+              Atrás
+            </a>
+            <input type="submit" id="buttons" value="Enviar" />
+          </div>
         </form>
-        <div className="altaButtons">
-          <a id="buttons" href="/">
-            Atrás
-          </a>
-          <input type="submit" id="buttons" value="Enviar" />
-        </div>
         <a href="/help">¿Necesitás ayuda?</a>
       </div>
     </div>
   );
 };
 
-export default AddUserForm;
+export default connect(null, { modifyUser })(AddUserForm);

@@ -30,7 +30,6 @@ export function modifyUser(id, user) {
       } else {
         alert("Error en campos");
       }
-      
     });
   };
 }
