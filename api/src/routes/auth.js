@@ -5,6 +5,7 @@ const { SMTPClient } = require("emailjs");
 const { Users } = require("../models/index.js");
 const { GOOGLE_API_KEY } = require("../env-config.js");
 
+
 server.post("/changepassword");
 
 server.post(
@@ -50,7 +51,6 @@ server.put("/validate/account/:email_hash", async (req, res) => {
     where: { email_hash: req.params.email_hash },
   });
   if (user === null) {
-    console.log("Not found!");
     res
       .status(404)
       .send({

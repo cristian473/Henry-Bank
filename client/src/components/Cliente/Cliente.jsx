@@ -2,16 +2,17 @@ import React from 'react';
 import General from '../General/General.jsx'; 
 import NavBar from '../NavBar/NavBar.jsx';
 import './CSS/client.css';
+import { connect } from 'react-redux';
 
-export default function Onboarding(){
-
+function Onboarding({usuario}){
+  
   const imgMuestra = 'https://images.vexels.com/media/users/3/136558/isolated/preview/43cc80b4c098e43a988c535eaba42c53-icono-de-usuario-de-la-persona-by-vexels.png'
   return(
     <div id="cliente">  
       <div className="left">
         <div className="header">
           <div className="perfil">
-            <h2>Hola, <span>Henry</span></h2>
+            <h2>Hola, <span>Henry  {usuario.email}  ***</span></h2>
             <img src={imgMuestra} width="100px" alt="photo"></img>
           </div>
           <div className="saldo">
@@ -58,3 +59,10 @@ export default function Onboarding(){
   )
 }
 
+function mapStateToProps(state){
+  return {
+    usuario: state.usuario.usuarioConectado,
+  }
+}
+
+export default connect(mapStateToProps,{})(Onboarding)
