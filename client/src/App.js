@@ -4,6 +4,7 @@ import { Route } from 'react-router-dom';
 
 import AddUserForm from "./components/Cliente/FormularioAltaCliente.jsx";
 import LoginForm from './components/Usuario/Login.jsx';
+import LoginForm2 from './components/Usuario/Login2.jsx';
 import Home from './components/Usuario/Onboarding.jsx';
 import FormularioUsuario from './components/Usuario/FormularioCrearUsuario.jsx'
 import LoginGoogle from './components/Usuario/LoginGoogle.jsx';
@@ -22,6 +23,7 @@ function App() {
         } 
       />
       <Route exact path='/users/login' component={LoginForm} />
+      <Route exact path='/users/login2' component={LoginForm2} />
       <Route exact path='/users/new' component={FormularioUsuario} />
       <Route exact path='/logingoogle' component={LoginGoogle} />
       <Route exact path='/cliente' component={Cliente} />
