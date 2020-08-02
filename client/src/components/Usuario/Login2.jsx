@@ -5,7 +5,7 @@ import './CSS/login.css';
 export default function LoginForm() {
   return (
     <div id="login">
-      <form action="http://localhost:3001/users/login" method="POST">
+      <form action="http://localhost:3001/auth/login" method="POST">
         <img src={loginPortada} alt="loginPortada" />
         <div className="form-group col-md-12">
           <h4>Iniciar Sesión</h4>

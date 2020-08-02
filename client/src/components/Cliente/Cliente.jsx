@@ -1,18 +1,29 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import General from '../General/General.jsx'; 
 import NavBar from '../NavBar/NavBar.jsx';
 import './CSS/client.css';
 import { connect } from 'react-redux';
+import { getProfile } from "../../actions/AddUserActions";
 
-function Onboarding({usuario}){
+function Cliente({usuarioConectado, getProfile}){
   
+  useEffect(() => {
+    getProfile()
+  }, []);
+
   const imgMuestra = 'https://images.vexels.com/media/users/3/136558/isolated/preview/43cc80b4c098e43a988c535eaba42c53-icono-de-usuario-de-la-persona-by-vexels.png'
   return(
     <div id="cliente">  
       <div className="left">
         <div className="header">
           <div className="perfil">
-            <h2>Hola, <span>Henry  {usuario.email}  ***</span></h2>
+              {usuarioConectado ? 
+                <div>
+                <h2>Hola <span>{usuarioConectado.firstName}</span></h2>             
+                </div>               
+              : <div>
+              <h2>Hola <span>Usuario</span></h2>     
+              </div>}
             <img src={imgMuestra} width="100px" alt="photo"></img>
           </div>
           <div className="saldo">
@@ -61,8 +72,8 @@ function Onboarding({usuario}){
 
 function mapStateToProps(state){
   return {
-    usuario: state.usuario.usuarioConectado,
+    usuarioConectado: state.usuario.usuarioConectado,
   }
 }
 
-export default connect(mapStateToProps,{})(Onboarding)
+export default connect(mapStateToProps,{ getProfile })(Cliente)
