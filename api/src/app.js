@@ -12,9 +12,10 @@ server.name = 'API';
 
 // For Passport
 server.use(session({
+  name: "Conectado",
   secret: 'keyboard cat', 
-  resave: true, 
-  saveUninitialized: true
+  resave: false, 
+  saveUninitialized: false
 })); // session secret
 server.use(passport.initialize());
 server.use(passport.session()); // persistent login sessions

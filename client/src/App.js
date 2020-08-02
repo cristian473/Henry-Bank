@@ -1,6 +1,6 @@
 import React from 'react';
 import './css/App.css';
-import { Route } from 'wouter';
+import { Route } from 'react-router-dom';
 
 import AddUserForm from "./components/Cliente/FormularioAltaCliente.jsx";
 import AddUserForm2 from "./components/Cliente/FormularioAltaDomicilio.jsx";
