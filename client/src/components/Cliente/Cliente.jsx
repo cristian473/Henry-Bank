@@ -3,13 +3,18 @@ import General from '../General/General.jsx';
 import NavBar from '../NavBar/NavBar.jsx';
 import './CSS/client.css';
 import { connect } from 'react-redux';
-import { getProfile } from "../../actions/AddUserActions";
+import { getProfile, getWallet } from "../../actions/UserActions";
+import BotonLogout from "./BotonLogout.jsx";
 
-function Cliente({usuarioConectado, getProfile}){
+function Cliente({ usuarioConectado, wallet, getProfile, getWallet }){
   
   useEffect(() => {
-    getProfile()
+    getProfile();
   }, []);
+
+  useEffect(() => {
+    getWallet(usuarioConectado.id)
+  },[usuarioConectado]);
 
   const imgMuestra = 'https://images.vexels.com/media/users/3/136558/isolated/preview/43cc80b4c098e43a988c535eaba42c53-icono-de-usuario-de-la-persona-by-vexels.png'
   return(
@@ -18,18 +23,25 @@ function Cliente({usuarioConectado, getProfile}){
         <div className="header">
           <div className="perfil">
             {usuarioConectado ?           
-              <h2>Hola, <span>{usuarioConectado.firstName}</span></h2>             
+              <h2>Hola, <span>{usuarioConectado.firstName}   <BotonLogout />   </span></h2>             
             :            
-              <h2>Hola, <span>Usuario</span></h2>               
+              <h2>Hola, <span>Usuario</span></h2>  
+                     
             }
             <img src={imgMuestra} width="100px" alt="photo"></img>
           </div>
+
+          {usuarioConectado.firstName!==null && <span>
           <div className="saldo">
-            <h3>$2,002.50</h3>
+            {wallet ? 
+              <h3>${wallet.balance}</h3>
+            :
+              <h3>$2,002.50</h3>
+            }      
             <p>Balance de mi cuenta</p>
           </div>
-        </div>
-        <General/>
+          </span>}</div> 
+          {usuarioConectado.firstName!==null && <span><General/>
         <div className="acciones">
           <ul>
             <li>
@@ -43,8 +55,23 @@ function Cliente({usuarioConectado, getProfile}){
             <NavBar/>
           </div>
 
-        </div>
-      </div>
+        </div></span>}
+
+
+        {usuarioConectado.firstName===null && 
+    <form className="form-signin needs-validation"> 
+            <h1>Tu cuenta aún no ha sido activada, por favor, revisa tu mail y sigue los pasos para activarla.</h1>
+
+            
+            <br/>
+            <div>             
+            
+
+           </div>
+    </form>}
+
+
+      </div>  
 
       <div className="right">
         <div className="rutas">
@@ -71,7 +98,8 @@ function Cliente({usuarioConectado, getProfile}){
 function mapStateToProps(state){
   return {
     usuarioConectado: state.usuario.usuarioConectado,
+    wallet: state.usuario.wallet
   }
 }
 
-export default connect(mapStateToProps,{ getProfile })(Cliente)
+export default connect(mapStateToProps,{ getProfile, getWallet })(Cliente)

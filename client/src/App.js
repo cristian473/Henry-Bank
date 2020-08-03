@@ -1,14 +1,14 @@
 import React from 'react';
 import './css/App.css';
 import { Route } from 'react-router-dom';
-import AddUserForm from "./components/Cliente/FormularioAltaCliente.jsx";
-import LoginForm from './components/Usuario/Login.jsx';
-import LoginForm2 from './components/Usuario/Login2.jsx';
+import CrearUsuario from './components/Usuario/FormularioCrearUsuario.jsx';
+import AltaUsuario from "./components/Cliente/FormularioAltaCliente.jsx";
+import Login from './components/Usuario/LoginForm.jsx';
 import Home from './components/Usuario/Onboarding.jsx';
-import FormularioUsuario from './components/Usuario/FormularioCrearUsuario.jsx'
 import LoginGoogle from './components/Usuario/LoginGoogle.jsx';
 import Cliente from './components/Cliente/Cliente.jsx';
-import RecargarDinero from './components/RecargarDinero/RecargarDinero'
+import RecargarDinero from './components/RecargarDinero/RecargarDinero.jsx'
+import BotonLogout from "./components/Cliente/BotonLogout.jsx";
 
 function App() {
   
@@ -16,17 +16,17 @@ function App() {
     <div>
       <Route exact path='/' component={Home} />
       <Route 
-        exact path='/users/new3/:id' 
+        exact path='/new/:id' 
         component={({ match }) => 
-          <AddUserForm id={match.params.id}/>
+          <AltaUsuario id={match.params.id}/>
         } 
       />
-      <Route exact path='/users/login' component={LoginForm} />
-      <Route exact path='/users/login2' component={LoginForm2} />
-      <Route exact path='/users/new' component={FormularioUsuario} />
+      <Route exact path='/login' component={Login} />
+      <Route exact path='/registrarse' component={CrearUsuario} />
       <Route exact path='/logingoogle' component={LoginGoogle} />
       <Route exact path='/cliente' component={Cliente} />
       <Route exact path='/recargardinero' component={RecargarDinero}  />
+      <Route exact path='/logout' component={BotonLogout}  />
     </div>
   );
 }

@@ -61,7 +61,7 @@ server.get("/validate/account/:email_hash", async (req, res) => {
         user.update({
           status: "Validado",
         });
-        res.redirect(`http://localhost:3000/users/new3/${user.id}`);
+        res.redirect(`http://localhost:3000/new/${user.id}`);
         res.send({
           status: `El Usuario ${user.email} ha sido validado correctamente`,
         });
