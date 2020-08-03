@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { useDispatch } from 'react-redux'
-import { addUsers } from '../../actions/AddUserActions'
+import { addUsers } from '../../actions/UserActions'
 import './CSS/altaCliente.css';
 import header from './Images/header.png';
 

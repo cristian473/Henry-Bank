@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { connect } from 'react-redux'
-import { loggin, getUser  } from '../../actions/AddUserActions'
+import { loggin, getUser  } from '../../actions/UserActions'
 
 
 function Login({loggin, getUser}){

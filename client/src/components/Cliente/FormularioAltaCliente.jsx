@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { modifyUser } from "../../actions/AddUserActions";
+import { modifyUser } from "../../actions/UserActions";
 import { connect } from 'react-redux'
 import "./CSS/altaCliente.css";
 import header from "./Images/header.png";

@@ -3,7 +3,7 @@ import General from '../General/General.jsx';
 import NavBar from '../NavBar/NavBar.jsx';
 import './CSS/client.css';
 import { connect } from 'react-redux';
-import { getProfile } from "../../actions/AddUserActions";
+import { getProfile } from "../../actions/UserActions";
 
 function Cliente({usuarioConectado, getProfile}){
   
