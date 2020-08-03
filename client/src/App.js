@@ -15,13 +15,13 @@ function App() {
     <div>
       <Route exact path='/' component={Home} />
       <Route 
-        exact path='/users/new3/:id' 
+        exact path='/new/:id' 
         component={({ match }) => 
           <AltaUsuario id={match.params.id}/>
         } 
       />
-      <Route exact path='/users/login' component={Login} />
-      <Route exact path='/users/new' component={CrearUsuario} />
+      <Route exact path='/login' component={Login} />
+      <Route exact path='/registrarse' component={CrearUsuario} />
       <Route exact path='/logingoogle' component={LoginGoogle} />
       <Route exact path='/cliente' component={Cliente} />
       <Route exact path='/recargardinero' component={RecargarDinero}  />
