@@ -58,7 +58,7 @@ function Cliente({ usuarioConectado, wallet, getProfile, getWallet }){
 
         {usuarioConectado.firstName===null && 
     <form className="form-signin needs-validation"> 
-            <h1>Tu cuenta aún no ha sido activada, por favor, revisa tu mail para activarla.</h1>
+            <h1>Tu cuenta aún no ha sido activada, por favor, revisa tu mail y sigue los pasos para activarla.</h1>
 
             
             <br/>
