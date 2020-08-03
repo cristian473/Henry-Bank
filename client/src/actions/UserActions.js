@@ -1,4 +1,4 @@
-import { ADD_USERS, ADD_USER, GET_USER_LOGGED, MODIFY_USER , GET_PROFILE } from "../constants/userConstants";
+import { ADD_USERS, ADD_USER, GET_USER_LOGGED, MODIFY_USER , GET_PROFILE, GET_WALLET } from "../constants/userConstants";
 import axios from "axios";
 
 export function addUsers(user) {
@@ -31,19 +31,28 @@ export function modifyUser(id, user) {
       } else {
         alert("Error en campos");
       }
-    });
-  };
+    })
+  }
 }
 
 export function getProfile(){
   return (dispatch) => {
     axios.get('http://localhost:3001/users/').then((res) => {
       if (res.status === 200) {
-        console.log(res.data);
         return dispatch({ type: GET_PROFILE, payload: res.data });
       } 
     })
-  };
+  }
+}
+
+export function getWallet(id){
+  return (dispatch) => {
+    axios.get(`http://localhost:3001/users/wallet/${id}`).then((res) => {
+      if (res.status === 200) {
+        return dispatch({ type: GET_WALLET, payload: res.data });
+      } 
+    })
+  }
 }
 
 export function getUserLoggedIn(email) {

@@ -1,8 +1,9 @@
-import { ADD_USERS, ADD_USER, GET_USER_LOGGED, GET_PROFILE } from '../constants/userConstants';
+import { ADD_USERS, ADD_USER, GET_USER_LOGGED, GET_PROFILE, GET_WALLET } from '../constants/userConstants';
 
 const initialState = {
     usuarios: [],
-    usuarioConectado: {}
+    usuarioConectado: {},
+    wallet: {}
 };
 
 export default function usuario(state = initialState, action) {
@@ -18,6 +19,12 @@ export default function usuario(state = initialState, action) {
             return {
                 ...state,
                 usuarioConectado: action.payload[0]
+            }
+
+        case GET_WALLET:
+            return {
+                ...state,
+                wallet: action.payload
             }
 
         case GET_USER_LOGGED:
