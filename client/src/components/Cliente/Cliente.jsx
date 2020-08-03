@@ -6,8 +6,8 @@ import { connect } from 'react-redux';
 import { getProfile, getWallet } from "../../actions/UserActions";
 import BotonLogout from "./BotonLogout.jsx";
 
-function Cliente({ usuarioConectado, wallet, getProfile, getWallet }){
-  
+function Cliente({ usuarioConectado, wallet, getProfile, getWallet, history }){
+  console.log(history)
   useEffect(() => {
     getProfile();
   }, []);
@@ -23,7 +23,7 @@ function Cliente({ usuarioConectado, wallet, getProfile, getWallet }){
         <div className="header">
           <div className="perfil">
             {usuarioConectado ?           
-              <h2>Hola, <span>{usuarioConectado.firstName}   <BotonLogout />   </span></h2>             
+              <h2>Hola, <span>{usuarioConectado.firstName}   <BotonLogout history={history}/>   </span></h2>             
             :            
               <h2>Hola, <span>Usuario</span></h2>  
                      

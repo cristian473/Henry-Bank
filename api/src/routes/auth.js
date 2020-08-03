@@ -20,10 +20,12 @@ server.post(
   }
 );
 
+/* server.get("/logout"); */
+
 server.get("/logout", function (req, res) {
-  req.session.destroy(function (err) {
-    res.redirect("/");
-  });
+  req.logout();
+  req.session.destroy(function (err) {});
+  res.sendStatus(200);
 });
 
 server.post(

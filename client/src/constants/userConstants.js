@@ -5,4 +5,5 @@ export const MODIFY_USER = 'MODIFY_USER';
 export const GET_PROFILE = 'GET_PROFILE';
 export const GET_WALLET = 'GET_WALLET';
 export const LOGOUT = 'LOGOUT';
+export const RESET_PASS_USER = 'RESET_PASS_USER';
 
