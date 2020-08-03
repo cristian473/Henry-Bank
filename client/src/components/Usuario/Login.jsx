@@ -1,42 +1,68 @@
-import React from 'react';
-import loginPortada from './images/login.png';
-import './CSS/login.css';
+import React, { useState } from 'react'
+import { connect } from 'react-redux'
+import { loggin, getUser  } from '../../actions/AddUserActions'
 
-export default function LoginForm() {
-  return (
-    <div id="login">
-      <form action="http://localhost:3001/users/login" method="POST">
-        <img src={loginPortada} alt="loginPortada" />
-        <div className="form-group col-md-12">
-          <h4>Iniciar Sesión</h4>
-          <div className="input-group mb-3">
-            <input
-              name="username"
-              className="form-control"
-              placeholder="Usuario"
-              required />
-          </div>
+
+function Login({loggin, getUser}){
+
+    const [input, setInput] = useState({
+        email : null,
+        password: null
+    })
+
+    const handleInputChange = function(e){
+        e.preventDefault()
+        setInput({
+            ...input,
+            [e.target.name] : e.target.value
+        })
+    }
+    
+    const enviarFormulario = function(e){
+        e.preventDefault()
+        const user= {
+            email: input.email,
+            password: input.password
+        }
+        getUser(user.email)
+        .then(datos=>{
+            if(datos===undefined){
+                alert("el Usuario no existe")
+            }
+             else{
+                    loggin(user)
+                }
+            }
+        ,)
+    }
+
+    const cancelar = function(e){
+        window.history.back();
+       
+    }
+
+    return(
+        <div className="container">
+            <form  className="form-signin" onSubmit={(e)=>e.preventDefault()}>
+                <h1>Ingresar </h1>
+                <label htmlFor="nombreUser" className ="sr-only" >Nombre de Usuario*</label>
+                <input className="form-control" required type="text" placeholder="E-mail" name="email"  onChange={handleInputChange}/>
+                      
+                <label  htmlFor="contraUser" className="sr-only">Constraseña*</label>
+                <input  className="form-control" required type="password" placeholder="Contraseña" name="password"  onChange={handleInputChange}/>
+                      
+                <button type="submit" className=" btn-lg btn-primary btn-block"  value="Enviar" onClick={enviarFormulario} >Ingresar</button>
+                <button type="button" className=" btn-lg btn-danger btn-block"  value="Cancelar" onClick={cancelar} >Cancelar</button>
+            </form>
+           
         </div>
-        <div className="form-group col-md-12 ">
-          <div className="input-group mb-3">
-            <input
-              name="password"
-              type="password"
-              className="form-control"
-              placeholder="Contraseña"
-              required />
-          </div>
-        </div>
-        <div class="form-row contenedor">
-          <div className="form-group col-md-6 link" >
-            <a href="/">¿Olvidaste tu contraseña?</a>
-            <a href="/">¿Necesitas ayuda?</a>
-          </div>
-          <div className="form-group col-md-6 inicio">
-            <input type="submit" className="btn btn-outline-dark" value="Iniciar Sesión" />
-          </div>
-        </div>
-      </form>
-    </div>
-  )
+    )
 }
+
+function mapStateToProps(state){
+    return {
+        usuarioConectado : state.usuario.usuarioConectado
+    }
+}
+
+export default connect (mapStateToProps,{loggin, getUser})( Login )
