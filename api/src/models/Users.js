@@ -71,7 +71,7 @@ const Users = (sequelize, S) => {
       },
       contacts: {
         type: S.ARRAY(S.INTEGER),
-        defaultValue: null,
+        defaultValue: [],
         allowNull: true,
       },
       email_hash: {
