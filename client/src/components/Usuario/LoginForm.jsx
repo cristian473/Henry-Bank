@@ -3,6 +3,9 @@ import loginPortada from './images/login.png';
 import './CSS/login.css';
 
 export default function LoginForm() {
+  const cancelar = function (e) {
+    window.location.replace('http://localhost:3000')
+ }
   return (
     <div id="login">
       <form action="http://localhost:3001/auth/login" method="POST">
@@ -34,6 +37,7 @@ export default function LoginForm() {
           </div>
           <div className="form-group col-md-6 inicio">
             <input type="submit" className="btn btn-outline-dark" value="Iniciar Sesión" />
+            <button type="button" className="btn btn-outline-danger" value="Cancelar"  onClick={cancelar} >Cancelar</button>
           </div>
         </div>
       </form>

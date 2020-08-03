@@ -5,7 +5,6 @@ const { SMTPClient } = require("emailjs");
 const { Users } = require("../models/index.js");
 const { GOOGLE_API_KEY } = require("../env-config.js");
 
-
 server.post("/changepassword");
 
 server.post(
@@ -17,16 +16,14 @@ server.post(
   },
   passport.authenticate("local-signin"),
   (req, res) => {
-    res.redirect('http://localhost:3000/cliente');
+    res.redirect("http://localhost:3000/cliente");
   }
 );
 
-server.get(
-  "/logout",
-  function(req, res) {
-    req.session.destroy(function(err) {
-        res.redirect('/');
-    });
+server.get("/logout", function (req, res) {
+  req.session.destroy(function (err) {
+    res.redirect("/");
+  });
 });
 
 server.post(
@@ -56,11 +53,9 @@ server.get("/validate/account/:email_hash", async (req, res) => {
     where: { email_hash: req.params.email_hash },
   });
   if (user === null) {
-    res
-      .status(404)
-      .send({
-        status: `No se ha encontrado al Usuario especificado. Contacte a su Administrador`,
-      });
+    res.status(404).send({
+      status: `No se ha encontrado al Usuario especificado. Contacte a su Administrador`,
+    });
   } else {
     switch (user.status) {
       case "Pendiente":
@@ -90,26 +85,31 @@ server.get("/validate/account/:email_hash", async (req, res) => {
 //Normalizar una Dirección
 server.get("/validate/street", async (req, res) => {
   const { street, city, country } = req.body;
-  var input = `${street ? street : ''} ${city ? city : ''} ${country ? country : ''}`.trim();
-  await axios.get('https://maps.googleapis.com/maps/api/place/autocomplete/json', {
-    params: {
-      key: GOOGLE_API_KEY,
-      input, 
-      language: "es"
-    }
-  })
-  .then((response) => {
-    if (response.data.status === 'OK') {
-      const results = response.data.predictions;
-      var streetArr = []
-      results.forEach(r => {
-        streetArr.push({street: r.description})
-      })
-      res.json(streetArr);
-    } else {
-      res.json({status: 'Sin resultados. Intente usar términos más específicos'})
-    }
-  });
+  var input = `${street ? street : ""} ${city ? city : ""} ${
+    country ? country : ""
+  }`.trim();
+  await axios
+    .get("https://maps.googleapis.com/maps/api/place/autocomplete/json", {
+      params: {
+        key: GOOGLE_API_KEY,
+        input,
+        language: "es",
+      },
+    })
+    .then((response) => {
+      if (response.data.status === "OK") {
+        const results = response.data.predictions;
+        var streetArr = [];
+        results.forEach((r) => {
+          streetArr.push({ street: r.description });
+        });
+        res.json(streetArr);
+      } else {
+        res.json({
+          status: "Sin resultados. Intente usar términos más específicos",
+        });
+      }
+    });
 });
 
 server.get("/me");
@@ -182,5 +182,10 @@ function validateEmail(email, email_hash) {
     //console.log(err || message);
   });
 }
+
+server.get("/logout", function (req, res) {
+  req.logout();
+  res.redirect("/");
+});
 
 module.exports = server;

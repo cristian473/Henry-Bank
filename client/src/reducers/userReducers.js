@@ -1,4 +1,4 @@
-import { ADD_USERS, ADD_USER, GET_USER_LOGGED, GET_PROFILE, GET_WALLET } from '../constants/userConstants';
+import { ADD_USER, GET_USER_LOGGED, GET_PROFILE, GET_WALLET, LOGOUT } from '../constants/userConstants';
 
 const initialState = {
     usuarios: [],
@@ -32,7 +32,11 @@ export default function usuario(state = initialState, action) {
                 ...state,
                 usuarioConectado: action.payload
             }
-            
+            case LOGOUT:
+            return {
+                ...state,
+                usuarioConectado: state.usuarioConectado
+            }
         default:
             return state
     }

@@ -1,4 +1,4 @@
-import { ADD_USERS, ADD_USER, GET_USER_LOGGED, MODIFY_USER , GET_PROFILE, GET_WALLET } from "../constants/userConstants";
+import { ADD_USERS, ADD_USER, GET_USER_LOGGED, MODIFY_USER , GET_PROFILE, GET_WALLET, LOGOUT } from "../constants/userConstants";
 import axios from "axios";
 
 export function addUsers(user) {
@@ -74,6 +74,44 @@ export function getUserLoggedIn(email) {
               console.log("error")
           })
 
+  }
+}
+
+/* export function logout() {
+
+  return function (dispatch) {
+    axios.post("http://localhost:3001/auth/logout").then((res) => {
+      if (res.status === 200) {
+        return dispatch({ type: LOGOUT }), window.location.reload();
+      } else {
+        alert("No fue posible desloguearse");
+      }
+    });
+  };
+
+} */
+
+export function logout() {
+  return function(dispatch) {
+      return fetch('http://localhost:3001/auth/logout', {
+              headers: {
+                  'Accept': '*/*',
+                  'Content-Type': 'application/json'
+              },
+              method: 'POST',
+              body: JSON.stringify(),
+              credentials: 'include'
+          })
+          .then((res) => {
+              if (res.status === 200) {
+                  return (
+                      dispatch({ type: LOGOUT }),
+                      window.location.replace('http://localhost:3000')
+                  )
+              } else {
+                  alert("No se pudo desloguear")
+              }
+          })
   }
 }
 
