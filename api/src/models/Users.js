@@ -5,13 +5,6 @@ const Users = (sequelize, S) => {
   const U = sequelize.define(
     "users",
     {
-      id: {
-        type: S.INTEGER,
-        allowNull: false,
-        primaryKey: true,
-        autoIncrement: true,
-      },
-
       firstName: {
         type: S.STRING,
         allowNull: true,
@@ -23,7 +16,7 @@ const Users = (sequelize, S) => {
       password: {
         type: S.STRING,
         allowNull: false,
-        validation: {
+        validate: {
           min: 6,
         },
       },
@@ -45,9 +38,9 @@ const Users = (sequelize, S) => {
         allowNull: true,
       },
       birthDate: {
-        type: S.DATEONLY,
+        type: S.STRING,
         allowNull: true,
-        validation: {
+        validate: {
           isDate: true,
         },
       },
@@ -77,20 +70,22 @@ const Users = (sequelize, S) => {
         type: S.STRING,
         allowNull: false,
         get() {
-          return this.getDataValue('email_hash');
+          return this.getDataValue("email_hash");
         },
         set(value) {
-          const hashedEmail = crypto.SHA3(value, { outputLength: 224 }).toString(crypto.enc.Hex);
-          this.setDataValue('email_hash', hashedEmail);
-        }
-      }
+          const hashedEmail = crypto
+            .SHA3(value, { outputLength: 224 })
+            .toString(crypto.enc.Hex);
+          this.setDataValue("email_hash", hashedEmail);
+        },
+      },
     },
     {
       timestamps: false,
     }
   );
 
-  U.addHook("beforeCreate", function (Users, options) {
+  U.addHook("validate", function (Users, options) {
     let ageCheck = new Date();
     ageCheck.setFullYear(ageCheck.getFullYear() - 16);
     let birthDate = new Date(Users.birthDate);

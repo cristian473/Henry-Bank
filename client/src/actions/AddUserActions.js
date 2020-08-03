@@ -3,7 +3,7 @@ import axios from "axios";
 
 export function addUsers(user) {
   return (dispatch) => {
-    axios.post("http://localhost:3001/users/new/", user).then((response) => {
+    axios.post("http://localhost:3001/auth/login/", user).then((response) => {
       dispatch({ type: ADD_USERS, payload: response.data });
     });
   };
