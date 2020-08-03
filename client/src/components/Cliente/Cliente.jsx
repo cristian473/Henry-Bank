@@ -28,6 +28,8 @@ function Cliente({ usuarioConectado, wallet, getProfile, getWallet }){
             }
             <img src={imgMuestra} width="100px" alt="photo"></img>
           </div>
+
+          {usuarioConectado.firstName!==null && <span>
           <div className="saldo">
             {wallet ? 
               <h3>${wallet.balance}</h3>
@@ -36,8 +38,8 @@ function Cliente({ usuarioConectado, wallet, getProfile, getWallet }){
             }      
             <p>Balance de mi cuenta</p>
           </div>
-        </div>
-        <General/>
+          </span>}</div> 
+          {usuarioConectado.firstName!==null && <span><General/>
         <div className="acciones">
           <ul>
             <li>
@@ -51,8 +53,23 @@ function Cliente({ usuarioConectado, wallet, getProfile, getWallet }){
             <NavBar/>
           </div>
 
-        </div>
-      </div>
+        </div></span>}
+
+
+        {usuarioConectado.firstName===null && 
+    <form className="form-signin needs-validation"> 
+            <h1>Tu cuenta aún no ha sido activada, por favor, revisa tu mail para activarla.</h1>
+
+            
+            <br/>
+            <div>             
+            
+
+           </div>
+    </form>}
+
+
+      </div>  
 
       <div className="right">
         <div className="rutas">
