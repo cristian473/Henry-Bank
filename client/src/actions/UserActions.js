@@ -77,41 +77,22 @@ export function getUserLoggedIn(email) {
   }
 }
 
-/* export function logout() {
+ export function logout() {
 
   return function (dispatch) {
-    axios.post("http://localhost:3001/auth/logout").then((res) => {
+    axios.get("http://localhost:3001/auth/logout").then((res) => {
       if (res.status === 200) {
-        return dispatch({ type: LOGOUT }), window.location.reload();
+       console.log('aquí estamos en logout')
+       
+        return dispatch({ type: LOGOUT });
       } else {
         alert("No fue posible desloguearse");
       }
     });
   };
 
-} */
+} 
 
-export function logout() {
-  return function(dispatch) {
-      return fetch('http://localhost:3001/auth/logout', {
-              headers: {
-                  'Accept': '*/*',
-                  'Content-Type': 'application/json'
-              },
-              method: 'POST',
-              body: JSON.stringify(),
-              credentials: 'include'
-          })
-          .then((res) => {
-              if (res.status === 200) {
-                  return (
-                      dispatch({ type: LOGOUT }),
-                      window.location.replace('http://localhost:3000')
-                  )
-              } else {
-                  alert("No se pudo desloguear")
-              }
-          })
-  }
-}
+
+
 
