@@ -106,7 +106,7 @@ export function logout() {
               if (res.status === 200) {
                   return (
                       dispatch({ type: LOGOUT }),
-                      window.location.replace('http://localhost:3000')
+                      window.location.replace('http://localhost:3000/login')
                   )
               } else {
                   alert("No se pudo desloguear")
@@ -114,4 +114,5 @@ export function logout() {
           })
   }
 }
+
 
