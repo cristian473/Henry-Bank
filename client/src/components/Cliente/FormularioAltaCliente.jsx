@@ -1,17 +1,24 @@
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
-import { addUsers } from "../../actions/AddUserActions";
+import { modifyUsers } from "../../actions/AddUserActions";
 import "./CSS/altaCliente.css";
 import header from "./Images/header.png";
 
-const AddUserForm = (props) => {
+const AddUserForm = ({id, firstName, lastName, password, email, identificacion, birthDate, address, city, country}) => {
+  
   const initialUserState = {
-    userId: null,
-    documentType: "",
-    documentNumber: "",
-    name: "",
-    lastname: "",
-    birthdate: "",
+    id: null,
+    firstName: null,
+    lastName: null,
+    password: null,
+    email: null,
+    identificacion: null,
+    birthDate: null,
+    address:  null,
+    city: null,
+    country: null,
+
+  
   };
   const [user, setUser] = useState(initialUserState);
   const dispatch = useDispatch();
@@ -20,6 +27,7 @@ const AddUserForm = (props) => {
     const { name, value } = event.target;
     setUser({ ...user, [name]: value });
   };
+  
   return (
     <div>
       <div id="login">
@@ -27,8 +35,8 @@ const AddUserForm = (props) => {
         <form
           onSubmit={(event) => {
             event.preventDefault();
-            if (!user.name) return;
-            dispatch(addUsers(user));
+            if (!user.firstName) return;
+            dispatch(modifyUsers(user));
             setUser(initialUserState);
           }}
         >
@@ -36,42 +44,50 @@ const AddUserForm = (props) => {
             <input
               class="form-control"
               type="text"
-              name="documentType"
-              placeholder="Tipo de doc"
-              value={user.documentType}
+              name="firstName"
+              placeholder="Primer Nombre"
+              value={user.firstName}
               onChange={handleInputChange}
             />
             <input
               class="form-control"
               type="text"
-              name="documentNumber"
-              placeholder="Número"
-              value={user.documentNumber}
-              onChange={handleInputChange}
-            />
-            <input
-              class="form-control"
-              type="text"
-              name="name"
-              placeholder="Nombre"
-              value={user.name}
-              onChange={handleInputChange}
-            />
-            <input
-              class="form-control"
-              type="text"
-              name="lastname"
+              name="lastName"
               placeholder="Apellido"
-              value={user.lastname}
+              value={user.lastName}
               onChange={handleInputChange}
             />
-            <p>Fecha de nacimiento</p>
+            <input
+              class="form-control"
+              type="text"
+              name="password"
+              placeholder="Contraseña"
+              value={user.password}
+              onChange={handleInputChange}
+            />
+            <input
+              class="form-control"
+              type="text"
+              name="email"
+              placeholder="Email"
+              value={user.email}
+              onChange={handleInputChange}
+            />
+            <input
+              class="form-control"
+              type="text"
+              name="identificacion"
+              placeholder="DNI"
+              value={user.identificacion}
+              onChange={handleInputChange}
+            />
+             <p>Fecha de nacimiento</p>
             <input
               class="form-control"
               type="date"
-              name="birthdate"
-              placeholder="Fecha de nacimiento"
-              value={user.birthdate}
+              name="birthDate"
+              placeholder="Fecha de Nacimiento"
+              value={user.birthDate}
               onChange={handleInputChange}
             />
           </div>

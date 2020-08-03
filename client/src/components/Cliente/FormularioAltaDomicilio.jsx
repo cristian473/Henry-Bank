@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { useDispatch } from 'react-redux'
-import { addUsers } from '../../actions/AddUserActions'
+import { addUser } from '../../actions/AddUserActions'
 import './CSS/altaCliente.css';
 import header from './Images/header.png';
 
@@ -29,7 +29,7 @@ const AddUserForm2 = props => {
                 <form onSubmit={event => {
                     event.preventDefault()
                     if (!user.name) return
-                    dispatch(addUsers(user))
+                    dispatch(addUser(user))
                     setUser(initialUserState)
                 }}>
                     <div class='input-gruop mb-3'>
