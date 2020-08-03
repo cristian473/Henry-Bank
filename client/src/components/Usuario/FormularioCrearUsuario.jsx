@@ -32,7 +32,7 @@ function FormularioUsuario({ addUser }) {
 
 
 
-        <div id="login">
+        <div id="usuario">
         
           <img src={loginPortada} alt="loginPortada" />
           <div className="form-group col-md-12">
