@@ -2,10 +2,9 @@ const server = require("express").Router();
 const bcrypt = require("bcrypt");
 const { Users, Wallet } = require("../models/index.js");
 
-server.get("/:email", (req, res) => {
-  const { email } = req.params;
-  Users.findOne({
-    where: { email: email },
+server.get("/", (req, res) => {
+  Users.findAll({
+    order: [["id", "ASC"]],
   }).then((result) => {
     res.send(result);
   });

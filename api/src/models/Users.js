@@ -38,10 +38,18 @@ const Users = (sequelize, S) => {
         allowNull: true,
       },
       birthDate: {
-        type: S.STRING,
+        type: S.DATEONLY,
         allowNull: true,
         validate: {
           isDate: true,
+          dateValidator(value) {
+            let ageCheck = new Date();
+            ageCheck.setFullYear(ageCheck.getFullYear() - 16);
+            let birthDate = new Date(value);
+            if (ageCheck < birthDate) {
+              throw new Error("No esta permitido registrar a Usuarios menores de 16 años");
+            }
+          }
         },
       },
       address: {
@@ -84,15 +92,6 @@ const Users = (sequelize, S) => {
       timestamps: false,
     }
   );
-
-  U.addHook("validate", function (Users, options) {
-    let ageCheck = new Date();
-    ageCheck.setFullYear(ageCheck.getFullYear() - 16);
-    let birthDate = new Date(Users.birthDate);
-    if (ageCheck < birthDate) {
-      throw new Error("No esta permitido usuarios menores a 16");
-    }
-  });
 
   return U;
 };
