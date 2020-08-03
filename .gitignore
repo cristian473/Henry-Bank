@@ -1,3 +1,13 @@
+# Project Files
+api/package-lock.json
+
+# db
+api/src/db.js
+.src/db.js
+# index
+api/index.js
+.index.js
+
 # Logs
 logs
 *.log
@@ -115,3 +125,11 @@ dist
 .yarn/install-state.gz
 .pnp.*
 
+# db
+.src/db.js
+# index
+.index.js
+
+#DS_Store
+../.DS_Store
+.DS_Store

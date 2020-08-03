@@ -1,0 +1,47 @@
+#usuario{
+    margin: 20px auto;
+    width: 400px;
+    background-color: rgba(243, 242, 242, 0.233);
+  }
+  #usuario img{
+    width: 400px;
+  }
+  #usuario div h4{
+    position: relative;
+    top: -5px;
+    margin-bottom: 30px;
+    text-align: center;
+  }
+  #usuario .contenedor{
+    margin-top: 30px;
+    padding-bottom: 20px;
+  }
+  #usuario .link{
+    margin-left: 0px;
+  }
+  #usuario .link a{
+    color: #666666;
+    font-size: 15px;
+    position: relative;
+    left: 15px;
+  }
+  #usuario .inicio input{
+    margin-left: 0px;
+    background-color: yellow;
+    color: #000;
+    border: none;
+    font-weight: bold;
+    border-radius: 0%;
+    padding: 10px 40px !important;
+    box-shadow: 5px 5px 5px rgb(167, 167, 167);
+  }
+  #usuario .inicio input:hover{
+    color: #fff;
+    box-shadow: none;
+  }
+
+  #usuario .inicio button{
+  
+    padding: 10px 30px !important;
+    box-shadow: 5px 5px 5px rgb(167, 167, 167);
+  }

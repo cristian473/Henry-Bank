@@ -1,26 +1,33 @@
 import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import './css/App.css';
+import { Route } from 'react-router-dom';
+import CrearUsuario from './components/Usuario/FormularioCrearUsuario.jsx';
+import AltaUsuario from "./components/Cliente/FormularioAltaCliente.jsx";
+import Login from './components/Usuario/LoginForm.jsx';
+import Home from './components/Usuario/Onboarding.jsx';
+import LoginGoogle from './components/Usuario/LoginGoogle.jsx';
+import Cliente from './components/Cliente/Cliente.jsx';
+import RecargarDinero from './components/RecargarDinero/RecargarDinero.jsx'
+import BotonLogout from "./components/Cliente/BotonLogout.jsx";
 
 function App() {
+  
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <Route exact path='/' component={Home} />
+      <Route 
+        exact path='/new/:id' 
+        component={({ match }) => 
+          <AltaUsuario id={match.params.id}/>
+        } 
+      />
+      <Route exact path='/login' component={Login} />
+      <Route exact path='/registrarse' component={CrearUsuario} />
+      <Route exact path='/logingoogle' component={LoginGoogle} />
+      <Route exact path='/cliente' component={Cliente} />
+      <Route exact path='/recargardinero' component={RecargarDinero}  />
+      <Route exact path='/logout' component={BotonLogout}  />
     </div>
   );
 }
-
 export default App;
