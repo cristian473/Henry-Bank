@@ -123,7 +123,7 @@ server.get("/me");
 server.get("/profileuser", (req, res) => {
   const profile = Users.findOne({
     where: {
-      id: req.body.id,
+      id: req.user.id,
     },
   }).then((result) => {
     if (result === null) {

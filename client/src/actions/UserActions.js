@@ -28,7 +28,7 @@ export function modifyUser(id, user) {
 
 export function getProfile(){
   return (dispatch) => {
-    axios.get('http://localhost:3001/users/').then((res) => {
+    axios.get('http://localhost:3001/auth/profileuser', {withCredentials: true}).then((res) => {
       if (res.status === 200) {
         return dispatch({ type: GET_PROFILE, payload: res.data });
       } 
