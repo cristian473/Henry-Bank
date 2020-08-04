@@ -1,9 +1,10 @@
-import { ADD_USER, GET_USER_LOGGED, GET_PROFILE, GET_WALLET, LOGOUT,RESET_PASS_USER } from '../constants/userConstants';
+import { ADD_USER, GET_USER_LOGGED, GET_PROFILE, GET_WALLET, LOGOUT,RESET_PASS_USER, GET_TRANSACTIONS } from '../constants/userConstants';
 
 const initialState = {
     usuarios: [],
     usuarioConectado: {},
-    wallet: {}
+    wallet: {},
+    transactions: {},
 };
 
 export default function usuario(state = initialState, action) {
@@ -27,6 +28,12 @@ export default function usuario(state = initialState, action) {
                 wallet: action.payload
             }
 
+        case GET_TRANSACTIONS:
+            return {
+                ...state,
+                transactions: action.payload
+            }
+        
         case GET_USER_LOGGED:
             return {
                 ...state,

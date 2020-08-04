@@ -1,4 +1,4 @@
-import { ADD_USER, GET_USER_LOGGED, MODIFY_USER , GET_PROFILE, GET_WALLET, LOGOUT } from "../constants/userConstants";
+import { ADD_USER, GET_USER_LOGGED, MODIFY_USER , GET_PROFILE, GET_WALLET, LOGOUT, GET_TRANSACTIONS } from "../constants/userConstants";
 import axios from "axios";
 
 export function addUser(user) {
@@ -46,6 +46,16 @@ export function getWallet(id){
   }
 }
 
+export function getTransactions(idUser){
+  return (dispatch) => {
+    axios.get(`http://localhost:3001/transactions/history/${idUser}`).then((res) => {
+      if (res.status === 200) {
+        return dispatch({ type: GET_TRANSACTIONS, payload: res.data });
+      } 
+    })
+  }
+}
+
 export function getUserLoggedIn(email) {
   return function(dispatch) {
       return fetch('http://localhost:3001/users/' + email, {
@@ -83,6 +93,8 @@ export function getUserLoggedIn(email) {
   };
 
 } 
+
+
 
 
 
