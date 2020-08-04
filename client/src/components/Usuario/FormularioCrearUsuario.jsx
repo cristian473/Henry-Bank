@@ -58,13 +58,6 @@ function FormularioUsuario({ addUser }) {
           </div>
         
       </div>
-
-
-
-
-
-
-
     )
 }
 
