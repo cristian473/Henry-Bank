@@ -37,7 +37,9 @@ export function modifyUser(id, user) {
 
 export function getProfile(){
   return (dispatch) => {
-    axios.get('http://localhost:3001/users/').then((res) => {
+    axios.get('http://localhost:3001/users/loggedin').then((res) => {
+      console.log("===== Datos de getProfile a /users/loggedin =====")
+      console.log(res);
       if (res.status === 200) {
         return dispatch({ type: GET_PROFILE, payload: res.data });
       } 
@@ -55,26 +57,40 @@ export function getWallet(id){
   }
 }
 
-export function getUserLoggedIn(email) {
-  return function(dispatch) {
-      return fetch('http://localhost:3001/users/' + email, {
-              headers: {
-                  'Accept': '*/*',
-                  'Content-Type': 'application/json'
-              },
-              method: 'GET',
-              credentials: 'include'
+export function getUserLoggedIn(user) {
+  // return function(dispatch) {
+  //     return fetch('http://localhost:3001/users/' + email, {
+  //             headers: {
+  //                 'Accept': '*/*',
+  //                 'Content-Type': 'application/json'
+  //             },
+  //             method: 'GET',
+  //             credentials: 'include'
 
-          })
-          .then((res) => res.json())
-          .then((json) => {
-              return dispatch({ type: GET_USER_LOGGED, payload: json })
-          })
-          .catch(() => {
-              console.log("error")
-          })
+  //         })
+  //         .then((res) => res.json())
+  //         .then((json) => {
+  //             return dispatch({ type: GET_USER_LOGGED, payload: json })
+  //         })
+  //         .catch(() => {
+  //             console.log("error")
+  //         })
 
-  }
+  // }
+  return function (dispatch) {
+    axios.post("http://localhost:3001/auth/login", user)
+    .then((res) => {
+      console.log("===== Datos de getUserLoggedIn a /auth/login =====")
+      console.log(res);
+      res.json();
+    })
+    .then((json) => {
+      return dispatch({ type: GET_USER_LOGGED, payload: json })
+    })
+    .catch(() => {
+      console.log("error en login")
+    })
+  };
 }
 
  export function logout() {

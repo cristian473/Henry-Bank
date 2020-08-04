@@ -18,7 +18,7 @@ export default function usuario(state = initialState, action) {
         case GET_PROFILE:
             return {
                 ...state,
-                usuarioConectado: action.payload[0]
+                usuarioConectado: action.payload
             }
 
         case GET_WALLET:

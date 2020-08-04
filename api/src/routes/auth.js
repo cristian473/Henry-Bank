@@ -17,7 +17,8 @@ server.post(
   },
   passport.authenticate("local-signin"),
   (req, res) => {
-    res.redirect('http://localhost:3000/cliente');
+    console.log("logged in", req.user);
+    res.send(req.user);
   }
 );
 

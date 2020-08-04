@@ -10,13 +10,10 @@ server.get("/", (req, res) => {
   });
 });
 
-server.get("/:email", (req, res) => {
-  const { email } = req.params;
-  Users.findOne({
-    where: { email: email },
-  }).then((result) => {
-    res.send(result);
-  });
+server.get("/loggedin", (req, res) => {
+  console.log("===== Datos de la ruta /users/loggedin =====")
+  console.log(req.user);
+  res.send(req.user);
 });
 
 server.post("/new", async (req, res) => {
