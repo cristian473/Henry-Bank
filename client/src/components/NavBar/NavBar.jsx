@@ -1,9 +1,6 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
 import Navbar from "react-bootstrap/Navbar";
-
 import Button from 'react-bootstrap/Button';
-
 import { IoIosPaperPlane } from "react-icons/io";
 import { BsGraphUp } from "react-icons/bs";
 import { MdLanguage } from "react-icons/md";
