@@ -24,12 +24,12 @@ export default function Onboarding() {
         ></path>
       </svg>
       <div className="form-group col-md-5 login">
-        <a className="btn btn-outline-dark estilo" href="users/login">
+        <a className="btn btn-outline-dark estilo" href="/login">
           Iniciar Sesión
         </a>
       </div>
       <div className="form-group col-md-5 signin">
-        <a className="btn btn-outline-dark estilo" href="users/new">
+        <a className="btn btn-outline-dark estilo" href="/registrarse">
           Registrate
         </a>
       </div>

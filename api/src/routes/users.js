@@ -10,6 +10,15 @@ server.get("/", (req, res) => {
   });
 });
 
+server.get("/:email", (req, res) => {
+  const { email } = req.params;
+  Users.findOne({
+    where: { email: email },
+  }).then((result) => {
+    res.send(result);
+  });
+});
+
 server.post("/new", async (req, res) => {
   const {
     email,

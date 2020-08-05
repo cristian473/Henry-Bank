@@ -5,6 +5,7 @@ const { SMTPClient } = require("emailjs");
 const { Users } = require("../models/index.js");
 const { GOOGLE_API_KEY } = require("../env-config.js");
 
+
 server.post("/changepassword");
 
 server.post(
@@ -16,12 +17,24 @@ server.post(
   },
   passport.authenticate("local-signin"),
   (req, res) => {
-    console.log("logged in", req.user);
-    res.send(req.user);
+    res.redirect('http://localhost:3000/cliente');
   }
 );
 
-server.get("/logout");
+/* server.get("/logout"); */
+
+server.get(
+  "/logout",
+  function(req, res) {
+    req.logout();
+    req.session.destroy(function(err) {
+       
+    });
+    res.sendStatus(200)
+});
+
+
+
 
 server.post(
   "/register",
@@ -45,7 +58,7 @@ server.post(
 );
 
 //Validar y continuar con el registro de un Usuario.
-server.put("/validate/account/:email_hash", async (req, res) => {
+server.get("/validate/account/:email_hash", async (req, res) => {
   const user = await Users.findOne({
     where: { email_hash: req.params.email_hash },
   });
@@ -61,6 +74,7 @@ server.put("/validate/account/:email_hash", async (req, res) => {
         user.update({
           status: "Validado",
         });
+        res.redirect(`http://localhost:3000/new/${user.id}`);
         res.send({
           status: `El Usuario ${user.email} ha sido validado correctamente`,
         });
