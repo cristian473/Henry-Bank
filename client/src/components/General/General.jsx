@@ -3,7 +3,8 @@ import './General.css'
 import { Link } from 'wouter'
 
 
-export default function General() {
+
+export default function General({transacciones}) {
     return (
         <div className = 'container' >
             <div className = 'general' >
@@ -11,12 +12,21 @@ export default function General() {
             </div>
             <div className = 'props' >
                 <div className = 'income'>
-                    <h5> Income </h5>
-                    <h3 className = 'value' > $2,334.12 </h3>
+                    <h5> Ingresos </h5>
+                    {transacciones ? 
+                    <h3>${transacciones.ingresos}</h3>
+                    :
+                    <h3 className = 'value' > $ aquí va el valor </h3>
+                    } 
+
                 </div>
                 <div className = 'expenses' >
-                    <h5> Expenses </h5>
-                    <h3 className = 'value' > $1,153.15 </h3>
+                    <h5> Egresos </h5>
+                    {transacciones ? 
+                    <h3>${transacciones.decrements}</h3>
+                    :
+                    <h3 className = 'value' > $ aquí va otro valor </h3>
+                    } 
                 </div>
             </div>
             <div className = 'record' >
