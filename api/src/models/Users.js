@@ -5,13 +5,6 @@ const Users = (sequelize, S) => {
   const U = sequelize.define(
     "users",
     {
-      id: {
-        type: S.INTEGER,
-        allowNull: false,
-        primaryKey: true,
-        autoIncrement: true,
-      },
-
       firstName: {
         type: S.STRING,
         allowNull: true,
@@ -23,7 +16,7 @@ const Users = (sequelize, S) => {
       password: {
         type: S.STRING,
         allowNull: false,
-        validation: {
+        validate: {
           min: 6,
         },
       },
@@ -47,8 +40,16 @@ const Users = (sequelize, S) => {
       birthDate: {
         type: S.DATEONLY,
         allowNull: true,
-        validation: {
+        validate: {
           isDate: true,
+          dateValidator(value) {
+            let ageCheck = new Date();
+            ageCheck.setFullYear(ageCheck.getFullYear() - 16);
+            let birthDate = new Date(value);
+            if (ageCheck < birthDate) {
+              throw new Error("No esta permitido registrar a Usuarios menores de 16 años");
+            }
+          }
         },
       },
       address: {
@@ -70,34 +71,27 @@ const Users = (sequelize, S) => {
       },
       contacts: {
         type: S.ARRAY(S.INTEGER),
-        defaultValue: null,
+        defaultValue: [],
         allowNull: true,
       },
       email_hash: {
         type: S.STRING,
         allowNull: false,
         get() {
-          return this.getDataValue('email_hash');
+          return this.getDataValue("email_hash");
         },
         set(value) {
-          const hashedEmail = crypto.SHA3(value, { outputLength: 224 }).toString(crypto.enc.Hex);
-          this.setDataValue('email_hash', hashedEmail);
-        }
-      }
+          const hashedEmail = crypto
+            .SHA3(value, { outputLength: 224 })
+            .toString(crypto.enc.Hex);
+          this.setDataValue("email_hash", hashedEmail);
+        },
+      },
     },
     {
       timestamps: false,
     }
   );
-
-  U.addHook("beforeCreate", function (Users, options) {
-    let ageCheck = new Date();
-    ageCheck.setFullYear(ageCheck.getFullYear() - 16);
-    let birthDate = new Date(Users.birthDate);
-    if (ageCheck < birthDate) {
-      throw new Error("No esta permitido usuarios menores a 16");
-    }
-  });
 
   return U;
 };

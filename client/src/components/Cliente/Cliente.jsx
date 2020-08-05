@@ -3,17 +3,19 @@ import General from '../General/General.jsx';
 import NavBar from '../NavBar/NavBar.jsx';
 import './CSS/client.css';
 import { connect } from 'react-redux';
-import { getProfile, getWallet } from "../../actions/UserActions";
+import { getProfile, getWallet, getTransactions } from "../../actions/UserActions";
 import BotonLogout from "./BotonLogout.jsx";
 
-function Cliente({ usuarioConectado, wallet, getProfile, getWallet, history }){
-  console.log(history)
+
+function Cliente({ usuarioConectado, wallet, transactions, getProfile, getWallet, getTransactions, history }){
   useEffect(() => {
     getProfile();
   }, []);
 
   useEffect(() => {
-    getWallet(usuarioConectado.id)
+    getWallet(usuarioConectado.id);
+    getTransactions(usuarioConectado.id);
+    
   },[usuarioConectado]);
 
   const imgMuestra = 'https://images.vexels.com/media/users/3/136558/isolated/preview/43cc80b4c098e43a988c535eaba42c53-icono-de-usuario-de-la-persona-by-vexels.png'
@@ -41,7 +43,7 @@ function Cliente({ usuarioConectado, wallet, getProfile, getWallet, history }){
             <p>Balance de mi cuenta</p>
           </div>
           </span>}</div> 
-          {usuarioConectado.firstName!==null && <span><General/>
+          {usuarioConectado.firstName!==null && <span><General transacciones={transactions}/>
         <div className="acciones">
           <ul>
             <li>
@@ -98,8 +100,9 @@ function Cliente({ usuarioConectado, wallet, getProfile, getWallet, history }){
 function mapStateToProps(state){
   return {
     usuarioConectado: state.usuario.usuarioConectado,
-    wallet: state.usuario.wallet
+    wallet: state.usuario.wallet,
+    transactions: state.usuario.transactions,
   }
 }
 
-export default connect(mapStateToProps,{ getProfile, getWallet })(Cliente)
+export default connect(mapStateToProps,{ getProfile, getWallet, getTransactions })(Cliente)

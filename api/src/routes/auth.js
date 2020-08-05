@@ -5,7 +5,6 @@ const { SMTPClient } = require("emailjs");
 const { Users } = require("../models/index.js");
 const { GOOGLE_API_KEY } = require("../env-config.js");
 
-
 server.post("/changepassword");
 
 server.post(
@@ -17,24 +16,17 @@ server.post(
   },
   passport.authenticate("local-signin"),
   (req, res) => {
-    res.redirect('http://localhost:3000/cliente');
+    res.redirect("http://localhost:3000/cliente");
   }
 );
 
 /* server.get("/logout"); */
 
-server.get(
-  "/logout",
-  function(req, res) {
-    req.logout();
-    req.session.destroy(function(err) {
-       
-    });
-    res.sendStatus(200)
+server.get("/logout", function (req, res) {
+  req.logout();
+  req.session.destroy(function (err) {});
+  res.sendStatus(200);
 });
-
-
-
 
 server.post(
   "/register",
@@ -63,11 +55,9 @@ server.get("/validate/account/:email_hash", async (req, res) => {
     where: { email_hash: req.params.email_hash },
   });
   if (user === null) {
-    res
-      .status(404)
-      .send({
-        status: `No se ha encontrado al Usuario especificado. Contacte a su Administrador`,
-      });
+    res.status(404).send({
+      status: `No se ha encontrado al Usuario especificado. Contacte a su Administrador`,
+    });
   } else {
     switch (user.status) {
       case "Pendiente":
@@ -97,33 +87,50 @@ server.get("/validate/account/:email_hash", async (req, res) => {
 //Normalizar una Dirección
 server.get("/validate/street", async (req, res) => {
   const { street, city, country } = req.body;
-  var input = `${street ? street : ''} ${city ? city : ''} ${country ? country : ''}`.trim();
-  await axios.get('https://maps.googleapis.com/maps/api/place/autocomplete/json', {
-    params: {
-      key: GOOGLE_API_KEY,
-      input, 
-      language: "es"
-    }
-  })
-  .then((response) => {
-    if (response.data.status === 'OK') {
-      const results = response.data.predictions;
-      var streetArr = []
-      results.forEach(r => {
-        streetArr.push({street: r.description})
-      })
-      res.json(streetArr);
-    } else {
-      res.json({status: 'Sin resultados. Intente usar términos más específicos'})
-    }
-  });
+  var input = `${street ? street : ""} ${city ? city : ""} ${
+    country ? country : ""
+  }`.trim();
+  await axios
+    .get("https://maps.googleapis.com/maps/api/place/autocomplete/json", {
+      params: {
+        key: GOOGLE_API_KEY,
+        input,
+        language: "es",
+      },
+    })
+    .then((response) => {
+      switch (response.data.status) {
+        case "OK":
+          const results = response.data.predictions;
+          var addressArr = [];
+          results.forEach((r) => {
+            var streetArr = r.description.split(',');
+            var street = streetArr[0];
+            var city = streetArr[streetArr.length - 2];
+            var country = streetArr[streetArr.length - 1];
+            addressArr.push({ address: r.description, street, city, country });
+          });
+          res.json(addressArr);
+          break;
+        case "ZERO_RESULTS":
+          res.status(404).json({
+            status: "Sin resultados. Intente usar términos más específicos",
+          });
+          break;
+        default:
+          res.status(500).json({
+            status: "Ha ocurrido un error. Contacte a su Administrador",
+          });
+          break;
+      }
+    });
 });
 
 server.get("/me");
 server.get("/profileuser", (req, res) => {
   const profile = Users.findOne({
     where: {
-      id: req.body.id,
+      id: req.user.id,
     },
   }).then((result) => {
     if (result === null) {
@@ -189,5 +196,10 @@ function validateEmail(email, email_hash) {
     //console.log(err || message);
   });
 }
+
+server.get("/logout", function (req, res) {
+  req.logout();
+  res.redirect("/");
+});
 
 module.exports = server;

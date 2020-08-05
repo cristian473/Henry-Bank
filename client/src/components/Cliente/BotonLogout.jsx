@@ -13,7 +13,7 @@ function BotonLogout({logout,usuario, history}){
        
         axios.get("http://localhost:3001/auth/logout").then((res) => {
             if (res.status === 200) {
-             console.log('aquí estamos en logout')
+           
              dispatch({ type: LOGOUT }); 
              history.push('/')
              // return dispatch({ type: LOGOUT });
