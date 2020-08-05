@@ -99,17 +99,29 @@ server.get("/validate/street", async (req, res) => {
       },
     })
     .then((response) => {
-      if (response.data.status === "OK") {
-        const results = response.data.predictions;
-        var streetArr = [];
-        results.forEach((r) => {
-          streetArr.push({ street: r.description });
-        });
-        res.json(streetArr);
-      } else {
-        res.json({
-          status: "Sin resultados. Intente usar términos más específicos",
-        });
+      switch (response.data.status) {
+        case "OK":
+          const results = response.data.predictions;
+          var addressArr = [];
+          results.forEach((r) => {
+            var streetArr = r.description.split(',');
+            var street = streetArr[0];
+            var city = streetArr[streetArr.length - 2];
+            var country = streetArr[streetArr.length - 1];
+            addressArr.push({ address: r.description, street, city, country });
+          });
+          res.json(addressArr);
+          break;
+        case "ZERO_RESULTS":
+          res.status(404).json({
+            status: "Sin resultados. Intente usar términos más específicos",
+          });
+          break;
+        default:
+          res.status(500).json({
+            status: "Ha ocurrido un error. Contacte a su Administrador",
+          });
+          break;
       }
     });
 });
