@@ -14,27 +14,15 @@ server.get("/:idUser", (req,res) => {
     Users.findByPk(idUser)
         .then(user => {
             var contacts =  user.contacts
-            //creo un array vacío
-            var contactsUser = [];
+       
                
-            if (contacts)
+            if (contacts.length != 0)
             {
-                    for (let i = 0; i < contacts.length; i++) {
-                    
-                    Users.findByPk(contacts[i])
-                        .then(contact => {
-                            
-                            //pusheo en el nuevo array, los contactos que voy encontrando
-                            contactsUser.push(contact);
-
-                            //en la ultima iteracion devuelvo el array con la info de todos los contactos
-                            if(i==contacts.length-1)
-                                res.status(200).json({contactsUser})
-
-                        
-
-                        })
-                }
+                var promesas = contacts.map((c) => Users.findByPk(c));
+                Promise.all(promesas)
+                    .then(function (contactos) {
+                        res.status(200).json({contactos})
+                    })
             }
             
             else{
@@ -74,10 +62,6 @@ server.post('/:idUser/addContact', (req,res)=> {
             .then(userUpdated=>{
                 res.status(200).send(userUpdated);
             })
-
-
-
-
         })
 
         .catch(err => { res.status(400).send(err); 
