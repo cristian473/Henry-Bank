@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { connect } from 'react-redux'
-import { resetPassUser } from '../actions/usuarioAction'
+import { resetPassUser } from '../actions/UserActions'
 
 function ResetearContrasena({id,resetPassUser}){
 
