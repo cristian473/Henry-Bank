@@ -18,7 +18,7 @@ fs.readdirSync(__dirname)
     models[name] = model;
   });
 
-const { Users, Transactions, Wallet } = models;
+const { Users, Transactions, Wallet, Merchants } = models;
 
 // Add model relationships here
 Users.hasOne(Wallet, { onDelete: 'CASCADE', });

@@ -25,6 +25,10 @@ const Transactions = (sequelize, S) => {
       type: S.TEXT,
       allowNull: true,
     },
+    transactionNumber: {
+      type: S.INTEGER,
+      allowNull: false,
+    }
   });
 
   return T;
