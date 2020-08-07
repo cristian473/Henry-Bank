@@ -1,4 +1,4 @@
-import { ADD_USER, GET_USER_LOGGED, MODIFY_USER , GET_PROFILE, GET_WALLET, LOGOUT, GET_TRANSACTIONS } from "../constants/userConstants";
+import { ADD_USER, GET_USER_LOGGED, MODIFY_USER , GET_PROFILE, GET_WALLET, LOGOUT, GET_TRANSACTIONS, ENVIAR_DINERO } from "../constants/userConstants";
 import axios from "axios";
 
 export function addUser(user) {
@@ -74,25 +74,37 @@ export function getUserLoggedIn(email) {
           .catch(() => {
               console.log("error")
           })
-
   }
 }
 
- export function logout() {
 
+
+export function logout() {
   return function (dispatch) {
-    axios.get("http://localhost:3001/auth/logout").then((res) => {
+    axios.get("http://localhost:3001/auth/logout")
+    .then((res) => {
       if (res.status === 200) {
-       console.log('aquí estamos en logout')
-       
         return dispatch({ type: LOGOUT });
       } else {
         alert("No fue posible desloguearse");
       }
-    });
-  };
+    })
+  }
+}
 
+export function enviarDinero(from, to, cantidad) {
+  return function (dispatch) {
+    axios.put(`http://localhost:3001/transactions/${from}/${to}`, cantidad)
+    .then(res => {
+      if (res.status === 200) {
+        return dispatch({ type: ENVIAR_DINERO });
+      } else {
+        alert("No se pudo realizar el envío");
+      }
+    })
+  }
 } 
+
 
 
 
