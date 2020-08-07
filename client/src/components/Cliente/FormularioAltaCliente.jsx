@@ -47,7 +47,9 @@ const AddUserForm = function ({ id, getAddress }){
     return edad
   }
   
-  
+  const cancelar = function (e) {
+    window.location.replace('http://localhost:3000')
+ }
 
   return (
     <div>
@@ -147,10 +149,8 @@ const AddUserForm = function ({ id, getAddress }){
           </div>
         
           <div className="altaButtons">
-            <a id="buttons" href="/">
-              Atrás
-            </a>
-            <input type="submit" id="buttons" value="Enviar" />
+          <input type="submit" className="btn btn-outline-dark" value="Crear" />
+              <button type="button" className="btn btn-outline-danger" value="Cancelar"  onClick={cancelar} >Cancelar</button>
           </div>
         </form>
         <a href="/help">¿Necesitás ayuda?</a>
