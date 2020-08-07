@@ -1,7 +1,6 @@
 import React from 'react';
 import './css/App.css';
 import { Route } from 'react-router-dom';
-
 import AltaUsuario from "./components/Cliente/FormularioAltaCliente.jsx";
 import Login from './components/Usuario/LoginForm.jsx';
 import Home from './components/Usuario/Onboarding.jsx';
@@ -29,6 +28,7 @@ function App() {
       <Route exact path='/cliente' component={Cliente} />
       <Route exact path='/recargardinero' component={RecargarDinero}  />
       <Route exact path='/logout' component={BotonLogout}  />
+
     </div>
   );
 }
