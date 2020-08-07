@@ -33,28 +33,33 @@ const AddUserForm = function ({ id, modifyUser, getAddress }){
     setUser({ ...user, [name]: value });
   };
 
+  function getEdad(dateString) {
+    let hoy = new Date()
+    let fechaNacimiento = new Date(dateString)
+    let edad = hoy.getFullYear() - fechaNacimiento.getFullYear()
+    let diferenciaMeses = hoy.getMonth() - fechaNacimiento.getMonth()
+    if (
+      diferenciaMeses < 0 ||
+      (diferenciaMeses === 0 && hoy.getDate() < fechaNacimiento.getDate())
+    ) {
+      edad--
+    }
+    return edad
+  }
   
   
+
   return (
     <div>
       <div id="login">
         <img src={header} alt="header" />
         <form
           onSubmit={(event) => {
-              const estado = getAddress(address);
-              
             event.preventDefault();
-            console.log(getAddress( address));
-            
-            setTimeout(   () => {
-                console.log(estado.PromiseValue)
-                if (estado.PromiseValue === 200) {modifyUser(id, user)
-                } else {
-                      alert ("ubicación no válida")
-
-           };
-            },  3000)
-                 
+            if (getEdad(user.birthDate) >= 16 ) {
+            getAddress(address, id, user)} else {
+                alert ('Debes ser mayor de 16 años')
+            }    
           }}
         >
           <div class="input-gruop mb-3">

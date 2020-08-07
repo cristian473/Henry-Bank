@@ -14,16 +14,14 @@ export function addUser(user) {
 }
 
 export function modifyUser(id, user) {
-  return (dispatch) => {
-    axios.put(`http://localhost:3001/users/modify/${id}`, user).then((res) => {
-      if (res.status === 200) {
-     /*    window.location.replace('http://localhost:3000/login') */
-        return dispatch({ type: MODIFY_USER, payload: res.data });
-      } else {
-        alert("Error en campos");
-      }
-    })
-  }
+  axios.put(`http://localhost:3001/users/modify/${id}`, user).then((res) => {
+    // if (res.status === 200) {
+    //   window.location.replace('http://localhost:3000/login')
+    //   return dispatch({ type: MODIFY_USER, payload: res.data });
+    // } else {
+    //   alert("Error en campos");
+    // }
+  })
 }
 
 export function getProfile(){
@@ -83,9 +81,7 @@ export function getUserLoggedIn(email) {
   return function (dispatch) {
     axios.get("http://localhost:3001/auth/logout").then((res) => {
       if (res.status === 200) {
-       console.log('aquí estamos en logout')
-       
-        return dispatch({ type: LOGOUT });
+       return dispatch({ type: LOGOUT });
       } else {
         alert("No fue posible desloguearse");
       }
@@ -106,7 +102,7 @@ export function getAddress() {
   };
 } */
 
-export function getAddress(address) {
+export function getAddress(address, id, user) {
   return function(dispatch) {
     return fetch('http://localhost:3001/auth/validate/street', {
             method: 'POST', 
@@ -115,9 +111,21 @@ export function getAddress(address) {
             'Content-Type': 'application/json'
             }
         }) 
-          .then((res) => { return res.status})
-             
-            
+        .then((res) => { 
+          if(res.status === 200){
+              axios.put(`http://localhost:3001/users/modify/${id}`, user).then((res) => {
+              if (res.status === 200) {
+                dispatch({ type: MODIFY_USER, payload: res.data });
+                return window.location.replace('http://localhost:3000/login');
+              } 
+            })
+          } else{
+            alert("Ubicación inválida");
+          }
+        })   
+        .catch(() => {
+          alert("No funca")
+        })           
   }
   
 }
