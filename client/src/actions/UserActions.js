@@ -101,6 +101,28 @@ export function getContacts(id) {
   };
 }
 
+export function deleteContacts(email, id) {
+  const body = {
+    email: "shadow.wolney646@gmail.com",
+  };
+  return function (dispatch) {
+    axios
+      .delete("http://localhost:3001/contacts/" + id + "/deleteContact", body)
+      .then((res) => {
+        if (res.status === 200) {
+          axios.get("http://localhost:3001/contacts/" + id).then((response) => {
+            return dispatch({
+              type: GET_USER_CONTACTS,
+              payload: response.data.contactos,
+            });
+          });
+        } else {
+          alert(res.message);
+        }
+      });
+  };
+}
+
 export function getAddress(address, id, user) {
   return function (dispatch) {
     axios
@@ -120,28 +142,6 @@ export function getAddress(address, id, user) {
 
       .catch(() => {
         alert("Ubicación inválida");
-      });
-  };
-}
-
-export function deleteContacts(email, id) {
-  const body = {
-    email: "shadow.wolney646@gmail.com",
-  };
-  return function (dispatch) {
-    axios
-      .delete("http://localhost:3001/contacts/" + id + "/deleteContact", body)
-      .then((res) => {
-        if (res.status === 200) {
-          axios.get("http://localhost:3001/contacts/" + id).then((response) => {
-            return dispatch({
-              type: GET_USER_CONTACTS,
-              payload: response.data.contactos,
-            });
-          });
-        } else {
-          alert(res.message);
-        }
       });
   };
 }
