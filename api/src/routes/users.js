@@ -28,9 +28,10 @@ server.post("/new", async (req, res) => {
     identification,
     phone,
     birthDate,
-    address,
+    street,
     city,
     country,
+    complemento
   } = req.body;
   const hashedPassword = await bcrypt.hash(password, 10);
   Users.create({
@@ -41,9 +42,10 @@ server.post("/new", async (req, res) => {
     identification,
     phone,
     birthDate,
-    address,
+    street,
     city,
     country,
+    complemento,
     email_hash: email,
   })
     .then((user) => {
