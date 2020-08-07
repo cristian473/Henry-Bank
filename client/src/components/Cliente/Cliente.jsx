@@ -13,8 +13,10 @@ function Cliente({ usuarioConectado, wallet, transactions, getProfile, getWallet
   }, []);
 
   useEffect(() => {
-    getWallet(usuarioConectado.id);
-    getTransactions(usuarioConectado.id);
+    if(usuarioConectado.id){
+      getWallet(usuarioConectado.id);
+      getTransactions(usuarioConectado.id);
+    }
     
   },[usuarioConectado]);
 

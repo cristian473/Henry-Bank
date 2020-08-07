@@ -99,7 +99,8 @@ export function logout() {
   };
 }
 
-export function enviarDinero(from, to, cantidad) {
+export function enviarDinero(from, to, money) {
+  console.log(money);
   return function (dispatch) {
     axios
       .put(`http://localhost:3001/transactions/${from}/${to}`, cantidad)
@@ -116,14 +117,18 @@ export function enviarDinero(from, to, cantidad) {
 export function getContacts(id) {
   return function (dispatch) {
     axios.get("http://localhost:3001/contacts/ " + id).then((res) => {
-      if (res.status === 200) {
-        return dispatch({
-          type: GET_USER_CONTACTS,
-          payload: res.data.contactos,
+      axios
+        .put(`http://localhost:3001/transactions/${from}/${to}`, money)
+        .then((res) => {
+          if (res.status === 200) {
+            return dispatch({
+              type: GET_USER_CONTACTS,
+              payload: res.data.contactos,
+            });
+          } else {
+            alert(res.message);
+          }
         });
-      } else {
-        alert(res.message);
-      }
     });
   };
 }
