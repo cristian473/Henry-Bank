@@ -8,10 +8,12 @@ const authPath = require("./auth.js");
 const usersPath = require("./users.js");
 const transactionsPath = require("./transactions.js");
 const contactsPath = require("./contacts.js");
+const merchantsPath = require("./merchants.js");
 
 router.use("/auth", authPath);
 router.use("/users", usersPath);
 router.use("/transactions", transactionsPath);
 router.use("/contacts", contactsPath);
+router.use("/merchants", merchantsPath);
 
 module.exports = router;

@@ -89,8 +89,25 @@ const Users = (sequelize, S) => {
             .SHA3(value, { outputLength: 224 })
             .toString(crypto.enc.Hex);
           this.setDataValue("email_hash", hashedEmail);
-        },
+        }
       },
+      password_hash: {
+        type: S.INTEGER,
+        allowNull: true,
+        get() {
+          return this.getDataValue("password_hash");
+        },
+        set(value) {
+          if(typeof value === 'number'){
+            const hashedPassword = Math.floor((Math.random() * value) + 1)
+            this.setDataValue("password_hash", hashedPassword);
+          }
+          else {
+            this.setDataValue("password_hash", value);
+          }
+          
+        }
+      }
     },
     {
       timestamps: false,
