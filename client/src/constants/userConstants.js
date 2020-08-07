@@ -6,3 +6,5 @@ export const GET_WALLET = 'GET_WALLET';
 export const GET_TRANSACTIONS = 'GET_TRANSACTIONS';
 export const LOGOUT = 'LOGOUT';
 export const RESET_PASS_USER = 'RESET_PASS_USER';
+export const GET_USER_CONTACTS = 'GET_USER_CONTACTS';
+export const SELECT_CONTACT = 'SELECT_CONTACT'
