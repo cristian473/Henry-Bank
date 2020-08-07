@@ -16,16 +16,20 @@ import axios from "axios";
 
 export function addUser(user) {
   return function (dispatch) {
-    axios.post("http://localhost:3001/auth/register", user).then((res) => {
-      if (res.status === 200) {
-        return (
-          dispatch({ type: ADD_USER }),
-          window.location.replace("http://localhost:3000")
-        );
-      } else {
-        alert("Error en campos");
-      }
-    });
+    axios
+      .post("http://localhost:3001/auth/register", user)
+      .then((res) => {
+        if (res.status === 200) {
+          alert("Se ha enviado un email de validación a " + user.email);
+          return (
+            dispatch({ type: ADD_USER }),
+            window.location.replace("http://localhost:3000")
+          );
+        }
+      })
+      .catch(() => {
+        alert("E-mail " + user.email + " ya está en uso");
+      });
   };
 }
 
