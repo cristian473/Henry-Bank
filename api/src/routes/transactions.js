@@ -64,7 +64,8 @@ server.put("/:idSender/:idReceiver", async (req, res) => {
   let userReceiver = await Wallet.findOne({
     where: { userId: idReceiver },
   });
-  console.log(userSender.balance)
+  console.log(userSender.balance);
+  console.log(money)
   if (userSender.balance <= money) {
     Promise.all([userSender, userReceiver])
       .then((users) => {

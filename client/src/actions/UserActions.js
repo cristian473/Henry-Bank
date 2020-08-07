@@ -92,9 +92,10 @@ export function logout() {
   }
 }
 
-export function enviarDinero(from, to, cantidad) {
+export function enviarDinero(from, to, money) {
+  console.log(money)
   return function (dispatch) {
-    axios.put(`http://localhost:3001/transactions/${from}/${to}`, cantidad)
+    axios.put(`http://localhost:3001/transactions/${from}/${to}`, money)
     .then(res => {
       if (res.status === 200) {
         return dispatch({ type: ENVIAR_DINERO });

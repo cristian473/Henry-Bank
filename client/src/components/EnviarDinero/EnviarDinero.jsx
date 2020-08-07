@@ -56,7 +56,7 @@ function RecargarDinero({ usuarioConectado, getProfile, enviarDinero }) {
           </div>
           <div className="send">
             <Button className="btn btn-dark" href="/cliente" size="lg" 
-              onClick={() => enviarDinero(usuarioConectado.id, contacto, cantidad)}
+              onClick={() => enviarDinero(usuarioConectado.id, contacto, {money: cantidad})}
             >Enviar Dinero</Button>
           </div>
         </div>
