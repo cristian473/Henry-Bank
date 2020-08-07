@@ -8,7 +8,6 @@ import {
   GET_TRANSACTIONS,
   GET_USER_CONTACTS,
   GET_ADDRESS,
-  GET_USER_CONTACTS,
   DELETE_CONTACT,
   ENVIAR_DINERO,
 } from "../constants/userConstants";
