@@ -52,7 +52,7 @@ const Users = (sequelize, S) => {
           }
         },
       },
-      address: {
+      street: {
         type: S.STRING,
         allowNull: true,
       },
@@ -61,6 +61,10 @@ const Users = (sequelize, S) => {
         allowNull: true,
       },
       country: {
+        type: S.STRING,
+        allowNull: true,
+      },
+      complemento: {
         type: S.STRING,
         allowNull: true,
       },

@@ -3,9 +3,8 @@ import { modifyUser, getAddress } from "../../actions/UserActions";
 import { connect } from 'react-redux';
 import "./CSS/altaCliente.css";
 import header from "./Images/header.png";
-import { get } from "https";
 
-const AddUserForm = function ({ id, modifyUser, getAddress }){
+const AddUserForm = function ({ id, getAddress }){
   const initialUserState = {
     id: id,
     firstName: "",
@@ -16,8 +15,9 @@ const AddUserForm = function ({ id, modifyUser, getAddress }){
     birthDate: "",
     street: "", 
     city: "",
-    country: ""
-  };
+    country: "",
+    complemento:""
+     };
   const [user, setUser] = useState(initialUserState);
 
  const address =  {
@@ -114,6 +114,13 @@ const AddUserForm = function ({ id, modifyUser, getAddress }){
               value={user.street} 
               onChange={handleInputChange} 
             />
+          <input 
+              class='form-control' 
+              name="complemento" 
+              placeholder="Piso y Depto" 
+              value={user.complemento} 
+              onChange={handleInputChange} 
+            />
             <input 
               class='form-control' 
               name="city" 
@@ -143,4 +150,4 @@ const AddUserForm = function ({ id, modifyUser, getAddress }){
   );
 };
 
-export default connect(null, { modifyUser, getAddress })(AddUserForm);
+export default connect(null, { getAddress })(AddUserForm);

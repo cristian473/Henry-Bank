@@ -78,9 +78,10 @@ server.put("/modify/:id", async (req, res) => {
       identification,
       phone,
       birthDate,
-      address,
+      street,
       city,
       country,
+      complemento
     } = req.body;
     Users.update(
       {
@@ -89,9 +90,10 @@ server.put("/modify/:id", async (req, res) => {
         identification,
         phone,
         birthDate,
-        address,
+        street,
         city,
         country,
+        complemento
       },
       {
         where: {
