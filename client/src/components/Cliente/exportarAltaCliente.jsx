@@ -1,11 +1,10 @@
 import React, { useState } from "react";
-import { modifyUser, getAddress } from "../../actions/UserActions";
-import { connect } from 'react-redux';
+import { modifyUser } from "../../actions/UserActions";
+import { connect } from 'react-redux'
 import "./CSS/altaCliente.css";
 import header from "./Images/header.png";
-import { get } from "https";
 
-const AddUserForm = function ({ id, modifyUser, getAddress }){
+const AddUserForm = function ({ id, modifyUser }){
   const initialUserState = {
     id: id,
     firstName: "",
@@ -14,47 +13,25 @@ const AddUserForm = function ({ id, modifyUser, getAddress }){
     identification: "",
     phone: "",
     birthDate: "",
-    street: "", 
+    address: "", 
     city: "",
     country: ""
   };
   const [user, setUser] = useState(initialUserState);
 
- const address =  {
-    street: user.street, 
-    city: user.city,
-    country: user.country
-  }; 
-
- 
-
   const handleInputChange = (event) => {
     const { name, value } = event.target;
     setUser({ ...user, [name]: value });
   };
-
-  
-  
   return (
     <div>
       <div id="login">
         <img src={header} alt="header" />
         <form
           onSubmit={(event) => {
-              const estado = getAddress(address);
-              
             event.preventDefault();
-            console.log(getAddress( address));
-            
-            setTimeout(   () => {
-                console.log(estado.PromiseValue)
-                if (estado.PromiseValue === 200) {modifyUser(id, user)
-                } else {
-                      alert ("ubicación no válida")
-
-           };
-            },  3000)
-                 
+            console.log(user);
+            modifyUser(id, user);
           }}
         >
           <div class="input-gruop mb-3">
@@ -104,9 +81,9 @@ const AddUserForm = function ({ id, modifyUser, getAddress }){
             />
             <input 
               class='form-control' 
-              name="street" 
+              name="address" 
               placeholder="Domicilio calle + Número" 
-              value={user.street} 
+              value={user.address} 
               onChange={handleInputChange} 
             />
             <input 
@@ -138,4 +115,4 @@ const AddUserForm = function ({ id, modifyUser, getAddress }){
   );
 };
 
-export default connect(null, { modifyUser, getAddress })(AddUserForm);
+export default connect(null, { modifyUser })(AddUserForm);

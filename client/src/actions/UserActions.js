@@ -1,4 +1,4 @@
-import { ADD_USER, GET_USER_LOGGED, MODIFY_USER , GET_PROFILE, GET_WALLET, LOGOUT, GET_TRANSACTIONS } from "../constants/userConstants";
+import { ADD_USER, GET_USER_LOGGED, MODIFY_USER , GET_PROFILE, GET_WALLET, LOGOUT, GET_TRANSACTIONS, GET_ADDRESS } from "../constants/userConstants";
 import axios from "axios";
 
 export function addUser(user) {
@@ -17,7 +17,7 @@ export function modifyUser(id, user) {
   return (dispatch) => {
     axios.put(`http://localhost:3001/users/modify/${id}`, user).then((res) => {
       if (res.status === 200) {
-        window.location.replace('http://localhost:3000/login')
+     /*    window.location.replace('http://localhost:3000/login') */
         return dispatch({ type: MODIFY_USER, payload: res.data });
       } else {
         alert("Error en campos");
@@ -94,7 +94,33 @@ export function getUserLoggedIn(email) {
 
 } 
 
+/* 
+export function getAddress() {
+  return (dispatch) => {
+    axios.get(`http://localhost:3001/auth/validate/street`).then((res) => {
+      if (res.status === 200) {
+        console.log(res.data, "esto es la respuesta de getaddress");
+        return dispatch({ type: GET_ADDRESS, payload: res.data });
+      }
+    });
+  };
+} */
 
+export function getAddress(address) {
+  return function(dispatch) {
+    return fetch('http://localhost:3001/auth/validate/street', {
+            method: 'POST', 
+            body: JSON.stringify(address), 
+            headers:{
+            'Content-Type': 'application/json'
+            }
+        }) 
+          .then((res) => { return res.status})
+             
+            
+  }
+  
+}
 
 
 

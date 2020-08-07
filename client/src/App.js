@@ -1,7 +1,7 @@
 import React from 'react';
 import './css/App.css';
 import { Route } from 'react-router-dom';
-import CrearUsuario from './components/Usuario/FormularioCrearUsuario.jsx';
+
 import AltaUsuario from "./components/Cliente/FormularioAltaCliente.jsx";
 import Login from './components/Usuario/LoginForm.jsx';
 import Home from './components/Usuario/Onboarding.jsx';

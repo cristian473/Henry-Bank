@@ -8,8 +8,12 @@ import loginPortada from './images/login.png';
 import './CSS/agregarusuario.css'
 
 const validations = yup.object().shape({
-    email: yup.string().email().required("Ingresa tu mail"),
-    password: yup.string().min(8, "Tu contraseña debe tener al menos 8 carácteres ").required("Ingresa tu contraseña")
+    email: yup.string()
+    .required("Ingresa tu mail")
+    .email("¡Debes ingresar un mail válido!"),
+    password: yup.string()
+    .min(8, "¡Tu contraseña debe tener al menos 8 carácteres!")
+    .required("Ingresa tu contraseña")
 })
 
 const Form = ({ handleSubmit, initialValues}) => {
@@ -32,8 +36,8 @@ function handleSubmit(values) {
         <img src={loginPortada} alt="loginPortada" />
             <h4>Crear Usuario</h4>
             <div className="Form-Group">
-                <Field className="Form-Field" name="email" placeholder="E-mail" type="text"/>
-                <ErrorMessage className="Form-Error" component="span" name="email"/>
+                <Field className="Form-Field" name="email" placeholder="E-mail" type="email"/>
+                <ErrorMessage name="email" className="Form-Error" component="span" />
             </div>
             <div className="Form-Group">
                 <Field className="Form-Field" name="password" placeholder="Contraseña" type="password"/>
