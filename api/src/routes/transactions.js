@@ -7,6 +7,7 @@ const {
   Transactions,
   Merchants,
   Users,
+  Banks,
 } = require("../models/index.js");
 
 //do transactions
@@ -59,15 +60,17 @@ server.post("/loadBalance/:idUser", async (req, res) => {
 
 server.put("/:idSender/:idReceiver", async (req, res) => {
   let { money, transactiontype } = req.body;
-
   const { idSender, idReceiver } = req.params;
   const randomTransactionNumber = function () {
     return Math.floor(Math.random() * 500000 + 1);
   };
 
+  const stringSender = idSender.toString();
+  const stringReceiver = idReceiver.toString();
   //busqueda de wallets
 
   let userSender = await Wallet.findOne({ where: { userId: idSender } });
+  let balanceInt = parseInt(userSender.balance);
   switch (transactiontype) {
     //Transferencia entre usuarios billetera
     case "UsertoUser":
@@ -75,7 +78,7 @@ server.put("/:idSender/:idReceiver", async (req, res) => {
         where: { userId: idReceiver },
       });
       let check = await Users.findOne({ where: { id: idReceiver } });
-      if (check && check.status == "Validado" && userSender.balance >= money) {
+      if (check && check.status == "Validado" && balanceInt >= money) {
         Promise.all([userSender, userReceiver])
           .then((users) => {
             //convertir los valores a decimal
@@ -115,7 +118,8 @@ server.put("/:idSender/:idReceiver", async (req, res) => {
                   transactions_type: "Transferencia a usuario",
                   value: money,
                   state: "Aceptada",
-                  transactionNumber: randomTransactionNumber(),
+                  transactionNumber:
+                    stringSender + stringReceiver + randomTransactionNumber(),
                 })
                   .then((transaccion) =>
                     res.status(200).json({
@@ -134,12 +138,9 @@ server.put("/:idSender/:idReceiver", async (req, res) => {
               })
 
               .catch((err) => {
-                res
-                  .status(400)
-                  .json({ message: "No se pudo modificar el saldo", err });
+                res.status(400).json({ message: "Saldo insuficiente." });
               });
           })
-
           .catch((err) =>
             res.status(400).json({
               message:
@@ -161,7 +162,8 @@ server.put("/:idSender/:idReceiver", async (req, res) => {
       let merchants = await Merchants.findOne({ where: { id: idReceiver } });
       //Validacion
       let checkMerch = await Merchants.findOne({ where: { id: idReceiver } });
-      if (checkMerch && userSender && userSender.balance >= money) {
+      console.log(userSender.balance);
+      if (checkMerch && userSender && balanceInt >= money) {
         Promise.all([userSender, merchants])
           .then((users) => {
             //convertir los valores a decimal
@@ -179,37 +181,37 @@ server.put("/:idSender/:idReceiver", async (req, res) => {
                 returning: true,
                 where: { userId: idSender },
               }
-            ).then(() => {
-              //se registra la transaccion
-              const stringSender = idSender;
-              const stringReceiver = idReceiver;
+            )
+              .then(() => {
+                //se registra la transaccion
 
-              Transactions.create({
-                idSender: idSender,
-                idReceiver: idReceiver,
-                transactions_type: "Pago Comercio",
-                value: money,
-                state: "Aceptada",
-                transactionNumber:
-                  stringSender.toString() +
-                  stringReceiver.toString() +
-                  randomTransactionNumber(),
-              })
-                .then((transaccion) =>
-                  res.status(200).json({
-                    message:
-                      "transaccion N°" +
-                      transaccion.id +
-                      " realizada con exito!",
-                    transaccion,
-                  })
-                )
-                .catch((err) => {
-                  res.status(400).json({
-                    message: "No se registro el movimiento",
+                Transactions.create({
+                  idSender: idSender,
+                  idReceiver: idReceiver,
+                  transactions_type: "Pago Comercio",
+                  value: money,
+                  state: "Aceptada",
+                  transactionNumber:
+                    stringSender + stringReceiver + randomTransactionNumber(),
+                })
+                  .then((transaccion) =>
+                    res.status(200).json({
+                      message:
+                        "transaccion N°" +
+                        transaccion.id +
+                        " realizada con exito!",
+                      transaccion,
+                    })
+                  )
+                  .catch((err) => {
+                    res.status(400).json({
+                      message: "No se registro el movimiento",
+                    });
                   });
-                });
-            });
+              })
+              .catch((err) => {
+                res.status(400).json({ message: "Saldo insuficiente." });
+              });
           })
           .catch((err) =>
             res.status(400).json({
@@ -234,6 +236,74 @@ server.put("/:idSender/:idReceiver", async (req, res) => {
       let banks = await Banks.findOne({
         where: { id: idReceiver },
       });
+      //Validacion
+      let checkBank = await Banks.findOne({ where: { id: idReceiver } });
+      if (checkBank && userSender && balanceInt >= money) {
+        Promise.all([userSender, banks])
+          .then((users) => {
+            //convertir los valores a decimal
+            let moneyFloat = parseFloat(money);
+            let balanceSender = parseFloat(users[0].balance);
+            //suma y resta de montos
+            let newBalanceSender = balanceSender - moneyFloat;
+
+            //updates en las dos billeteras
+            Wallet.update(
+              {
+                balance: newBalanceSender,
+              },
+              {
+                returning: true,
+                where: { userId: idSender },
+              }
+            )
+              .then(() => {
+                //se registra la transaccion
+
+                Transactions.create({
+                  idSender: idSender,
+                  idReceiver: idReceiver,
+                  transactions_type: "Transferencia Bancaria",
+                  value: money,
+                  state: "Aceptada",
+                  transactionNumber:
+                    stringSender + stringReceiver + randomTransactionNumber(),
+                })
+                  .then((transaccion) =>
+                    res.status(200).json({
+                      message:
+                        "transaccion N°" +
+                        transaccion.id +
+                        " realizada con exito!",
+                      transaccion,
+                    })
+                  )
+                  .catch((err) => {
+                    res.status(400).json({
+                      message: "No se registro el movimiento",
+                    });
+                  });
+              })
+              .catch((err) => {
+                res.status(400).json({ message: "Saldo insuficiente." });
+              });
+          })
+          .catch((err) =>
+            res.status(400).json({
+              message:
+                "Banco no encontrado! por favor ingrese nuevamente los usuarios",
+              error: err,
+            })
+          );
+      } else {
+        if (!checkBank || !userSender) {
+          res.json({
+            message: "El usuario o banco no existe o no esta habilitado",
+          });
+        } else {
+          res.json({ message: "El usuario no tiene fondos suficientes" });
+        }
+      }
 
       break;
     default:
