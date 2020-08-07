@@ -8,6 +8,8 @@ import {
   GET_TRANSACTIONS,
   GET_USER_CONTACTS,
   GET_ADDRESS,
+  GET_USER_CONTACTS,
+  DELETE_CONTACT,
 } from "../constants/userConstants";
 import axios from "axios";
 
@@ -88,7 +90,6 @@ export function getContacts(id) {
   return function (dispatch) {
     axios.get("http://localhost:3001/contacts/ " + id).then((res) => {
       if (res.status === 200) {
-        console.log(res);
         return dispatch({
           type: GET_USER_CONTACTS,
           payload: res.data.contactos,
@@ -119,6 +120,28 @@ export function getAddress(address, id, user) {
 
       .catch(() => {
         alert("Ubicación inválida");
+      });
+  };
+}
+
+export function deleteContacts(email, id) {
+  const body = {
+    email: "shadow.wolney646@gmail.com",
+  };
+  return function (dispatch) {
+    axios
+      .delete("http://localhost:3001/contacts/" + id + "/deleteContact", body)
+      .then((res) => {
+        if (res.status === 200) {
+          axios.get("http://localhost:3001/contacts/" + id).then((response) => {
+            return dispatch({
+              type: GET_USER_CONTACTS,
+              payload: response.data.contactos,
+            });
+          });
+        } else {
+          alert(res.message);
+        }
       });
   };
 }
