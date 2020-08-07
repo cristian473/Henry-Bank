@@ -117,7 +117,7 @@ export function getAddress(address, id, user) {
               if (res.status === 200) {
                 dispatch({ type: MODIFY_USER, payload: res.data });
                 console.log(res.data)
-               // return window.location.replace('http://localhost:3000/login');
+               return window.location.replace('http://localhost:3000/login');
               } 
             })
           } else{

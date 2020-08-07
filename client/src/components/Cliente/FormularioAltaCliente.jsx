@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { modifyUser, getAddress } from "../../actions/UserActions";
+import { getAddress } from "../../actions/UserActions";
 import { connect } from 'react-redux';
 import "./CSS/altaCliente.css";
 import header from "./Images/header.png";
@@ -69,6 +69,7 @@ const AddUserForm = function ({ id, getAddress }){
               placeholder="Nombre"
               value={user.firstName}
               onChange={handleInputChange}
+              required
             />
             <input
               class="form-control"
@@ -76,13 +77,15 @@ const AddUserForm = function ({ id, getAddress }){
               placeholder="Apellido"
               value={user.lastName}
               onChange={handleInputChange}
+              required
             />
             <input
               class="form-control"
               name="documentType"
-              placeholder="Tipo de doc"
+              placeholder="Tipo de documento"
               value={user.documentType}
               onChange={handleInputChange}
+              required
             />
             <input
               class="form-control"
@@ -90,6 +93,7 @@ const AddUserForm = function ({ id, getAddress }){
               placeholder="Número"
               value={user.identification}
               onChange={handleInputChange}
+              required
             />
             <input 
               class='form-control' 
@@ -97,6 +101,7 @@ const AddUserForm = function ({ id, getAddress }){
               placeholder="Teléfono" 
               value={user.phone}
               onChange={handleInputChange} 
+              required
             />
             <p>Fecha de nacimiento</p>
             <input
@@ -106,6 +111,7 @@ const AddUserForm = function ({ id, getAddress }){
               placeholder="Fecha de nacimiento"
               value={user.birthDate}
               onChange={handleInputChange}
+              required
             />
             <input 
               class='form-control' 
@@ -113,6 +119,7 @@ const AddUserForm = function ({ id, getAddress }){
               placeholder="Domicilio calle + Número" 
               value={user.street} 
               onChange={handleInputChange} 
+              required
             />
           <input 
               class='form-control' 
@@ -127,6 +134,7 @@ const AddUserForm = function ({ id, getAddress }){
               placeholder="Ciudad" 
               value={user.city} 
               onChange={handleInputChange} 
+              required
             />
             <input 
               class='form-control' 
@@ -134,6 +142,7 @@ const AddUserForm = function ({ id, getAddress }){
               placeholder="Pais" 
               value={user.country} 
               onChange={handleInputChange} 
+              required
             />
           </div>
         
