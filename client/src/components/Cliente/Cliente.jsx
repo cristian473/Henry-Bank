@@ -47,10 +47,10 @@ function Cliente({ usuarioConectado, wallet, transactions, getProfile, getWallet
         <div className="acciones">
           <ul>
             <li>
-              <a href="/" className="btn">RECARGAR</a>
+              <a href="/recargar" className="btn">RECARGAR</a>
             </li>
             <li>
-              <a href="/" className="btn">ENVIAR</a>
+              <a href="/enviar" className="btn">ENVIAR</a>
             </li>
           </ul> 
           <div className="navBar">

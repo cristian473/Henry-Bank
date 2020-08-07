@@ -10,6 +10,7 @@ import {
   GET_ADDRESS,
   GET_USER_CONTACTS,
   DELETE_CONTACT,
+  ENVIAR_DINERO,
 } from "../constants/userConstants";
 import axios from "axios";
 
@@ -62,6 +63,26 @@ export function getTransactions(idUser) {
   };
 }
 
+export function getUserLoggedIn(email) {
+  return function (dispatch) {
+    return fetch("http://localhost:3001/users/" + email, {
+      headers: {
+        Accept: "*/*",
+        "Content-Type": "application/json",
+      },
+      method: "GET",
+      credentials: "include",
+    })
+      .then((res) => res.json())
+      .then((json) => {
+        return dispatch({ type: GET_USER_LOGGED, payload: json });
+      })
+      .catch(() => {
+        console.log("error");
+      });
+  };
+}
+
 export function logout() {
   return function (dispatch) {
     axios.get("http://localhost:3001/auth/logout").then((res) => {
@@ -74,17 +95,19 @@ export function logout() {
   };
 }
 
-/* 
-export function getAddress() {
-  return (dispatch) => {
-    axios.get(`http://localhost:3001/auth/validate/street`).then((res) => {
-      if (res.status === 200) {
-        console.log(res.data, "esto es la respuesta de getaddress");
-        return dispatch({ type: GET_ADDRESS, payload: res.data });
-      }
-    });
+export function enviarDinero(from, to, cantidad) {
+  return function (dispatch) {
+    axios
+      .put(`http://localhost:3001/transactions/${from}/${to}`, cantidad)
+      .then((res) => {
+        if (res.status === 200) {
+          return dispatch({ type: ENVIAR_DINERO });
+        } else {
+          alert("No se pudo realizar el envío");
+        }
+      });
   };
-} */
+}
 
 export function getContacts(id) {
   return function (dispatch) {
@@ -119,29 +142,6 @@ export function deleteContacts(email, id) {
         } else {
           alert(res.message);
         }
-      });
-  };
-}
-
-export function getAddress(address, id, user) {
-  return function (dispatch) {
-    axios
-      .post("http://localhost:3001/auth/validate/street", address)
-      .then((res) => {
-        if (res.status === 200) {
-          axios
-            .put(`http://localhost:3001/users/modify/${id}`, user)
-            .then((res) => {
-              if (res.status === 200) {
-                dispatch({ type: MODIFY_USER, payload: res.data });
-                return window.location.replace("http://localhost:3000/login");
-              }
-            });
-        }
-      })
-
-      .catch(() => {
-        alert("Ubicación inválida");
       });
   };
 }
