@@ -13,9 +13,8 @@ server.post("/loadBalance/:idUser", async (req, res) => {
   const saldo = await Wallet.findOne({
     where: { userId: req.params.idUser },
   });
-  const value = Math.floor((Math.random() * 10000) + 1);
-  const saldoConsolidado =
-    parseFloat(saldo.balance) + parseFloat(value);
+  const value = Math.floor(Math.random() * 10000 + 1);
+  const saldoConsolidado = parseFloat(saldo.balance) + parseFloat(value);
   await Wallet.update(
     {
       balance: saldoConsolidado,
@@ -27,13 +26,13 @@ server.post("/loadBalance/:idUser", async (req, res) => {
   )
     .then(async (newBalance) => {
       const randomToken = function () {
-        return Math.floor((Math.random() * 5) + 1)
+        return Math.floor(Math.random() * 5 + 1);
       };
       const randomTransactionNumber = function () {
-        return Math.floor((Math.random() * 500000) + 1)
+        return Math.floor(Math.random() * 500000 + 1);
       };
       const merchant = Merchants.findOne({
-        where: { id: randomToken() }
+        where: { id: randomToken() },
       });
       const transactions = Transactions.create({
         idSender: 0,
@@ -41,9 +40,9 @@ server.post("/loadBalance/:idUser", async (req, res) => {
         type: "Carga",
         value: value,
         state: "Aceptada",
-        transactionNumber: randomTransactionNumber()
+        transactionNumber: randomTransactionNumber(),
       });
-      const prom = await Promise.all([merchant, newBalance, transactions])
+      const prom = await Promise.all([merchant, newBalance, transactions]);
       res.status(200).json(prom);
     })
     .catch((err) => {
@@ -57,15 +56,17 @@ server.put("/:idSender/:idReceiver", async (req, res) => {
   let money = req.body.money;
   const { idSender, idReceiver } = req.params;
   const randomTransactionNumber = function () {
-    return Math.floor((Math.random() * 500000) + 1)
+    return Math.floor(Math.random() * 500000 + 1);
   };
   //busqueda de wallets
+
   let userSender = await Wallet.findOne({ where: { userId: idSender } });
   let userReceiver = await Wallet.findOne({
     where: { userId: idReceiver },
   });
-  console.log(userSender.balance)
-  if (userSender.balance <= money) {
+  console.log(userSender.balance);
+  let check = await Users.findOne({ where: { id: idReceiver } });
+  if (check.id && check.status == "Validado" && userSender.balance <= money) {
     Promise.all([userSender, userReceiver])
       .then((users) => {
         //convertir los valores a decimal
@@ -105,7 +106,7 @@ server.put("/:idSender/:idReceiver", async (req, res) => {
               type: "Transferencia",
               value: money,
               state: "Aceptada",
-              transactionNumber: randomTransactionNumber()
+              transactionNumber: randomTransactionNumber(),
             })
               .then((transaccion) =>
                 res.status(200).json({
@@ -134,9 +135,14 @@ server.put("/:idSender/:idReceiver", async (req, res) => {
             "Usuario no encontrado! por favor ingrese nuevamente los usuarios",
           error: err,
         })
-    );} else {
-      res.json({ message: "el usuario no tiene fondos suficientes" })
+      );
+  } else {
+    if (!check.user || check.status == "Validado") {
+      res.json({ message: "El usuario no existe o no esta habilitado" });
+    } else {
+      res.json({ message: "el usuario no tiene fondos suficientes" });
     }
+  }
 });
 
 //RUTA PARA RETORNAR SUMA GENERAL DE INGRESOS Y EGRESOS X USUARIO//

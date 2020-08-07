@@ -1,10 +1,11 @@
 import React, { useState } from "react";
-import { modifyUser } from "../../actions/UserActions";
-import { connect } from 'react-redux'
+import { modifyUser, getAddress } from "../../actions/UserActions";
+import { connect } from 'react-redux';
 import "./CSS/altaCliente.css";
 import header from "./Images/header.png";
+import { get } from "https";
 
-const AddUserForm = function ({ id, modifyUser }){
+const AddUserForm = function ({ id, modifyUser, getAddress }){
   const initialUserState = {
     id: id,
     firstName: "",
@@ -13,16 +14,41 @@ const AddUserForm = function ({ id, modifyUser }){
     identification: "",
     phone: "",
     birthDate: "",
-    address: "", 
+    street: "", 
     city: "",
     country: ""
   };
   const [user, setUser] = useState(initialUserState);
 
+ const address =  {
+    street: user.street, 
+    city: user.city,
+    country: user.country
+  }; 
+
+ 
+
   const handleInputChange = (event) => {
     const { name, value } = event.target;
     setUser({ ...user, [name]: value });
   };
+
+  function getEdad(dateString) {
+    let hoy = new Date()
+    let fechaNacimiento = new Date(dateString)
+    let edad = hoy.getFullYear() - fechaNacimiento.getFullYear()
+    let diferenciaMeses = hoy.getMonth() - fechaNacimiento.getMonth()
+    if (
+      diferenciaMeses < 0 ||
+      (diferenciaMeses === 0 && hoy.getDate() < fechaNacimiento.getDate())
+    ) {
+      edad--
+    }
+    return edad
+  }
+  
+  
+
   return (
     <div>
       <div id="login">
@@ -30,8 +56,10 @@ const AddUserForm = function ({ id, modifyUser }){
         <form
           onSubmit={(event) => {
             event.preventDefault();
-            console.log(user);
-            modifyUser(id, user);
+            if (getEdad(user.birthDate) >= 16 ) {
+            getAddress(address, id, user)} else {
+                alert ('Debes ser mayor de 16 años')
+            }    
           }}
         >
           <div class="input-gruop mb-3">
@@ -81,9 +109,9 @@ const AddUserForm = function ({ id, modifyUser }){
             />
             <input 
               class='form-control' 
-              name="address" 
+              name="street" 
               placeholder="Domicilio calle + Número" 
-              value={user.address} 
+              value={user.street} 
               onChange={handleInputChange} 
             />
             <input 
@@ -115,4 +143,4 @@ const AddUserForm = function ({ id, modifyUser }){
   );
 };
 
-export default connect(null, { modifyUser })(AddUserForm);
+export default connect(null, { modifyUser, getAddress })(AddUserForm);

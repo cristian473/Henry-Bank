@@ -26,7 +26,7 @@
     left: 15px;
   }
   #usuario .inicio input{
-    margin-left: 0px;
+    margin-left: 20px;
     background-color: yellow;
     color: #000;
     border: none;
@@ -41,7 +41,19 @@
   }
 
   #usuario .inicio button{
-  
+    margin-left: 20px;
     padding: 10px 30px !important;
     box-shadow: 5px 5px 5px rgb(167, 167, 167);
+  }
+
+  #usuario .Form-Group{
+    margin-left: 60px;
+  
+  }
+
+  span {
+    color: red;
+    align-self: flex-start;
+    margin: 0 0 10px;
+    font-weight: bold;
   }

@@ -1,5 +1,4 @@
-import { ADD_USER,SELECT_CONTACT, GET_USER_CONTACTS, GET_USER_LOGGED, GET_PROFILE, GET_WALLET, LOGOUT,RESET_PASS_USER, GET_TRANSACTIONS } from '../constants/userConstants';
-import { bindActionCreators } from 'redux';
+import { ADD_USER, GET_USER_LOGGED, GET_PROFILE, GET_WALLET, LOGOUT,RESET_PASS_USER, GET_TRANSACTIONS, GET_ADDRESS } from '../constants/userConstants';
 
 const initialState = {
     usuarios: [],
@@ -24,6 +23,12 @@ export default function usuario(state = initialState, action) {
                 ...state,
                 usuarioConectado: action.payload
             }
+
+            case GET_ADDRESS:
+                return {
+                    ...state,
+                    usuarioConectado: action.payload
+                }
 
         case GET_WALLET:
             return {
