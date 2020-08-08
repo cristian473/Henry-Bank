@@ -119,31 +119,6 @@ export function logout() {
   };
 }
 
-export function getAddress(address, id, user) {
-  return function (dispatch) {
-    axios
-      .post("http://localhost:3001/auth/validate/street", address)
-      .then((res) => {
-        if (res.status === 200) {
-          axios
-            .put("http://localhost:3001/users/modify/" + id, user)
-            .then((res) => {
-              if (res.status === 200) {
-                dispatch({ type: MODIFY_USER, payload: res.data });
-                return window.location.replace(
-                  "http://localhost:3000/login%27"
-                );
-              }
-            });
-        }
-      })
-
-      .catch(() => {
-        alert("Ubicación inválida");
-      });
-  };
-}
-
 export function enviarDinero(from, to, money) {
   return function (dispatch) {
     axios
