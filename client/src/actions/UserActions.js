@@ -8,7 +8,6 @@ import {
   GET_TRANSACTIONS,
   GET_USER_CONTACTS,
   GET_ADDRESS,
-  GET_USER_CONTACTS,
   DELETE_CONTACT,
   ENVIAR_DINERO,
 } from "../constants/userConstants";
@@ -66,6 +65,27 @@ export function getTransactions(idUser) {
       });
   };
 }
+export function getAddress(address, id, user) {
+  return function (dispatch) {
+    axios
+      .post("http://localhost:3001/auth/validate/street", address)
+      .then((res) => {
+        if (res.status === 200) {
+          axios
+            .put(`http://localhost:3001/users/modify/${id}`, user)
+            .then((res) => {
+              if (res.status === 200) {
+                dispatch({ type: MODIFY_USER, payload: res.data });
+                return window.location.replace("http://localhost:3000/login");
+              }
+            });
+        }
+      })
+      .catch(() => {
+        alert("Ubicación inválida");
+      });
+  };
+}
 
 export function getUserLoggedIn(email) {
   return function (dispatch) {
@@ -103,7 +123,7 @@ export function enviarDinero(from, to, money) {
   console.log(money);
   return function (dispatch) {
     axios
-      .put(`http://localhost:3001/transactions/${from}/${to}`, cantidad)
+      .put(`http://localhost:3001/transactions/${from}/${to}`, money)
       .then((res) => {
         if (res.status === 200) {
           return dispatch({ type: ENVIAR_DINERO });
@@ -117,18 +137,14 @@ export function enviarDinero(from, to, money) {
 export function getContacts(id) {
   return function (dispatch) {
     axios.get("http://localhost:3001/contacts/ " + id).then((res) => {
-      axios
-        .put(`http://localhost:3001/transactions/${from}/${to}`, money)
-        .then((res) => {
-          if (res.status === 200) {
-            return dispatch({
-              type: GET_USER_CONTACTS,
-              payload: res.data.contactos,
-            });
-          } else {
-            alert(res.message);
-          }
+      if (res.status === 200) {
+        return dispatch({
+          type: GET_USER_CONTACTS,
+          payload: res.data.contactos,
         });
+      } else {
+        alert(res.message);
+      }
     });
   };
 }
