@@ -2,7 +2,6 @@ import React from 'react';
 import './searchContact.css';
 
 export default function SearchAutocomplete ({ misContactos}) {
-  // [2,3]
 
   function autocomplete(inp, arr) {
     var currentFocus;
@@ -72,7 +71,7 @@ export default function SearchAutocomplete ({ misContactos}) {
     });
   }
   
-  /* listContact = CONTACTOS -----¬ 
+  /* misContactos = CONTACTOS -----¬ 
   [ 
     {nombreContacto: 'Junior', idContacto: 2},
     {nombreContacto: 'gatito', idContacto: 3}
@@ -80,14 +79,8 @@ export default function SearchAutocomplete ({ misContactos}) {
   */
 
   return (
-    <div>
-      <form autoComplete="off">
-        <div className="autocomplete" style={{width:"300px"}}>
-          <input id="myInput" type="text" class="form-control" name="myCountry" placeholder="Ingrese nombre o mail..."
-            onFocus={(e) => autocomplete(e.target, misContactos)}
-          />  
-        </div>
-      </form>
-    </div>
+    <input id="myInput" type="text" class="form-control" name="myCountry" placeholder="Ingrese nombre o mail..."
+      onMouseOver={(e) => autocomplete(e.target, misContactos)}
+    /> 
   )
 }

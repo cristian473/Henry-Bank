@@ -43,16 +43,11 @@ function RecargarDinero({ usuarioConectado, getProfile, enviarDinero, listContac
               <FaUsers size="25"/>
               </span>
             </div>
-
             {usuarioConectado ? 
               <SearchContact misContactos={listContact}/>
             :
               <input type="text" class="form-control" placeholder="Ingrese nombre o mail..."/>
             }
-
-
-
-
           </div>
 
           <div className="total">
@@ -73,11 +68,10 @@ function RecargarDinero({ usuarioConectado, getProfile, enviarDinero, listContac
             <Button className="btn btn-dark" href="/cliente" size="lg" 
               onClick={() => {
                 const nombre = document.getElementById('myInput').value;
-                console.log(nombre)
                 for( let i = 0; i < listContact.length; i++ ){
                   if (listContact[i].nombreContacto === nombre) {
                     enviarDinero(usuarioConectado.id, listContact[i].idContacto, {money: cantidad})
-                  };
+                  }
                 }
               }}
             >Enviar Dinero</Button>
