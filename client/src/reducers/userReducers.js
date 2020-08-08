@@ -1,4 +1,4 @@
-import { ADD_USER, GET_USER_LOGGED, GET_PROFILE, GET_WALLET, LOGOUT,RESET_PASS_USER, GET_TRANSACTIONS, GET_ADDRESS } from '../constants/userConstants';
+import { ADD_USER,GET_USER_CONTACTS,SELECT_CONTACT, GET_USER_LOGGED, GET_PROFILE, GET_WALLET, LOGOUT,RESET_PASS_USER, GET_TRANSACTIONS, GET_ADDRESS } from '../constants/userConstants';
 
 const initialState = {
     usuarios: [],
@@ -73,4 +73,3 @@ export default function usuario(state = initialState, action) {
             return state
     }
 };
-

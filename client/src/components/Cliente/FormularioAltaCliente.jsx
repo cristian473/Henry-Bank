@@ -1,11 +1,11 @@
 import React, { useState } from "react";
-import { modifyUser, getAddress } from "../../actions/UserActions";
-import { connect } from 'react-redux';
+
+import { getAddress } from "../../actions/UserActions";
+import { connect } from "react-redux";
 import "./CSS/altaCliente.css";
 import header from "./Images/header.png";
-import { get } from "https";
 
-const AddUserForm = function ({ id, modifyUser, getAddress }){
+const AddUserForm = function ({ id, getAddress }) {
   const initialUserState = {
     id: id,
     firstName: "",
@@ -14,23 +14,17 @@ const AddUserForm = function ({ id, modifyUser, getAddress }){
     identification: "",
     phone: "",
     birthDate: "",
-    street: "", 
+    street: "",
     city: "",
-    country: ""
+    country: "",
+    complemento: "",
   };
   const [user, setUser] = useState(initialUserState);
 
- const address =  {
-    street: user.street, 
+  const address = {
+    street: user.street,
     city: user.city,
-    country: user.country
-  }; 
-
- 
-
-  const handleInputChange = (event) => {
-    const { name, value } = event.target;
-    setUser({ ...user, [name]: value });
+    country: user.country,
   };
 
   function getEdad(dateString) {
@@ -46,8 +40,15 @@ const AddUserForm = function ({ id, modifyUser, getAddress }){
     }
     return edad
   }
-  
-  
+
+  const cancelar = function (e) {
+    window.location.replace('http://localhost:3000')
+ }
+
+  const handleInputChange = (event) => {
+    const { name, value } = event.target;
+    setUser({ ...user, [name]: value });
+  };
 
   return (
     <div>
@@ -56,10 +57,11 @@ const AddUserForm = function ({ id, modifyUser, getAddress }){
         <form
           onSubmit={(event) => {
             event.preventDefault();
-            if (getEdad(user.birthDate) >= 16 ) {
-            getAddress(address, id, user)} else {
-                alert ('Debes ser mayor de 16 años')
-            }    
+            if (getEdad(user.birthDate) >= 16) {
+              getAddress(address, id, user);
+            } else {
+              alert("Debes ser mayor de 16 años");
+            }
           }}
         >
           <div class="input-gruop mb-3">
@@ -69,6 +71,7 @@ const AddUserForm = function ({ id, modifyUser, getAddress }){
               placeholder="Nombre"
               value={user.firstName}
               onChange={handleInputChange}
+              required
             />
             <input
               class="form-control"
@@ -76,13 +79,15 @@ const AddUserForm = function ({ id, modifyUser, getAddress }){
               placeholder="Apellido"
               value={user.lastName}
               onChange={handleInputChange}
+              required
             />
             <input
               class="form-control"
               name="documentType"
-              placeholder="Tipo de doc"
+              placeholder="Tipo de documento"
               value={user.documentType}
               onChange={handleInputChange}
+              required
             />
             <input
               class="form-control"
@@ -90,13 +95,15 @@ const AddUserForm = function ({ id, modifyUser, getAddress }){
               placeholder="Número"
               value={user.identification}
               onChange={handleInputChange}
+              required
             />
-            <input 
-              class='form-control' 
-              name="phone" 
-              placeholder="Teléfono" 
+            <input
+              class="form-control"
+              name="phone"
+              placeholder="Teléfono"
               value={user.phone}
-              onChange={handleInputChange} 
+              onChange={handleInputChange}
+              required
             />
             <p>Fecha de nacimiento</p>
             <input
@@ -106,35 +113,55 @@ const AddUserForm = function ({ id, modifyUser, getAddress }){
               placeholder="Fecha de nacimiento"
               value={user.birthDate}
               onChange={handleInputChange}
+              required
             />
-            <input 
-              class='form-control' 
-              name="street" 
-              placeholder="Domicilio calle + Número" 
-              value={user.street} 
-              onChange={handleInputChange} 
+            <input
+              class="form-control"
+              name="street"
+              placeholder="Domicilio calle + Número"
+              value={user.street}
+              onChange={handleInputChange}
+              required
             />
-            <input 
-              class='form-control' 
-              name="city" 
-              placeholder="Ciudad" 
-              value={user.city} 
-              onChange={handleInputChange} 
+            <input
+              class="form-control"
+              name="complemento"
+              placeholder="Piso y Depto"
+              value={user.complemento}
+              onChange={handleInputChange}
             />
-            <input 
-              class='form-control' 
-              name="country" 
-              placeholder="Pais" 
-              value={user.country} 
-              onChange={handleInputChange} 
+            <input
+              class="form-control"
+              name="city"
+              placeholder="Ciudad"
+              value={user.city}
+              onChange={handleInputChange}
+              required
+            />
+            <input
+              class="form-control"
+              name="country"
+              placeholder="Pais"
+              value={user.country}
+              onChange={handleInputChange}
+              required
             />
           </div>
-        
+
           <div className="altaButtons">
-            <a id="buttons" href="/">
-              Atrás
-            </a>
-            <input type="submit" id="buttons" value="Enviar" />
+            <input
+              type="submit"
+              className="btn btn-outline-dark"
+              value="Crear"
+            />
+            <button
+              type="button"
+              className="btn btn-outline-danger"
+              value="Cancelar"
+              onClick={cancelar}
+            >
+              Cancelar
+            </button>
           </div>
         </form>
         <a href="/help">¿Necesitás ayuda?</a>
@@ -143,4 +170,4 @@ const AddUserForm = function ({ id, modifyUser, getAddress }){
   );
 };
 
-export default connect(null, { modifyUser, getAddress })(AddUserForm);
+export default connect(null, { getAddress })(AddUserForm);
