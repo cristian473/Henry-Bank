@@ -1,26 +1,41 @@
 import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { getContacts, deleteContacts } from '../../actions/UserActions'
+import { getContacts, deleteContacts, addContact } from '../../actions/contactsActions'
 import { SELECT_CONTACT } from '../../constants/userConstants'
 import henry from '../Usuario/images/henry.svg';
 import './contactos.css';
 import Button from 'react-bootstrap/Button';
 import Table from 'react-bootstrap/Table';
+import { addUser } from '../../actions/UserActions';
 
 const Contacts = () => {
 
     const dispatch = useDispatch();
     const contacts = useSelector(store => store.usuario.contacts);
     const userSelected = useSelector(store => store.usuario.contactSelected)
-
+    
     useEffect(() => dispatch(getContacts(1)), []);
 
     const selectedUser = (email) => {
         dispatch({ type: SELECT_CONTACT, payload: email })
     }
 
+    var emailValue = '';
+
+    const inputHandlerChange =(e)=> {
+        emailValue = e.target.value;
+
+
+
+    }
+
     const deleteHandler = (email, id) => {
         dispatch(deleteContacts(email, id))
+    }
+
+    const addHandler = () => {
+        dispatch(addContact(emailValue))
+        emailValue='';
     }
 
     return (
@@ -40,7 +55,7 @@ const Contacts = () => {
             </div>
             <div id="container" class="row justify-content-center">
                 <div class="col-auto">
-                    <Table striped bordered hover size="lg" borderless="true" hover="true">
+                    <Table  size="lg" borderless="true" hover="true">
                         <thead>
                             <tr>
                                 <th>Nombre</th>
@@ -50,7 +65,7 @@ const Contacts = () => {
                         <tbody>
                             {contacts.map(contact => (
                             <tr>
-                                <td>Nombre Apellido</td>
+                                <td>{contact.firstName} {contact.lastName}</td>
                                 <td onClick={() => selectedUser(contact)}>{contact.email}</td>
                             </tr>
                             ))}
@@ -59,17 +74,21 @@ const Contacts = () => {
                 </div>
             </div>
             <div class="btns">
-            {userSelected != '' ? (
-                <div>
-                    <Button className="btn btn-dark" variant="top" size="lg" onClick={() => deleteHandler(userSelected.email, userSelected.id)}>Eliminar</Button>
-                    <Button className="btn btn-dark" variant="top" size="lg" onClick={() => selectedUser(contacts.email)}>Modificar</Button>
-                </div>
-            ) : (
-                <div>
-                    <Button disabled className="btn btn-dark" variant="top" size="lg">Eliminar</Button>
-                    <Button disabled className="btn btn-dark" variant="top" size="lg">Modificar</Button>
-                </div>
-            )}
+                
+                <input  onChange={(e)=> {inputHandlerChange(e)}} ></input>
+ 
+                {userSelected != '' ? (
+                    <div>
+                        <Button className="btn btn-dark" variant="top" size="lg" onClick={() => addHandler(contacts.email)}>Agregar</Button>
+                        <Button className="btn btn-dark" variant="top" size="lg" onClick={() => deleteHandler(userSelected.email, userSelected.id)}>Eliminar</Button>
+                        
+                    </div>
+                ) : (
+                    <div>
+                        <Button onClick={() => addHandler(contacts.email)} className="btn btn-dark" variant="top" size="lg">Agregar</Button>
+                        <Button disabled className="btn btn-dark" variant="top" size="lg">Eliminar</Button>
+                    </div>
+                )}  
             </div>
         </div>
     )

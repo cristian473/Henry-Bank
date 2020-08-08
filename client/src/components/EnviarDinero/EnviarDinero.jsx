@@ -5,7 +5,7 @@ import { FaUsers } from "react-icons/fa";
 import { connect } from 'react-redux';
 import { getProfile, enviarDinero } from "../../actions/UserActions";
 
-function RecargarDinero({ usuarioConectado, getProfile, enviarDinero }) {
+function RecargarDinero({ usuarioConectado, getProfile }) {
 
   useEffect(() => {
     getProfile();
@@ -56,7 +56,7 @@ function RecargarDinero({ usuarioConectado, getProfile, enviarDinero }) {
           </div>
           <div className="send">
             <Button className="btn btn-dark" href="/cliente" size="lg" 
-              onClick={() => enviarDinero(usuarioConectado.id, contacto, {money: cantidad})}
+              onClick={() => enviarDinero(usuarioConectado.id, contacto, cantidad)}
             >Enviar Dinero</Button>
           </div>
         </div>

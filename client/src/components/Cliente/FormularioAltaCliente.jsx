@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+
 import { getAddress } from "../../actions/UserActions";
 import { connect } from "react-redux";
 import "./CSS/altaCliente.css";
@@ -25,6 +26,24 @@ const AddUserForm = function ({ id, getAddress }) {
     city: user.city,
     country: user.country,
   };
+
+  function getEdad(dateString) {
+    let hoy = new Date()
+    let fechaNacimiento = new Date(dateString)
+    let edad = hoy.getFullYear() - fechaNacimiento.getFullYear()
+    let diferenciaMeses = hoy.getMonth() - fechaNacimiento.getMonth()
+    if (
+      diferenciaMeses < 0 ||
+      (diferenciaMeses === 0 && hoy.getDate() < fechaNacimiento.getDate())
+    ) {
+      edad--
+    }
+    return edad
+  }
+
+  const cancelar = function (e) {
+    window.location.replace('http://localhost:3000')
+ }
 
   const handleInputChange = (event) => {
     const { name, value } = event.target;

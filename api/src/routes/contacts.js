@@ -72,10 +72,14 @@ server.post('/:idUser/addContact', (req,res)=> {
 
 
 
-server.delete('/:idUser/deleteContact', (req,res) => {
+server.delete('/:idUser/deleteContact/:email', (req,res) => {
 
+    
     const idUser =  req.params.idUser;
-    const email = req.body.email;
+    
+    const email = req.params.email;
+
+    console.log(email)
 
     //busco usuario y usuario a borrar
 
