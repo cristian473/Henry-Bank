@@ -1,4 +1,3 @@
-
 import {
   ADD_USER,
   GET_USER_LOGGED,
@@ -66,6 +65,27 @@ export function getTransactions(idUser) {
       });
   };
 }
+export function getAddress(address, id, user) {
+  return function (dispatch) {
+    axios
+      .post("http://localhost:3001/auth/validate/street", address)
+      .then((res) => {
+        if (res.status === 200) {
+          axios
+            .put(`http://localhost:3001/users/modify/${id}`, user)
+            .then((res) => {
+              if (res.status === 200) {
+                dispatch({ type: MODIFY_USER, payload: res.data });
+                return window.location.replace("http://localhost:3000/login");
+              }
+            });
+        }
+      })
+      .catch(() => {
+        alert("Ubicación inválida");
+      });
+  };
+}
 
 export function getUserLoggedIn(email) {
   return function (dispatch) {
@@ -99,30 +119,10 @@ export function logout() {
   };
 }
 
-export function getAddress(address, id, user) {
-  return function(dispatch) {
-    axios.post('http://localhost:3001/auth/validate/street', address)
-        .then((res) => { 
-          if(res.status === 200){
-              axios.put('http://localhost:3001/users/modify/' + id, user)
-              .then((res) => {
-              if (res.status === 200) {
-                dispatch({ type: MODIFY_USER, payload: res.data });
-                return window.location.replace('http://localhost:3000/login%27');
-              } 
-            })
-          } 
-        })
-
-        .catch(() => {
-          alert("Ubicación inválida")
-        })
-   }
-}
-
 export function enviarDinero(from, to, money) {
   return function (dispatch) {
-    axios.put('http://localhost:3001/transactions/' + from +'/'+ to, {money})
+    axios
+      .put("http://localhost:3001/transactions/" + from + "/" + to, { money })
       .then((res) => {
         if (res.status === 200) {
           return dispatch({ type: ENVIAR_DINERO });
@@ -136,25 +136,24 @@ export function enviarDinero(from, to, money) {
 export function getContacts(id) {
   return function (dispatch) {
     axios.get("http://localhost:3001/contacts/ " + id).then((res) => {
-     
-          if (res.status === 200) {
-            return dispatch({
-              type: GET_USER_CONTACTS,
-              payload: res.data.contactos,
-            });
-          } else {
-            alert(res.message);
-          }
+      if (res.status === 200) {
+        return dispatch({
+          type: GET_USER_CONTACTS,
+          payload: res.data.contactos,
         });
-
+      } else {
+        alert(res.message);
+      }
+    });
   };
 }
 
 export function deleteContacts(email, id) {
-  
   return function (dispatch) {
     axios
-      .delete("http://localhost:3001/contacts/" + id + "/deleteContact", {email})
+      .delete("http://localhost:3001/contacts/" + id + "/deleteContact", {
+        email,
+      })
       .then((res) => {
         if (res.status === 200) {
           axios.get("http://localhost:3001/contacts/" + id).then((response) => {

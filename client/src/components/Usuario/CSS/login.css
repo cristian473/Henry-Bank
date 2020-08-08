@@ -1,47 +1,33 @@
-#login{
-  margin: 20px auto;
-  width: 400px;
-  background-color: rgba(243, 242, 242, 0.233);
-}
-#login img{
-  width: 400px;
-}
-#login div h4{
-  position: relative;
-  top: -5px;
-  margin-bottom: 30px;
-  text-align: center;
-}
-#login .contenedor{
-  margin-top: 30px;
-  padding-bottom: 20px;
-}
-#login .link{
-  margin-left: 0px;
-}
-#login .link a{
-  color: #666666;
-  font-size: 15px;
-  position: relative;
-  left: 15px;
-}
-#login .inicio input{
-  margin-left: 0px;
-  background-color: yellow;
-  color: #000;
-  border: none;
-  font-weight: bold;
-  border-radius: 0%;
-  padding: 12px 40px !important;
-  box-shadow: 5px 5px 5px rgb(167, 167, 167);
-}
-#login .inicio input:hover{
-  color: #fff;
-  box-shadow: none;
+body {
+  background-color: #f5f50a;
 }
 
-#login .inicio button{
+.login {
+  height: 900px;
+ 
   
-  padding: 12px 58px !important;
-  box-shadow: 5px 5px 5px rgb(167, 167, 167);
+}
+
+
+.login2 {
+  border-radius: 15px;
+  margin-top: 5%;
+  background-color: white
+}
+
+#conte1 {
+  width: 700px;
+  height: 800px;
+}
+
+#conte1 img {
+  width: 800px;
+  padding-left: 20%;
+  padding-right: 20%;
+}
+
+@media (max-width:700px) {
+#conte1 #row {
+    width: 400px;
+  }
 }

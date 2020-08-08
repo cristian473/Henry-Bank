@@ -10,7 +10,7 @@ import RecargarDinero from "./components/RecargarDinero/RecargarDinero.jsx";
 import EnviarDinero from "./components/EnviarDinero/EnviarDinero.jsx";
 import BotonLogout from "./components/Cliente/BotonLogout.jsx";
 import CrearUsuario from "./components/Usuario/FormularioCrearUsuario.jsx";
-import Contacts from './components/Contactos/contactos'
+import Contacts from "./components/Contactos/contactos";
 
 function App() {
   return (
@@ -27,7 +27,7 @@ function App() {
       <Route exact path="/recargar" component={RecargarDinero} />
       <Route exact path="/enviar" component={EnviarDinero} />
       <Route exact path="/logout" component={BotonLogout} />
-      <Route path ="/contactos" component = {Contacts} />
+      <Route path="/contactos" component={Contacts} />
     </div>
   );
 }
