@@ -1,9 +1,17 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import { connect } from 'react-redux';
+import { listaContactos } from "../../actions/UserActions";
 import './searchContact.css';
 
-export default function search() {
+export function SearchAutocomplete ({ arrIdContactos, listContact ,listaContactos }) {
+  // [2,3]
 
-  let count = 0;
+  useEffect(() => {
+    [2, 3].map(idContact => {
+      listaContactos(idContact)
+    })
+  }, [])
+
 
   function autocomplete(inp, arr) {
     var currentFocus;
@@ -17,11 +25,11 @@ export default function search() {
         a.setAttribute("class", "autocomplete-items");
         this.parentNode.appendChild(a);
         for (i = 0; i < arr.length; i++) {
-          if (arr[i].substr(0, val.length).toUpperCase() === val.toUpperCase()) {
+          if (arr[i].nombreContacto.substr(0, val.length).toUpperCase() === val.toUpperCase()) {
             b = document.createElement("DIV");
-            b.innerHTML = "<strong>" + arr[i].substr(0, val.length) + "</strong>";
-            b.innerHTML += arr[i].substr(val.length);
-            b.innerHTML += "<input type='hidden' value='" + arr[i] + "'>";
+            b.innerHTML = "<strong>" + arr[i].nombreContacto.substr(0, val.length) + "</strong>";
+            b.innerHTML += arr[i].nombreContacto.substr(val.length);
+            b.innerHTML += "<input type='hidden' value='" + arr[i].nombreContacto + "'>";
             b.addEventListener("click", function(e) {
                 inp.value = this.getElementsByTagName("input")[0].value;
                 closeAllLists();
@@ -34,22 +42,14 @@ export default function search() {
         var x = document.getElementById(this.id + "autocomplete-list");
         if (x) x = x.getElementsByTagName("div");
         if (e.keyCode === 40) {
-          /*If the arrow DOWN key is pressed,
-          increase the currentFocus variable:*/
           currentFocus++;
-          /*and and make the current item more visible:*/
           addActive(x);
-        } else if (e.keyCode === 38) { //up
-          /*If the arrow UP key is pressed,
-          decrease the currentFocus variable:*/
+        } else if (e.keyCode === 38) {
           currentFocus--;
-          /*and and make the current item more visible:*/
           addActive(x);
         } else if (e.keyCode === 13) {
-          /*If the ENTER key is pressed, prevent the form from being submitted,*/
           e.preventDefault();
           if (currentFocus > -1) {
-            /*and simulate a click on the "active" item:*/
             if (x) x[currentFocus].click();
           }
         }
@@ -80,29 +80,38 @@ export default function search() {
     });
   }
   
-  // CONTACTOS -----¬
-  var countries = ["Afghanistan","Albania","Algeria","Andorra","Angola","Anguilla","Antigua & Barbuda","Argentina","Armenia","Aruba","Australia","Austria","Azerbaijan","Bahamas","Bahrain","Bangladesh","Barbados","Belarus","Belgium","Belize","Benin","Bermuda","Bhutan","Bolivia","Bosnia & Herzegovina","Botswana","Brazil","British Virgin Islands","Brunei","Bulgaria","Burkina Faso","Burundi","Cambodia","Cameroon","Canada","Cape Verde","Cayman Islands","Central Arfrican Republic","Chad","Chile","China","Colombia","Congo","Cook Islands","Costa Rica","Cote D Ivoire","Croatia","Cuba","Curacao","Cyprus","Czech Republic","Denmark","Djibouti","Dominica","Dominican Republic","Ecuador","Egypt","El Salvador","Equatorial Guinea","Eritrea","Estonia","Ethiopia","Falkland Islands","Faroe Islands","Fiji","Finland","France","French Polynesia","French West Indies","Gabon","Gambia","Georgia","Germany","Ghana","Gibraltar","Greece","Greenland","Grenada","Guam","Guatemala","Guernsey","Guinea","Guinea Bissau","Guyana","Haiti","Honduras","Hong Kong","Hungary","Iceland","India","Indonesia","Iran","Iraq","Ireland","Isle of Man","Israel","Italy","Jamaica","Japan","Jersey","Jordan","Kazakhstan","Kenya","Kiribati","Kosovo","Kuwait","Kyrgyzstan","Laos","Latvia","Lebanon","Lesotho","Liberia","Libya","Liechtenstein","Lithuania","Luxembourg","Macau","Macedonia","Madagascar","Malawi","Malaysia","Maldives","Mali","Malta","Marshall Islands","Mauritania","Mauritius","Mexico","Micronesia","Moldova","Monaco","Mongolia","Montenegro","Montserrat","Morocco","Mozambique","Myanmar","Namibia","Nauro","Nepal","Netherlands","Netherlands Antilles","New Caledonia","New Zealand","Nicaragua","Niger","Nigeria","North Korea","Norway","Oman","Pakistan","Palau","Palestine","Panama","Papua New Guinea","Paraguay","Peru","Philippines","Poland","Portugal","Puerto Rico","Qatar","Reunion","Romania","Russia","Rwanda","Saint Pierre & Miquelon","Samoa","San Marino","Sao Tome and Principe","Saudi Arabia","Senegal","Serbia","Seychelles","Sierra Leone","Singapore","Slovakia","Slovenia","Solomon Islands","Somalia","South Africa","South Korea","South Sudan","Spain","Sri Lanka","St Kitts & Nevis","St Lucia","St Vincent","Sudan","Suriname","Swaziland","Sweden","Switzerland","Syria","Taiwan","Tajikistan","Tanzania","Thailand","Timor L'Este","Togo","Tonga","Trinidad & Tobago","Tunisia","Turkey","Turkmenistan","Turks & Caicos","Tuvalu","Uganda","Ukraine","United Arab Emirates","United Kingdom","United States of America","Uruguay","Uzbekistan","Vanuatu","Vatican City","Venezuela","Vietnam","Virgin Islands (US)","Yemen","Zambia","Zimbabwe"];
-  
+  /* listContact = CONTACTOS -----¬ 
+  [ 
+    {nombreContacto: 'Junior', idContacto: 2},
+    {nombreContacto: 'gatito', idContacto: 3}
+  ]
+  */
+
   return (
     <div>
-      <h2>Autocomplete</h2>
-      <p>Start typing:</p>
       <form autoComplete="off">
         <div className="autocomplete" style={{width:"300px"}}>
           <input id="myInput" type="text" name="myCountry" placeholder="Country"
-            onFocus={(e) => {
-              if(count === 0){
-                autocomplete(e.target, countries);
-                count = 1;
-              }
-            }}
+            onFocus={(e) => autocomplete(e.target, listContact)}
           />  
         </div>
-        <input type="submit"/>
+        <input type="button" value="enviar" onClick={() => {
+          let getNameAndId;
+          const nombre = document.getElementById('myInput').value //Argentina, Brazil, etc...
+          for( let i = 0; i < listContact.length; i++ ){
+            if (listContact[i].nombreContacto === nombre) getNameAndId = listContact[i];
+          }
+        }}/>
       </form>
     </div>
   )
 }
 
+function mapStateToProps(state){
+  return {
+    listContact: state.usuario.listContact,
+  }
+}
 
+export default connect(mapStateToProps,{ listaContactos })(SearchAutocomplete);
 

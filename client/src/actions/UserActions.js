@@ -1,12 +1,12 @@
-import { ADD_USER, GET_USER_LOGGED, MODIFY_USER , GET_PROFILE, GET_WALLET, LOGOUT, GET_TRANSACTIONS, RECARGAR_DINERO, ENVIAR_DINERO } from "../constants/userConstants";
+import { ADD_USER, GET_USER_LOGGED, MODIFY_USER , GET_PROFILE, GET_WALLET, LOGOUT, GET_TRANSACTIONS, RECARGAR_DINERO, ENVIAR_DINERO, LISTA_CONTACTOS } from "../constants/userConstants";
 import axios from "axios";
 
 export function addUser(user) {
   return function (dispatch) {
     axios.post("http://localhost:3001/auth/register", user).then((res) => {
       if (res.status === 200) {
-        return dispatch({ type: ADD_USER });
-        window.history.back()
+        dispatch({ type: ADD_USER });
+        return window.history.back()
       } else {
         alert("Error en campos");
       }
@@ -117,7 +117,22 @@ export function enviarDinero(from, to, money) {
   }
 } 
 
-
+export function listaContactos(idContact) {
+  return function (dispatch) { 
+      axios.get(`http://localhost:3001/users/${idContact}`)
+      .then(res => {
+        if (res.status === 200) {
+          return dispatch({ 
+            type: LISTA_CONTACTOS, 
+            payload: {
+              nombreContacto: res.data.firstName + ' ' + res.data.lastName,
+              idContacto: res.data.id
+            }
+           });
+        } 
+      })
+  }
+} 
 
 
 

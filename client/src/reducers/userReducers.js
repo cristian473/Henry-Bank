@@ -1,10 +1,11 @@
-import { ADD_USER, GET_USER_LOGGED, GET_PROFILE, GET_WALLET, LOGOUT,RESET_PASS_USER, GET_TRANSACTIONS } from '../constants/userConstants';
+import { ADD_USER, GET_USER_LOGGED, GET_PROFILE, GET_WALLET, LOGOUT, RESET_PASS_USER, GET_TRANSACTIONS, LISTA_CONTACTOS } from '../constants/userConstants';
 
 const initialState = {
     usuarios: [],
     usuarioConectado: {},
     wallet: {},
     transactions: {},
+    listContact: []
 };
 
 export default function usuario(state = initialState, action) {
@@ -39,15 +40,20 @@ export default function usuario(state = initialState, action) {
                 ...state,
                 usuarioConectado: action.payload
             }
-            case LOGOUT:
+        case LOGOUT:
             return {
                 ...state,
                 usuarioConectado: {}
-            }
-            case RESET_PASS_USER:
+        }
+        case RESET_PASS_USER:
             return {
                 ...state,
                 usuarios: state.usuarios
+            }
+        case LISTA_CONTACTOS:
+            return{
+                ...state,
+                listContact: state.listContact.concat(action.payload)
             }
         default:
             return state
