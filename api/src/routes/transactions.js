@@ -11,7 +11,7 @@ const { Wallet, Transactions, Merchants } = require("../models/index.js");
 server.post("/loadBalance/:idUser", async (req, res) => {
   const { idUser } = req.params;
   const saldo = await Wallet.findOne({
-    where: { userId: req.params.idUser },
+    where: { userId: idUser },
   });
   const value = Math.floor((Math.random() * 10000) + 1);
   const saldoConsolidado =

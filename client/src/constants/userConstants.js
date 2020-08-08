@@ -5,5 +5,6 @@ export const GET_PROFILE = 'GET_PROFILE';
 export const GET_WALLET = 'GET_WALLET';
 export const GET_TRANSACTIONS = 'GET_TRANSACTIONS';
 export const LOGOUT = 'LOGOUT';
+export const RECARGAR_DINERO = 'RECARGAR_DINERO';
 export const ENVIAR_DINERO = 'ENVIAR_DINERO';
 export const RESET_PASS_USER = 'RESET_PASS_USER';

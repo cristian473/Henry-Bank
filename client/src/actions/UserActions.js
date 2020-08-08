@@ -1,4 +1,4 @@
-import { ADD_USER, GET_USER_LOGGED, MODIFY_USER , GET_PROFILE, GET_WALLET, LOGOUT, GET_TRANSACTIONS, ENVIAR_DINERO } from "../constants/userConstants";
+import { ADD_USER, GET_USER_LOGGED, MODIFY_USER , GET_PROFILE, GET_WALLET, LOGOUT, GET_TRANSACTIONS, RECARGAR_DINERO, ENVIAR_DINERO } from "../constants/userConstants";
 import axios from "axios";
 
 export function addUser(user) {
@@ -77,8 +77,6 @@ export function getUserLoggedIn(email) {
   }
 }
 
-
-
 export function logout() {
   return function (dispatch) {
     axios.get("http://localhost:3001/auth/logout")
@@ -92,8 +90,20 @@ export function logout() {
   }
 }
 
+export function recarDinero(idUser, money) {
+  return function (dispatch) {
+    axios.post(`http://localhost:3001/transactions/loadBalance/${idUser}`, money)
+    .then(res => {
+      if (res.status === 200) {
+        return dispatch({ type: RECARGAR_DINERO });
+      } else {
+        alert("No se pudo recargar");
+      }
+    })
+  }
+} 
+
 export function enviarDinero(from, to, money) {
-  console.log(money)
   return function (dispatch) {
     axios.put(`http://localhost:3001/transactions/${from}/${to}`, money)
     .then(res => {
