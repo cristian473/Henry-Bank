@@ -5,7 +5,8 @@ export function addUser(user) {
   return function (dispatch) {
     axios.post("http://localhost:3001/auth/register", user).then((res) => {
       if (res.status === 200) {
-        return dispatch({ type: ADD_USER }), window.history.back();
+        return dispatch({ type: ADD_USER });
+        window.history.back()
       } else {
         alert("Error en campos");
       }
