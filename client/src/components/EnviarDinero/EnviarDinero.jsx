@@ -3,15 +3,23 @@ import './enviardinero.css';
 import Button from 'react-bootstrap/Button';
 import { FaUsers } from "react-icons/fa";
 import { connect } from 'react-redux';
-import { getProfile, enviarDinero } from "../../actions/UserActions";
+import { getProfile, enviarDinero, listaContactos } from "../../actions/UserActions";
+import SearchContact from "./searchContact.js";
 
-function RecargarDinero({ usuarioConectado, getProfile, enviarDinero }) {
+function RecargarDinero({ usuarioConectado, getProfile, enviarDinero, listContact, listaContactos }) {
 
   useEffect(() => {
     getProfile();
   }, []);
 
-  const [contacto, setContacto] = useState(0);
+  useEffect(() => {
+  if(usuarioConectado.contacts){
+    usuarioConectado.contacts.map(value => {
+     listaContactos(value)
+    })
+  }
+  }, [usuarioConectado])
+
   const [cantidad, setCantidad] = useState(0); 
   
   return (  
@@ -35,9 +43,16 @@ function RecargarDinero({ usuarioConectado, getProfile, enviarDinero }) {
               <FaUsers size="25"/>
               </span>
             </div>
-            <input type="text" class="form-control" placeholder="Ingrese nombre o mail..."
-              onChange={e => setContacto(e.target.value)}
-            />
+
+            {usuarioConectado ? 
+              <SearchContact misContactos={listContact}/>
+            :
+              <input type="text" class="form-control" placeholder="Ingrese nombre o mail..."/>
+            }
+
+
+
+
           </div>
 
           <div className="total">
@@ -56,7 +71,15 @@ function RecargarDinero({ usuarioConectado, getProfile, enviarDinero }) {
           </div>
           <div className="send">
             <Button className="btn btn-dark" href="/cliente" size="lg" 
-              onClick={() => enviarDinero(usuarioConectado.id, contacto, {money: cantidad})}
+              onClick={() => {
+                const nombre = document.getElementById('myInput').value;
+                console.log(nombre)
+                for( let i = 0; i < listContact.length; i++ ){
+                  if (listContact[i].nombreContacto === nombre) {
+                    enviarDinero(usuarioConectado.id, listContact[i].idContacto, {money: cantidad})
+                  };
+                }
+              }}
             >Enviar Dinero</Button>
           </div>
         </div>
@@ -67,7 +90,8 @@ function RecargarDinero({ usuarioConectado, getProfile, enviarDinero }) {
 function mapStateToProps(state){
   return {
     usuarioConectado: state.usuario.usuarioConectado,
+    listContact: state.usuario.listContact,
   }
 }
 
-export default connect(mapStateToProps,{ getProfile, enviarDinero })(RecargarDinero);
+export default connect(mapStateToProps,{ getProfile, enviarDinero, listaContactos })(RecargarDinero);

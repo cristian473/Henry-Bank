@@ -1,17 +1,8 @@
-import React, { useEffect } from 'react';
-import { connect } from 'react-redux';
-import { listaContactos } from "../../actions/UserActions";
+import React from 'react';
 import './searchContact.css';
 
-export function SearchAutocomplete ({ arrIdContactos, listContact ,listaContactos }) {
+export default function SearchAutocomplete ({ misContactos}) {
   // [2,3]
-
-  useEffect(() => {
-    [2, 3].map(idContact => {
-      listaContactos(idContact)
-    })
-  }, [])
-
 
   function autocomplete(inp, arr) {
     var currentFocus;
@@ -21,6 +12,7 @@ export function SearchAutocomplete ({ arrIdContactos, listContact ,listaContacto
         if (!val) { return false;}
         currentFocus = -1;
         a = document.createElement("DIV");
+        a.addEventListener("clicl", function(e){})
         a.setAttribute("id", this.id + "autocomplete-list");
         a.setAttribute("class", "autocomplete-items");
         this.parentNode.appendChild(a);
@@ -91,27 +83,11 @@ export function SearchAutocomplete ({ arrIdContactos, listContact ,listaContacto
     <div>
       <form autoComplete="off">
         <div className="autocomplete" style={{width:"300px"}}>
-          <input id="myInput" type="text" name="myCountry" placeholder="Country"
-            onFocus={(e) => autocomplete(e.target, listContact)}
+          <input id="myInput" type="text" class="form-control" name="myCountry" placeholder="Ingrese nombre o mail..."
+            onFocus={(e) => autocomplete(e.target, misContactos)}
           />  
         </div>
-        <input type="button" value="enviar" onClick={() => {
-          let getNameAndId;
-          const nombre = document.getElementById('myInput').value //Argentina, Brazil, etc...
-          for( let i = 0; i < listContact.length; i++ ){
-            if (listContact[i].nombreContacto === nombre) getNameAndId = listContact[i];
-          }
-        }}/>
       </form>
     </div>
   )
 }
-
-function mapStateToProps(state){
-  return {
-    listContact: state.usuario.listContact,
-  }
-}
-
-export default connect(mapStateToProps,{ listaContactos })(SearchAutocomplete);
-
