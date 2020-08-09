@@ -2,6 +2,7 @@ export const ADD_USER = 'ADD_USER';
 export const GET_USER_LOGGED = 'GET_USER_LOGGED';
 export const MODIFY_USER = 'MODIFY_USER';
 export const GET_PROFILE = 'GET_PROFILE';
+export const GET_ADDRESS = 'GET_ADDRESS';
 export const GET_WALLET = 'GET_WALLET';
 export const GET_TRANSACTIONS = 'GET_TRANSACTIONS';
 export const LOGOUT = 'LOGOUT';

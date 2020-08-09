@@ -1,29 +1,20 @@
-import { ADD_USER, GET_USER_LOGGED, MODIFY_USER , GET_PROFILE, GET_WALLET, LOGOUT, GET_TRANSACTIONS, ENVIAR_DINERO } from "../constants/userConstants";
+import { ADD_USER, MODIFY_USER , GET_PROFILE, GET_WALLET, LOGOUT, GET_TRANSACTIONS, ENVIAR_DINERO } from "../constants/userConstants";
 import axios from "axios";
 
 export function addUser(user) {
   return function (dispatch) {
-    axios.post("http://localhost:3001/auth/register", user).then((res) => {
+    axios.post("http://localhost:3001/auth/register", user)
+    .then((res) => {
       if (res.status === 200) {
-        return dispatch({ type: ADD_USER }), window.history.back();
-      } else {
-        alert("Error en campos");
-      }
-    });
-  };
-}
-
-export function modifyUser(id, user) {
-  return (dispatch) => {
-    axios.put(`http://localhost:3001/users/modify/${id}`, user).then((res) => {
-      if (res.status === 200) {
-        window.location.replace('http://localhost:3000/login')
-        return dispatch({ type: MODIFY_USER, payload: res.data });
-      } else {
-        alert("Error en campos");
-      }
+        alert("Se ha enviado un email de validación a " + user.email)
+        return dispatch({ type: ADD_USER }), window.location.replace('http://localhost:3000');
+      } 
     })
-  }
+    .catch(() => {
+      alert("E-mail " + user.email + " ya está en uso")
+    })
+
+  };
 }
 
 export function getProfile(){
@@ -56,35 +47,11 @@ export function getTransactions(idUser){
   }
 }
 
-export function getUserLoggedIn(email) {
-  return function(dispatch) {
-      return fetch('http://localhost:3001/users/' + email, {
-              headers: {
-                  'Accept': '*/*',
-                  'Content-Type': 'application/json'
-              },
-              method: 'GET',
-              credentials: 'include'
-
-          })
-          .then((res) => res.json())
-          .then((json) => {
-              return dispatch({ type: GET_USER_LOGGED, payload: json })
-          })
-          .catch(() => {
-              console.log("error")
-          })
-  }
-}
-
-
-
 export function logout() {
   return function (dispatch) {
-    axios.get("http://localhost:3001/auth/logout")
-    .then((res) => {
+    axios.get('http://localhost:3001/auth/logout').then((res) => {
       if (res.status === 200) {
-        return dispatch({ type: LOGOUT });
+       return dispatch({ type: LOGOUT });
       } else {
         alert("No fue posible desloguearse");
       }
@@ -106,9 +73,23 @@ export function enviarDinero(from, to, money) {
   }
 } 
 
-
-
-
-
-
-
+export function getAddress(address, id, user) {
+  return function(dispatch) {
+    axios.post('http://localhost:3001/auth/validate/street', address)          
+        .then((res) => { 
+          if(res.status === 200){
+              axios.put(`http://localhost:3001/users/modify/${id}`, user)
+              .then((res) => {
+              if (res.status === 200) {
+                dispatch({ type: MODIFY_USER, payload: res.data });
+                return window.location.replace('http://localhost:3000/login');
+              } 
+            })
+          } 
+        })   
+      
+        .catch(() => {
+          alert("Ubicación inválida")
+        })           
+   }
+}

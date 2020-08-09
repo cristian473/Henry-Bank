@@ -86,7 +86,7 @@ server.get("/validate/account/:email_hash", async (req, res) => {
 });
 
 //Normalizar una Dirección
-server.get("/validate/street", async (req, res) => {
+server.post("/validate/street", async (req, res) => {
   const { street, city, country } = req.body;
   var input = `${street ? street : ""} ${city ? city : ""} ${
     country ? country : ""
