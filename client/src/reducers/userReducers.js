@@ -1,4 +1,15 @@
-import { ADD_USER, GET_USER_CONTACTS, SELECT_CONTACT, GET_USER_LOGGED, GET_PROFILE, GET_WALLET, LOGOUT, RESET_PASS_USER, GET_TRANSACTIONS, GET_ADDRESS, LISTA_CONTACTOS } from '../constants/userConstants';
+import { ADD_USER, 
+    GET_USER_CONTACTS, 
+    SELECT_CONTACT, 
+    GET_USER_LOGGED, 
+    GET_PROFILE, 
+    GET_WALLET, 
+    LOGOUT, 
+    RESET_PASS_USER, 
+    GET_TRANSACTIONS, 
+    GET_ADDRESS, 
+    LISTA_CONTACTOS,
+    CARGAR_DINERO } from '../constants/userConstants';
 
 const initialState = {
     usuarios: [],
@@ -77,6 +88,12 @@ export default function usuario(state = initialState, action) {
             return {
                 ...state,
                 contactSelected: action.payload
+            }
+
+            case CARGAR_DINERO:
+            return {
+                ...state,
+                transactions: action.payload
             }
 
         default:

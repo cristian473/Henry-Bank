@@ -1,4 +1,15 @@
-import { ADD_USER, GET_PROFILE, MODIFY_USER, GET_WALLET, LOGOUT, GET_TRANSACTIONS, RECARGAR_DINERO, GET_USER_CONTACTS, DELETE_CONTACT, ENVIAR_DINERO, LISTA_CONTACTOS } from "../constants/userConstants";
+import { ADD_USER,
+  GET_PROFILE, 
+  MODIFY_USER, 
+  GET_WALLET, 
+  LOGOUT, 
+  GET_TRANSACTIONS, 
+  RECARGAR_DINERO,
+  CARGAR_DINERO,
+  GET_USER_CONTACTS,
+  DELETE_CONTACT, 
+  ENVIAR_DINERO, 
+  LISTA_CONTACTOS } from "../constants/userConstants";
 import axios from "axios";
 
 export function addUser(user) {
@@ -163,3 +174,15 @@ export function deleteContacts(email, id) {
       });
   };
 }
+
+export function cargarDinero(id) {
+  return function (dispatch){
+    axios.post(`http://localhost:3001/transactions/loadBalance/${id}`)
+    .then(res => {
+      if (res.status === 200) {
+        window.location.replace('http://localhost:3000/cliente');
+        return dispatch({ type: CARGAR_DINERO });
+      } 
+    })
+  }
+} 
