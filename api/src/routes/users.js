@@ -11,12 +11,12 @@ server.get("/", (req, res) => {
 });
 
 server.get("/:id", (req, res) => {
-  const { email } = req.params;	  const { id } = req.params;
-  Users.findOne({	  Users.findOne({
-    where: { email: email },	    where: { id: id },
-  }).then((result) => {	  }).then((result) => {
-    res.send(result);	    res.send(result);
-  });	  });
+  const { id } = req.params;
+  Users.findOne({
+    where: { id: id },
+  }).then((result) => {
+    res.send(result);
+  });
 });
 
 server.post("/new", async (req, res) => {
