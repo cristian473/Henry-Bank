@@ -17,7 +17,7 @@ const {
 server.post("/loadBalance/:idUser", async (req, res) => {
   const { idUser } = req.params;
   const saldo = await Wallet.findOne({
-    where: { userId: req.params.idUser },
+    where: { userId: idUser },
   });
   const value = Math.floor(Math.random() * 10000 + 1);
   const saldoConsolidado = parseFloat(saldo.balance) + parseFloat(value);
@@ -59,261 +59,90 @@ server.post("/loadBalance/:idUser", async (req, res) => {
 //transferencia de dinero//
 
 server.put("/:idSender/:idReceiver", async (req, res) => {
-  let { money, transactiontype } = req.body;
+  let money = req.body.money;
   const { idSender, idReceiver } = req.params;
   const randomTransactionNumber = function () {
-    return Math.floor(Math.random() * 500000 + 1);
+    return Math.floor((Math.random() * 500000) + 1)
   };
-
-  const stringSender = idSender.toString();
-  const stringReceiver = idReceiver.toString();
   //busqueda de wallets
-
   let userSender = await Wallet.findOne({ where: { userId: idSender } });
-  let moneyFloat = parseFloat(money);
-  switch (transactiontype) {
-    //Transferencia entre usuarios billetera
-    case "UsertoUser":
-      let userReceiver = await Wallet.findOne({
-        where: { userId: idReceiver },
-      });
-      let check = await Users.findOne({ where: { id: idReceiver } });
-      if (
-        check &&
-        check.status == "Validado" &&
-        userSender.balance >= moneyFloat
-      ) {
-        Promise.all([userSender, userReceiver])
-          .then((users) => {
-            //convertir los valores a decimal
+  let userReceiver = await Wallet.findOne({
+    where: { userId: idReceiver },
+  });
+  console.log(userSender.balance);
+  console.log(money)
+  if (userSender.balance <= money) {
+    Promise.all([userSender, userReceiver])
+      .then((users) => {
+        //convertir los valores a decimal
+        let moneyFloat = parseFloat(money);
+        let balanceReceiver = parseFloat(users[1].balance);
+        let balanceSender = parseFloat(users[0].balance);
+        //suma y resta de montos
+        let newBalanceSender = balanceSender - moneyFloat;
+        let newBalanceReceiver = balanceReceiver + moneyFloat;
 
-            let balanceReceiver = parseFloat(users[1].balance);
-            let balanceSender = parseFloat(users[0].balance);
-            //suma y resta de montos
-            let newBalanceSender = balanceSender - moneyFloat;
-            let newBalanceReceiver = balanceReceiver + moneyFloat;
+        //updates en las dos billeteras
+        let receiver = Wallet.update(
+          {
+            balance: newBalanceReceiver,
+          },
+          {
+            returning: true,
+            where: { userId: idReceiver },
+          }
+        );
+        let send = Wallet.update(
+          {
+            balance: newBalanceSender,
+          },
+          {
+            returning: true,
+            where: { userId: idSender },
+          }
+        );
 
-            //updates en las dos billeteras
-            let receiver = Wallet.update(
-              {
-                balance: newBalanceReceiver,
-              },
-              {
-                returning: true,
-                where: { userId: idReceiver },
-              }
-            );
-            let send = Wallet.update(
-              {
-                balance: newBalanceSender,
-              },
-              {
-                returning: true,
-                where: { userId: idSender },
-              }
-            );
-
-            Promise.all([send, receiver])
-              .then((promises) => {
-                //se registra la transaccion
-                Transactions.create({
-                  idSender: idSender,
-                  idReceiver: idReceiver,
-                  transactions_type: "Transferencia a usuario",
-                  value: money,
-                  state: "Aceptada",
-                  transactionNumber:
-                    stringSender + stringReceiver + randomTransactionNumber(),
+        Promise.all([send, receiver])
+          .then((promises) => {
+            //se registra la transaccion
+            Transactions.create({
+              idSender: idSender,
+              idReceiver: idReceiver,
+              type: "Transferencia",
+              value: money,
+              state: "Aceptada",
+              transactionNumber: randomTransactionNumber()
+            })
+              .then((transaccion) =>
+                res.status(200).json({
+                  message:
+                    "transaccion N°" + transaccion.id + " realizada con exito!",
+                  transaccion,
                 })
-                  .then((transaccion) =>
-                    res.status(200).json({
-                      message:
-                        "transaccion N°" +
-                        transaccion.id +
-                        " realizada con exito!",
-                      transaccion,
-                    })
-                  )
-                  .catch((err) => {
-                    res.status(400).json({
-                      message: "No se registro el movimiento",
-                    });
-                  });
-              })
-
+              )
               .catch((err) => {
-                res.status(400).json({ message: "Saldo insuficiente." });
+                res.status(400).json({
+                  message: "No se registro el movimiento",
+                });
               });
           })
-          .catch((err) =>
-            res.status(400).json({
-              message:
-                "Usuario no encontrado! por favor ingrese nuevamente los usuarios",
-              error: err,
-            })
-          );
-      } else {
-        if (!check || check.status == "Validado") {
-          res.json({ message: "El usuario no existe o no esta habilitado" });
-        } else {
-          res.json({ message: "El usuario no tiene fondos suficientes" });
-        }
-      }
-      break;
 
-    // Compra a comercio
-    case "UsertoMerchant":
-      let merchants = await Merchants.findOne({ where: { id: idReceiver } });
-      //Validacion
-      let checkMerch = await Merchants.findOne({ where: { id: idReceiver } });
-      console.log(userSender.balance);
-      if (checkMerch && userSender && userSender.balance >= moneyFloat) {
-        Promise.all([userSender, merchants])
-          .then((users) => {
-            //convertir los valores a decimal
-            let moneyFloat = parseFloat(money);
-            let balanceSender = parseFloat(users[0].balance);
-            //suma y resta de montos
-            let newBalanceSender = balanceSender - moneyFloat;
-
-            //updates en las dos billeteras
-            Wallet.update(
-              {
-                balance: newBalanceSender,
-              },
-              {
-                returning: true,
-                where: { userId: idSender },
-              }
-            )
-              .then(() => {
-                //se registra la transaccion
-
-                Transactions.create({
-                  idSender: idSender,
-                  idReceiver: idReceiver,
-                  transactions_type: "Pago Comercio",
-                  value: money,
-                  state: "Aceptada",
-                  transactionNumber:
-                    stringSender + stringReceiver + randomTransactionNumber(),
-                })
-                  .then((transaccion) =>
-                    res.status(200).json({
-                      message:
-                        "transaccion N°" +
-                        transaccion.id +
-                        " realizada con exito!",
-                      transaccion,
-                    })
-                  )
-                  .catch((err) => {
-                    res.status(400).json({
-                      message: "No se registro el movimiento",
-                    });
-                  });
-              })
-              .catch((err) => {
-                res.status(400).json({ message: "Saldo insuficiente." });
-              });
-          })
-          .catch((err) =>
-            res.status(400).json({
-              message:
-                "Comercio no encontrado! por favor ingrese nuevamente los usuarios",
-              error: err,
-            })
-          );
-      } else {
-        if (!checkMerch || !userSender) {
-          res.json({
-            message: "El usuario o comercio no existe o no esta habilitado",
+          .catch((err) => {
+            res
+              .status(400)
+              .json({ message: "No se pudo modificar el saldo", err });
           });
-        } else {
-          res.json({ message: "El usuario no tiene fondos suficientes" });
-        }
-      }
-      break;
+      })
 
-    //Transferencia a CBU
-    case "UsertoBank":
-      let banks = await Banks.findOne({
-        where: { id: idReceiver },
-      });
-      //Validacion
-      let checkBank = await Banks.findOne({ where: { id: idReceiver } });
-      if (checkBank && userSender && userSender.balance >= moneyFloat) {
-        Promise.all([userSender, banks])
-          .then((users) => {
-            //convertir los valores a decimal
-            let moneyFloat = parseFloat(money);
-            let balanceSender = parseFloat(users[0].balance);
-            //suma y resta de montos
-            let newBalanceSender = balanceSender - moneyFloat;
-
-            //updates en las dos billeteras
-            Wallet.update(
-              {
-                balance: newBalanceSender,
-              },
-              {
-                returning: true,
-                where: { userId: idSender },
-              }
-            )
-              .then(() => {
-                //se registra la transaccion
-
-                Transactions.create({
-                  idSender: idSender,
-                  idReceiver: idReceiver,
-                  transactions_type: "Transferencia Bancaria",
-                  value: money,
-                  state: "Aceptada",
-                  transactionNumber:
-                    stringSender + stringReceiver + randomTransactionNumber(),
-                })
-                  .then((transaccion) =>
-                    res.status(200).json({
-                      message:
-                        "transaccion N°" +
-                        transaccion.id +
-                        " realizada con exito!",
-                      transaccion,
-                    })
-                  )
-                  .catch((err) => {
-                    res.status(400).json({
-                      message: "No se registro el movimiento",
-                    });
-                  });
-              })
-              .catch((err) => {
-                res.status(400).json({ message: "Saldo insuficiente." });
-              });
-          })
-          .catch((err) =>
-            res.status(400).json({
-              message:
-                "Banco no encontrado! por favor ingrese nuevamente los usuarios",
-              error: err,
-            })
-          );
-      } else {
-        if (!checkBank || !userSender) {
-          res.json({
-            message: "El usuario o banco no existe o no esta habilitado",
-          });
-        } else {
-          res.json({ message: "El usuario no tiene fondos suficientes" });
-        }
-      }
-
-      break;
-    default:
-      res.json({ message: "No se ha indicado el tipo de operacion." });
-      break;
-  }
+      .catch((err) =>
+        res.status(400).json({
+          message:
+            "Usuario no encontrado! por favor ingrese nuevamente los usuarios",
+          error: err,
+        })
+    );} else {
+      res.json({ message: "el usuario no tiene fondos suficientes" })
+    }
 });
 
 //RUTA PARA RETORNAR SUMA GENERAL DE INGRESOS Y EGRESOS X USUARIO//

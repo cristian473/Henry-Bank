@@ -6,6 +6,7 @@ import { connect } from 'react-redux';
 import { getProfile, enviarDinero, listaContactos } from "../../actions/UserActions";
 import SearchContact from "./searchContact.js";
 
+
 function RecargarDinero({ usuarioConectado, getProfile, enviarDinero, listContact, listaContactos }) {
 
   useEffect(() => {

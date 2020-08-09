@@ -149,7 +149,7 @@ export function deleteContacts(email, id) {
         if (res.status === 200) {
           axios.get("http://localhost:3001/contacts/" + id).then((response) => {
             return dispatch({
-              type: GET_USER_CONTACTS,
+              type: DELETE_CONTACT,
               payload: response.data.contactos,
             });
           });
