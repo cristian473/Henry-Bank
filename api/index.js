@@ -22,7 +22,7 @@ const server = require("./src/app.js");
 const { conn } = require("./src/models/index.js");
 
 // Syncing all the models at once.
-conn.sync({ force: false }).then(() => {
+conn.sync({ force: true }).then(() => {
   server.listen(3001, () => {
     console.log('Surfeando la ola "Bancaria" at 3001'); // eslint-disable-line no-console
   });
