@@ -38,12 +38,22 @@ console.log(email)
 
 export const deleteContacts = (email, id) => {
         return function (dispatch) {
-            axios.delete('http://localhost:3001/contacts/'+ 1 +'/deleteContact/' + email)
+            axios.delete('http://localhost:3001/contacts/'+ id +'/deleteContact/' + email)
                 .then(res => {
-                    axios.get("http://localhost:3001/contacts/" + 1).then((response) => {
+                    // window.location.reload();
+                    axios.get("http://localhost:3001/contacts/" + id)
+                    
+                    .then((response) => {
                     return dispatch({
                         type: GET_USER_CONTACTS,
                         payload: response.data.contactos,
+                        });
+                    })
+
+                    .catch(res => {
+                      return dispatch({
+                        type: GET_USER_CONTACTS,
+                        payload: [],
                         });
                     });
                 })

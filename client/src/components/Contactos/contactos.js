@@ -10,14 +10,17 @@ import henry from "../Usuario/images/henry.svg";
 import "./contactos.css";
 import Button from "react-bootstrap/Button";
 import Table from "react-bootstrap/Table";
-import { addUser } from "../../actions/UserActions";
+import { getProfile } from "../../actions/UserActions";
 
 const Contacts = () => {
   const dispatch = useDispatch();
   const contacts = useSelector((store) => store.usuario.contacts);
   const userSelected = useSelector((store) => store.usuario.contactSelected);
-
-  useEffect(() => dispatch(getContacts(1)), []);
+  const userContected = useSelector((store) => store.usuario.usuarioConectado);
+  
+  useEffect(() => dispatch(getProfile()), []);
+  useEffect(() => dispatch(getContacts(userContected.id)), [userContected]);
+  
 
   const selectedUser = (email) => {
     dispatch({ type: SELECT_CONTACT, payload: email });
@@ -111,7 +114,7 @@ const Contacts = () => {
               className="btn btn-dark"
               variant="top"
               size="lg"
-              onClick={() => deleteHandler(userSelected.email, userSelected.id)}
+              onClick={() => deleteHandler(userSelected.email, userContected.id)}
             >
               Eliminar
             </Button>
