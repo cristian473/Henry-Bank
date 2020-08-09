@@ -43,9 +43,9 @@ function RecargarDinero({ usuarioConectado, getProfile, enviarDinero, listContac
         <div className="form-group col-md-5 envia">
           <div class="input-group mb-3 destino">
             <div class="input-group-prepend">
-              <span class="input-group-text" id="basic-addon1">
-              <FaUsers size="30" />
-              </span>
+              <button class="input-group-text" id="basic-addon1">
+                <FaUserPlus size="30" onClick={addcontactos}/>
+              </button>
             </div>
             {usuarioConectado.contacts && usuarioConectado.contacts.length !== 0? 
               <SearchContact misContactos={listContact}/>
@@ -53,7 +53,6 @@ function RecargarDinero({ usuarioConectado, getProfile, enviarDinero, listContac
               <input type="text" class="form-control" placeholder="Aún no tiene contactos" disabled/>
             }
           </div>
-          <FaUserPlus size="30" onClick={addcontactos}/>
           <div className="total">
           <h1>${cantidad}</h1>
           </div>
