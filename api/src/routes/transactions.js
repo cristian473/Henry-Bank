@@ -2,7 +2,13 @@ const { Router } = require("express");
 const server = require("express").Router();
 const router = Router();
 const { Op } = require("sequelize");
-const { Wallet, Transactions, Merchants } = require("../models/index.js");
+const {
+  Wallet,
+  Transactions,
+  Merchants,
+  Users,
+  Banks,
+} = require("../models/index.js");
 
 //do transactions
 
@@ -11,11 +17,10 @@ const { Wallet, Transactions, Merchants } = require("../models/index.js");
 server.post("/loadBalance/:idUser", async (req, res) => {
   const { idUser } = req.params;
   const saldo = await Wallet.findOne({
-    where: { userId: req.params.idUser },
+    where: { userId: idUser },
   });
-  const value = Math.floor((Math.random() * 10000) + 1);
-  const saldoConsolidado =
-    parseFloat(saldo.balance) + parseFloat(value);
+  const value = Math.floor(Math.random() * 10000 + 1);
+  const saldoConsolidado = parseFloat(saldo.balance) + parseFloat(value);
   await Wallet.update(
     {
       balance: saldoConsolidado,
@@ -27,13 +32,13 @@ server.post("/loadBalance/:idUser", async (req, res) => {
   )
     .then(async (newBalance) => {
       const randomToken = function () {
-        return Math.floor((Math.random() * 5) + 1)
+        return Math.floor(Math.random() * 5 + 1);
       };
       const randomTransactionNumber = function () {
-        return Math.floor((Math.random() * 500000) + 1)
+        return Math.floor(Math.random() * 500000 + 1);
       };
       const merchant = Merchants.findOne({
-        where: { id: randomToken() }
+        where: { id: randomToken() },
       });
       const transactions = Transactions.create({
         idSender: 0,
@@ -41,9 +46,9 @@ server.post("/loadBalance/:idUser", async (req, res) => {
         type: "Carga",
         value: value,
         state: "Aceptada",
-        transactionNumber: randomTransactionNumber()
+        transactionNumber: randomTransactionNumber(),
       });
-      const prom = await Promise.all([merchant, newBalance, transactions])
+      const prom = await Promise.all([merchant, newBalance, transactions]);
       res.status(200).json(prom);
     })
     .catch((err) => {
@@ -64,7 +69,8 @@ server.put("/:idSender/:idReceiver", async (req, res) => {
   let userReceiver = await Wallet.findOne({
     where: { userId: idReceiver },
   });
-  console.log(userSender.balance)
+  console.log(userSender.balance);
+  console.log(money)
   if (userSender.balance <= money) {
     Promise.all([userSender, userReceiver])
       .then((users) => {
