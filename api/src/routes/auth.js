@@ -185,7 +185,7 @@ function validateEmail(email, email_hash) {
   });
 
   const message = {
-    text: `Bienvenid@. Se adjunta enlace para validar y continuar con el registro :${valUrl}`,
+    text: `Bienvenido. Se adjunta enlace para validar y continuar con el registro :${valUrl}`,
     from: "Henry Bank FT02 <henrybank@mauricioarizaga.com.ar>",
     to: `Nuevo Usuario <${email}>`,
     // cc: 'else <else@your-email.com>',

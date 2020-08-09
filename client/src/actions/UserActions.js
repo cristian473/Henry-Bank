@@ -1,4 +1,4 @@
-import { ADD_USER, MODIFY_USER , GET_PROFILE, GET_WALLET, LOGOUT, GET_TRANSACTIONS, ENVIAR_DINERO } from "../constants/userConstants";
+import { ADD_USER, MODIFY_USER , GET_PROFILE, GET_WALLET, LOGOUT, GET_TRANSACTIONS, GET_USER_CONTACTS, DELETE_CONTACT, ENVIAR_DINERO } from "../constants/userConstants";
 import axios from "axios";
 
 export function addUser(user) {
@@ -92,4 +92,40 @@ export function getAddress(address, id, user) {
           alert("Ubicación inválida")
         })           
    }
+}
+
+export function getContacts(id) {
+  return function (dispatch) {
+    axios.get("http://localhost:3001/contacts/ " + id).then((res) => {
+      if (res.status === 200) {
+        return dispatch({
+          type: GET_USER_CONTACTS,
+          payload: res.data.contactos,
+        });
+      } else {
+        alert(res.message);
+      }
+    });
+  };
+}
+
+export function deleteContacts(email, id) {
+  return function (dispatch) {
+    axios
+      .delete("http://localhost:3001/contacts/" + id + "/deleteContact", {
+        email,
+      })
+      .then((res) => {
+        if (res.status === 200) {
+          axios.get("http://localhost:3001/contacts/" + id).then((response) => {
+            return dispatch({
+              type: GET_USER_CONTACTS,
+              payload: response.data.contactos,
+            });
+          });
+        } else {
+          alert(res.message);
+        }
+      });
+  };
 }

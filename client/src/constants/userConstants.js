@@ -8,3 +8,5 @@ export const GET_TRANSACTIONS = 'GET_TRANSACTIONS';
 export const LOGOUT = 'LOGOUT';
 export const ENVIAR_DINERO = 'ENVIAR_DINERO';
 export const RESET_PASS_USER = 'RESET_PASS_USER';
+export const SELECT_CONTACT = 'SELECT_CONTACT';
+export const ADD_CONTACT = 'ADD_CONTACT';
