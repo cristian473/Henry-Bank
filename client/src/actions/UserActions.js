@@ -1,4 +1,4 @@
-import { ADD_USER, GET_PROFILE, GET_WALLET, LOGOUT, GET_TRANSACTIONS, RECARGAR_DINERO, GET_USER_CONTACTS, DELETE_CONTACT, ENVIAR_DINERO, LISTA_CONTACTOS } from "../constants/userConstants";
+import { ADD_USER, MODIFY_USER, GET_PROFILE, GET_WALLET, LOGOUT, GET_TRANSACTIONS, RECARGAR_DINERO, GET_USER_CONTACTS, DELETE_CONTACT, ENVIAR_DINERO, LISTA_CONTACTOS } from "../constants/userConstants";
 import axios from "axios";
 
 export function addUser(user) {
@@ -74,7 +74,11 @@ export function recarDinero(idUser, money) {
 
 export function enviarDinero(from, to, money) {
   return function (dispatch) {
-    axios.put(`http://localhost:3001/transactions/${from}/${to}`, money)
+    const myBody = {
+      money: money,
+      transactiontype: 'UsertoUser'
+  }
+    axios.put(`http://localhost:3001/transactions/${from}/${to}`, myBody)
     .then(res => {
       if (res.status === 200) {
         return dispatch({ type: ENVIAR_DINERO });

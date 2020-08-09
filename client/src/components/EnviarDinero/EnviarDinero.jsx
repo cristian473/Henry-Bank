@@ -70,7 +70,7 @@ function RecargarDinero({ usuarioConectado, getProfile, enviarDinero, listContac
                   const nombre = document.getElementById('myInput').value;
                   for( let i = 0; i < listContact.length; i++ ){
                     if (listContact[i].nombreContacto === nombre) {
-                      enviarDinero(usuarioConectado.id, listContact[i].idContacto, {money: cantidad})
+                      enviarDinero(usuarioConectado.id, listContact[i].idContacto, cantidad)
                     }
                   }
                 }}
