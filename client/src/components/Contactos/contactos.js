@@ -41,6 +41,10 @@ const Contacts = () => {
     emailValue = "";
   };
 
+  const volver = function (e) {
+    window.location.replace('http://localhost:3000/enviar')
+ }
+
   return (
     <div id="onboarding">
       <div class="titulo">
@@ -132,6 +136,13 @@ const Contacts = () => {
             <Button disabled className="btn btn-dark" variant="top" size="lg">
               Eliminar
             </Button>
+            <Button
+              onClick={volver}
+              className="btn btn-dark"
+              variant="top"
+              size="lg"
+            > Volver a Enviar Dinero</Button>
+            
           </div>
         )}
       </div>

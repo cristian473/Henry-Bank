@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import './enviardinero.css';
 import Button from 'react-bootstrap/Button';
-import { FaUsers } from "react-icons/fa";
+import { FaUsers , FaUserPlus} from "react-icons/fa";
 import { connect } from 'react-redux';
 import { getProfile, enviarDinero, listaContactos } from "../../actions/UserActions";
 import SearchContact from "./searchContact.js";
@@ -22,6 +22,10 @@ function RecargarDinero({ usuarioConectado, getProfile, enviarDinero, listContac
 
   const [cantidad, setCantidad] = useState(0); 
   
+  const addcontactos = function (e) {
+    window.location.replace('http://localhost:3000/contactos')
+ }
+
   return (  
       <div id="enviardinero">  
         <div className="titulo">
@@ -40,7 +44,7 @@ function RecargarDinero({ usuarioConectado, getProfile, enviarDinero, listContac
           <div class="input-group mb-3 destino">
             <div class="input-group-prepend">
               <span class="input-group-text" id="basic-addon1">
-              <FaUsers size="25"/>
+              <FaUsers size="30" />
               </span>
             </div>
             {usuarioConectado.contacts && usuarioConectado.contacts.length !== 0? 
@@ -49,6 +53,7 @@ function RecargarDinero({ usuarioConectado, getProfile, enviarDinero, listContac
               <input type="text" class="form-control" placeholder="Aún no tiene contactos" disabled/>
             }
           </div>
+          <FaUserPlus size="30" onClick={addcontactos}/>
           <div className="total">
           <h1>${cantidad}</h1>
           </div>
@@ -70,7 +75,7 @@ function RecargarDinero({ usuarioConectado, getProfile, enviarDinero, listContac
                   const nombre = document.getElementById('myInput').value;
                   for( let i = 0; i < listContact.length; i++ ){
                     if (listContact[i].nombreContacto === nombre) {
-                      enviarDinero(usuarioConectado.id, listContact[i].idContacto, {money: cantidad})
+                      enviarDinero(usuarioConectado.id, listContact[i].idContacto, cantidad)
                     }
                   }
                 }}
