@@ -17,7 +17,7 @@ const {
 server.post("/loadBalance/:idUser", async (req, res) => {
   const { idUser } = req.params;
   const saldo = await Wallet.findOne({
-    where: { userId: req.params.idUser },
+    where: { userId: idUser },
   });
   const value = Math.floor(Math.random() * 10000 + 1);
   const saldoConsolidado = parseFloat(saldo.balance) + parseFloat(value);
@@ -59,6 +59,7 @@ server.post("/loadBalance/:idUser", async (req, res) => {
 //transferencia de dinero//
 
 server.put("/:idSender/:idReceiver", async (req, res) => {
+<<<<<<< HEAD
   let { money, transactiontype } = req.body;
   const { idSender, idReceiver } = req.params;
   const randomTransactionNumber = function () {
@@ -314,6 +315,92 @@ server.put("/:idSender/:idReceiver", async (req, res) => {
       res.json({ message: "No se ha indicado el tipo de operacion." });
       break;
   }
+=======
+  let money = req.body.money;
+  const { idSender, idReceiver } = req.params;
+  const randomTransactionNumber = function () {
+    return Math.floor((Math.random() * 500000) + 1)
+  };
+  //busqueda de wallets
+  let userSender = await Wallet.findOne({ where: { userId: idSender } });
+  let userReceiver = await Wallet.findOne({
+    where: { userId: idReceiver },
+  });
+  console.log(userSender.balance);
+  console.log(money)
+  if (userSender.balance <= money) {
+    Promise.all([userSender, userReceiver])
+      .then((users) => {
+        //convertir los valores a decimal
+        let moneyFloat = parseFloat(money);
+        let balanceReceiver = parseFloat(users[1].balance);
+        let balanceSender = parseFloat(users[0].balance);
+        //suma y resta de montos
+        let newBalanceSender = balanceSender - moneyFloat;
+        let newBalanceReceiver = balanceReceiver + moneyFloat;
+
+        //updates en las dos billeteras
+        let receiver = Wallet.update(
+          {
+            balance: newBalanceReceiver,
+          },
+          {
+            returning: true,
+            where: { userId: idReceiver },
+          }
+        );
+        let send = Wallet.update(
+          {
+            balance: newBalanceSender,
+          },
+          {
+            returning: true,
+            where: { userId: idSender },
+          }
+        );
+
+        Promise.all([send, receiver])
+          .then((promises) => {
+            //se registra la transaccion
+            Transactions.create({
+              idSender: idSender,
+              idReceiver: idReceiver,
+              type: "Transferencia",
+              value: money,
+              state: "Aceptada",
+              transactionNumber: randomTransactionNumber()
+            })
+              .then((transaccion) =>
+                res.status(200).json({
+                  message:
+                    "transaccion N°" + transaccion.id + " realizada con exito!",
+                  transaccion,
+                })
+              )
+              .catch((err) => {
+                res.status(400).json({
+                  message: "No se registro el movimiento",
+                });
+              });
+          })
+
+          .catch((err) => {
+            res
+              .status(400)
+              .json({ message: "No se pudo modificar el saldo", err });
+          });
+      })
+
+      .catch((err) =>
+        res.status(400).json({
+          message:
+            "Usuario no encontrado! por favor ingrese nuevamente los usuarios",
+          error: err,
+        })
+    );} else {
+      res.json({ message: "el usuario no tiene fondos suficientes" })
+    }
+>>>>>>> 3860850f35292183114e9ce35eeaf5b388b4db61
 });
 
 //RUTA PARA RETORNAR SUMA GENERAL DE INGRESOS Y EGRESOS X USUARIO//

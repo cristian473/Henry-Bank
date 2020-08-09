@@ -4,7 +4,7 @@ const axios = require("axios");
 const { SMTPClient } = require("emailjs");
 const { Users } = require("../models/index.js");
 const { GOOGLE_API_KEY } = require("../env-config.js");
-
+const bcrypt = require('bcrypt');
 
 server.post("/changepassword");
 
@@ -17,24 +17,17 @@ server.post(
   },
   passport.authenticate("local-signin"),
   (req, res) => {
-    res.redirect('http://localhost:3000/cliente');
+    res.redirect("http://localhost:3000/cliente");
   }
 );
 
 /* server.get("/logout"); */
 
-server.get(
-  "/logout",
-  function(req, res) {
-    req.logout();
-    req.session.destroy(function(err) {
-       
-    });
-    res.sendStatus(200)
+server.get("/logout", function (req, res) {
+  req.logout();
+  req.session.destroy(function (err) {});
+  res.sendStatus(200);
 });
-
-
-
 
 server.post(
   "/register",
@@ -63,11 +56,9 @@ server.get("/validate/account/:email_hash", async (req, res) => {
     where: { email_hash: req.params.email_hash },
   });
   if (user === null) {
-    res
-      .status(404)
-      .send({
-        status: `No se ha encontrado al Usuario especificado. Contacte a su Administrador`,
-      });
+    res.status(404).send({
+      status: `No se ha encontrado al Usuario especificado. Contacte a su Administrador`,
+    });
   } else {
     switch (user.status) {
       case "Pendiente":
@@ -95,35 +86,52 @@ server.get("/validate/account/:email_hash", async (req, res) => {
 });
 
 //Normalizar una Dirección
-server.get("/validate/street", async (req, res) => {
+server.post("/validate/street", async (req, res) => {
   const { street, city, country } = req.body;
-  var input = `${street ? street : ''} ${city ? city : ''} ${country ? country : ''}`.trim();
-  await axios.get('https://maps.googleapis.com/maps/api/place/autocomplete/json', {
-    params: {
-      key: GOOGLE_API_KEY,
-      input, 
-      language: "es"
-    }
-  })
-  .then((response) => {
-    if (response.data.status === 'OK') {
-      const results = response.data.predictions;
-      var streetArr = []
-      results.forEach(r => {
-        streetArr.push({street: r.description})
-      })
-      res.json(streetArr);
-    } else {
-      res.json({status: 'Sin resultados. Intente usar términos más específicos'})
-    }
-  });
+  var input = `${street ? street : ""} ${city ? city : ""} ${
+    country ? country : ""
+  }`.trim();
+  await axios
+    .get("https://maps.googleapis.com/maps/api/place/autocomplete/json", {
+      params: {
+        key: GOOGLE_API_KEY,
+        input,
+        language: "es",
+      },
+    })
+    .then((response) => {
+      switch (response.data.status) {
+        case "OK":
+          const results = response.data.predictions;
+          var addressArr = [];
+          results.forEach((r) => {
+            var streetArr = r.description.split(',');
+            var street = streetArr[0];
+            var city = streetArr[streetArr.length - 2];
+            var country = streetArr[streetArr.length - 1];
+            addressArr.push({ address: r.description, street, city, country });
+          });
+          res.json(addressArr);
+          break;
+        case "ZERO_RESULTS":
+          res.status(404).json({
+            status: "Sin resultados. Intente usar términos más específicos",
+          });
+          break;
+        default:
+          res.status(500).json({
+            status: "Ha ocurrido un error. Contacte a su Administrador",
+          });
+          break;
+      }
+    });
 });
 
 server.get("/me");
 server.get("/profileuser", (req, res) => {
   const profile = Users.findOne({
     where: {
-      id: req.body.id,
+      id: req.user.id,
     },
   }).then((result) => {
     if (result === null) {
@@ -177,7 +185,7 @@ function validateEmail(email, email_hash) {
   });
 
   const message = {
-    text: `Bienvenido. Se adjunta enlace para validar y continuar con el registro :${valUrl}`,
+    text: `Bienvenid@. Se adjunta enlace para validar y continuar con el registro :${valUrl}`,
     from: "Henry Bank FT02 <henrybank@mauricioarizaga.com.ar>",
     to: `Nuevo Usuario <${email}>`,
     // cc: 'else <else@your-email.com>',
@@ -189,5 +197,74 @@ function validateEmail(email, email_hash) {
     //console.log(err || message);
   });
 }
+
+function resetPassword(email, req, res) {
+
+  Users.update({
+    password_hash: 1000000
+
+  }, {
+    returning: true, where: { email: email }
+  })
+    .then(user => {
+      // const valUrl = `http://localhost:3001/auth/resetpassword/${hash}`;
+
+      const client = new SMTPClient({
+        user: "henrybank@mauricioarizaga.com.ar",
+        password: "Henrybank12345",
+        host: "smtp.hostinger.com.ar",
+        ssl: false,
+        port: 587,
+      });
+
+      const message = {
+        text: `Se adjunta codigo para resetear contraseña :${user[1][0].password_hash}`,
+        from: "Henry Bank FT02 <henrybank@mauricioarizaga.com.ar>",
+        to: `Reset password <${email}>`,
+        // cc: 'else <else@your-email.com>',
+        subject: "Henry Bank - RESET PASSWORD",
+      };
+
+      // send the message and get a callback with an error or details of the message that was sent
+      client.send(message, function (err, message) {
+        //console.log(err || message);
+      });
+
+      res.json(user).sendStatus(200);
+    }
+   
+  )
+
+}
+
+server.post ('/validate/resetpassword', (req,res) => {
+  resetPassword(req.body.email, req, res);
+})
+
+server.put('/resetpassword/:hash', (req,res) => {
+
+  const hash = req.params.hash;
+  const {newPassword , email} = req.body;
+  const contraseñahash = bcrypt.hashSync(newPassword, 10);
+  
+  Users.findOne({where: {email: email, password_hash: hash}})
+    .then(user => {
+      Users.update({
+        password: contraseñahash,
+        password_hash: null
+      }, {
+        returning: true, where: {id: user.id}
+      })
+        res.status(200).json({message: "Su contraseña ha sido cambiada!"})     
+    })
+    .catch(err => {
+      res.status(404).json({message: "El codigo es incorrecto o ocurrio un error, intente de nuevo"})
+    })
+})
+
+server.get("/logout", function (req, res) {
+  req.logout();
+  res.redirect("/");
+});
 
 module.exports = server;
