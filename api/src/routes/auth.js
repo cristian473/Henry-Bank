@@ -86,7 +86,7 @@ server.get("/validate/account/:email_hash", async (req, res) => {
 });
 
 //Normalizar una Dirección
-server.get("/validate/street", async (req, res) => {
+server.post("/validate/street", async (req, res) => {
   const { street, city, country } = req.body;
   var input = `${street ? street : ""} ${city ? city : ""} ${
     country ? country : ""
@@ -185,7 +185,7 @@ function validateEmail(email, email_hash) {
   });
 
   const message = {
-    text: `Bienvenido. Se adjunta enlace para validar y continuar con el registro :${valUrl}`,
+    text: `Bienvenid@. Se adjunta enlace para validar y continuar con el registro :${valUrl}`,
     from: "Henry Bank FT02 <henrybank@mauricioarizaga.com.ar>",
     to: `Nuevo Usuario <${email}>`,
     // cc: 'else <else@your-email.com>',

@@ -49,7 +49,6 @@ function RecargarDinero({ usuarioConectado, getProfile, enviarDinero, listContac
               <input type="text" class="form-control" placeholder="Aún no tiene contactos" disabled/>
             }
           </div>
-
           <div className="total">
           <h1>${cantidad}</h1>
           </div>

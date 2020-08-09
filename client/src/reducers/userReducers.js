@@ -1,11 +1,13 @@
-import { ADD_USER, GET_USER_LOGGED, GET_PROFILE, GET_WALLET, LOGOUT, RESET_PASS_USER, GET_TRANSACTIONS, LISTA_CONTACTOS } from '../constants/userConstants';
+import { ADD_USER, GET_USER_CONTACTS, SELECT_CONTACT, GET_USER_LOGGED, GET_PROFILE, GET_WALLET, LOGOUT, RESET_PASS_USER, GET_TRANSACTIONS, GET_ADDRESS, LISTA_CONTACTOS } from '../constants/userConstants';
 
 const initialState = {
     usuarios: [],
     usuarioConectado: {},
     wallet: {},
     transactions: {},
-    listContact: []
+    listContact: [],
+    contacts: [],
+    contactSelected: ''
 };
 
 export default function usuario(state = initialState, action) {
@@ -22,6 +24,12 @@ export default function usuario(state = initialState, action) {
                 ...state,
                 usuarioConectado: action.payload
             }
+
+            case GET_ADDRESS:
+                return {
+                    ...state,
+                    usuarioConectado: action.payload
+                }
 
         case GET_WALLET:
             return {
@@ -45,16 +53,32 @@ export default function usuario(state = initialState, action) {
                 ...state,
                 usuarioConectado: {}
         }
+        
         case RESET_PASS_USER:
             return {
                 ...state,
                 usuarios: state.usuarios
             }
+
         case LISTA_CONTACTOS:
             return{
                 ...state,
                 listContact: state.listContact.concat(action.payload)
             }
+
+        case GET_USER_CONTACTS:
+            console.log(action.payload)
+            return{
+                ...state,
+                contacts: action.payload
+            }
+
+        case SELECT_CONTACT:
+            return {
+                ...state,
+                contactSelected: action.payload
+            }
+
         default:
             return state
     }
