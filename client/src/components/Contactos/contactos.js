@@ -136,16 +136,16 @@ const Contacts = () => {
             <Button disabled className="btn btn-dark" variant="top" size="lg">
               Eliminar
             </Button>
-            <Button
+                        
+          </div>
+        )}
+      </div>
+      <div className="VolverDin"> <Button
               onClick={volver}
               className="btn btn-dark"
               variant="top"
               size="lg"
-            > Volver a Enviar Dinero</Button>
-            
-          </div>
-        )}
-      </div>
+            > Volver a Enviar Dinero</Button></div>
     </div>
   );
 };
