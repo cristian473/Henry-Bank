@@ -1,6 +1,4 @@
-const { Router } = require("express");
 const server = require("express").Router();
-const router = Router();
 const { Op } = require("sequelize");
 const {
   Wallet,
@@ -321,27 +319,27 @@ server.put("/:idSender/:idReceiver", async (req, res) => {
 server.get("/history/:idUser", (req, res) => {
   //busco todas las transacciones del cliente y las separo por ingresos y decrementos
   const { idUser } = req.params;
-  let ingresos = Transactions.findAll({
+  let income = Transactions.findAll({
     where: { idReceiver: idUser },
   });
-  let decrements = Transactions.findAll({
+  let outcome = Transactions.findAll({
     where: { idSender: idUser },
   });
 
-  Promise.all([ingresos, decrements])
-    .then((transacciones) => {
+  Promise.all([income, outcome])
+    .then((transactions) => {
       var ing = 0.0;
       var dec = 0.0;
 
-      transacciones[0].forEach((element) => {
+      transactions[0].forEach((element) => {
         //parseo a Decimal de nuevo ¬¬
         ing = parseFloat(ing) + parseFloat(element.value);
       });
 
-      transacciones[1].forEach((element) => {
+      transactions[1].forEach((element) => {
         dec = parseFloat(dec) + parseFloat(element.value);
       });
-      res.status(200).json({ ingresos: ing, decrements: dec });
+      res.status(200).json({ income: ing, outcome: dec });
     })
 
     .catch((err) =>
@@ -350,47 +348,198 @@ server.get("/history/:idUser", (req, res) => {
 });
 
 //RUTA PARA RETORNAR SUMA GENERAL POR FECHA DE INGRESOS Y EGRESOS X USUARIO//
+//Fecha de incorporación a base: 10-08-2020
+//Última actualización: 10-08-2020
+server.post("/history/time/:idUser", async (req, res) => {
+  const { idUser } = req.params;
+  const { moment } = req.query;
 
-server.get("/history/time/:idUser", async (req, res) => {
-  //LA FECHA LE LLEGA POR BODY.DATE EN FORMATO "new Date()"
-  var d = req.body.date;
-  const idUser = req.params.idUser;
-  //busco todas las transacciones del cliente y las separo por ingresos y decrementos
-  let ingresos = await Transactions.findAll({
-    where: { idReceiver: req.params.idUser, createdAt: { [Op.gt]: d } },
-  });
-  let decrements = await Transactions.findAll({
-    where: { idSender: req.params.idUser, createdAt: { [Op.gt]: d } },
-  });
+  switch (moment) {
+    case "day":
+      //LA FECHA LE LLEGA POR BODY.DATE EN FORMATO "new Date()"
+      var baseDate = new Date();
+      //Arreglo de Offset de zona horaria; con esto siempre obtendremos el día actual independiente de donde estemos
+      baseDate.setMinutes(baseDate.getMinutes() - baseDate.getTimezoneOffset());
+      //Luego, a nuestros rangos le separamos la fecha corregida de la hora, y la seteamos nosotros, de tal forma
+      //que siempre busquemos desde el inicio del día de uno hasta el final del otro
+      var dayStart = baseDate.toISOString().split('T')[0]+'T00:00:00.000Z';
+      var dayEnd = baseDate.toISOString().split('T')[0]+'T23:59:59.999Z';
 
-  Promise.all([ingresos, decrements])
-    .then((transacciones) => {
-      var ing = 0.0;
-      var dec = 0.0;
-
-      transacciones[0].forEach((element) => {
-        //parseo a Decimal de nuevo ¬¬
-        const e = element.dataValues;
-        ing = parseFloat(ing) + parseFloat(e.value);
+      //busco todas las transacciones del cliente y las separo por ingresos y decrementos
+      var income = await Transactions.findAll({
+        where: { 
+          idReceiver: idUser, 
+          createdAt: { 
+            [Op.between]: [dayStart, dayEnd]
+          },
+        },
+      });
+      var outcome = await Transactions.findAll({
+        where: { 
+          idSender: idUser, 
+          createdAt: { 
+            [Op.between]: [dayStart, dayEnd]
+          },
+        },
       });
 
-      transacciones[1].forEach((element) => {
-        const e = element.dataValues;
-        dec = parseFloat(dec) + parseFloat(e.value);
-      });
-      res.status(200).json({ ingresos: ing, decrements: dec });
-    })
+      Promise.all([income, outcome])
+        .then((transactions) => {
+          var ing = 0.0;
+          var dec = 0.0;
 
-    .catch((err) =>
-      res.status(400).json({ message: "no se pudo realizar la consulta" })
-    );
+          transactions[0].forEach((element) => {
+            const e = element.dataValues;
+            ing = parseFloat(ing) + parseFloat(e.value);
+          });
+
+          transactions[1].forEach((element) => {
+            const e = element.dataValues;
+            dec = parseFloat(dec) + parseFloat(e.value);
+          });
+          res.status(200).json({ income: ing, outcome: dec });
+        })
+
+        .catch((err) =>
+          res.status(400).json({ message: "No se pudo realizar la consulta de transacciones con rango diario" })
+        );
+      break;
+    case "week":
+      var baseDate = new Date();
+      baseDate.setMinutes(baseDate.getMinutes() - baseDate.getTimezoneOffset());
+      var pastWeek = new Date(baseDate.getFullYear(), baseDate.getMonth(), baseDate.getDate() - 7)
+                      .toISOString().split('T')[0]+'T00:00:00.000Z';
+      var currentDay = baseDate.toISOString().split('T')[0]+'T23:59:59.999Z';
+
+      var income = await Transactions.findAll({
+        where: { 
+          idReceiver: idUser, 
+          createdAt: { 
+            [Op.between]: [pastWeek, currentDay]
+          },
+        },
+      });
+      var outcome = await Transactions.findAll({
+        where: { 
+          idSender: idUser, 
+          createdAt: { 
+            [Op.between]: [pastWeek, currentDay]
+          },
+        },
+      });
+
+      Promise.all([income, outcome])
+        .then((transactions) => {
+          var ing = 0.0;
+          var dec = 0.0;
+
+          transactions[0].forEach((element) => {
+            const e = element.dataValues;
+            ing = parseFloat(ing) + parseFloat(e.value);
+          });
+
+          transactions[1].forEach((element) => {
+            const e = element.dataValues;
+            dec = parseFloat(dec) + parseFloat(e.value);
+          });
+          res.status(200).json({ income: ing, outcome: dec });
+        })
+
+        .catch((err) =>
+          res.status(400).json({ message: "No se pudo realizar la consulta de transacciones con rango semanal" })
+        );
+      break;
+    case "month":
+      var baseDate = new Date();
+      baseDate.setMinutes(baseDate.getMinutes() - baseDate.getTimezoneOffset());
+      var pastMonth = new Date(baseDate.getFullYear(), baseDate.getMonth(), baseDate.getDate() - 28)
+                      .toISOString().split('T')[0]+'T00:00:00.000Z';
+      var currentDay = baseDate.toISOString().split('T')[0]+'T23:59:59.999Z';
+
+      var income = await Transactions.findAll({
+        where: { 
+          idReceiver: idUser, 
+          createdAt: { 
+            [Op.between]: [pastMonth, currentDay]
+          },
+        },
+      });
+      var outcome = await Transactions.findAll({
+        where: { 
+          idSender: idUser, 
+          createdAt: { 
+            [Op.between]: [pastMonth, currentDay]
+          },
+        },
+      });
+
+      Promise.all([income, outcome])
+        .then((transactions) => {
+          var ing = 0.0;
+          var dec = 0.0;
+
+          transactions[0].forEach((element) => {
+            const e = element.dataValues;
+            ing = parseFloat(ing) + parseFloat(e.value);
+          });
+
+          transactions[1].forEach((element) => {
+            const e = element.dataValues;
+            dec = parseFloat(dec) + parseFloat(e.value);
+          });
+          res.status(200).json({ income: ing, outcome: dec });
+        })
+
+        .catch((err) =>
+          res.status(400).json({ message: "No se pudo realizar la consulta de transacciones con rango mensual" })
+        );
+      break;
+    case "custom":
+      var startDate = req.body.startDate+'T00:00:00.000Z';
+      var endDate = req.body.endDate+'T23:59:59.999Z';
+
+      var income = await Transactions.findAll({
+        where: {
+          idReceiver: idUser,
+          createdAt: {
+            [Op.between]: [startDate, endDate]
+          },
+        },
+      });
+      var outcome = await Transactions.findAll({
+        where: {
+          idSender: idUser,
+          createdAt: {
+            [Op.between]: [startDate, endDate]
+          },
+        },
+      });
+
+      Promise.all([income, outcome])
+        .then((transactions) => {
+          var ing = 0.0;
+          var dec = 0.0;
+
+          transactions[0].forEach((element) => {
+            const e = element.dataValues;
+            ing = parseFloat(ing) + parseFloat(e.value);
+          });
+
+          transactions[1].forEach((element) => {
+            const e = element.dataValues;
+            dec = parseFloat(dec) + parseFloat(e.value);
+          });
+          res.status(200).json({ income: ing, outcome: dec });
+        })
+
+        .catch((err) =>
+          res.status(400).json({ message: "No se pudo realizar la consulta de transacciones con rango personalizado" })
+        );
+      break;
+    default:
+        res.status(404).json({ message: "Debe seleccionar un rango de fechas válido para consultar sus transacciones" })
+      break;
+  }
 });
-
-// server.get('/recargatoken', (req, res) =>{
-//   var token = function () {
-//     return Math.floor((Math.random() * 10000000000) + 1)
-//   };
-//   res.json(token());
-// });
 
 module.exports = server;
