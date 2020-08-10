@@ -18,10 +18,10 @@ fs.readdirSync(__dirname)
     models[name] = model;
   });
 
-const { Users, Transactions, Wallet, Merchants } = models;
+const { Users, Transactions, Wallet, Merchants, Banks } = models;
 
 // Add model relationships here
-Users.hasOne(Wallet, { onDelete: 'CASCADE', });
+Users.hasOne(Wallet, { onDelete: "CASCADE" });
 Wallet.belongsTo(Users);
 
 module.exports = models;
