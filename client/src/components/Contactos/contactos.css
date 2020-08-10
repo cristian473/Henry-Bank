@@ -1,0 +1,39 @@
+.table {
+  table-layout: auto;
+}
+
+.btns {
+  display: grid;
+  justify-content: center;
+}
+
+.table td,
+.table th {
+  border: 1px transparent;
+  text-align: center;
+}
+
+/*table responsive*/
+
+@media (max-width: 500px) {
+  .table thead {
+    display: none;
+  }
+  .table,
+  .table tbody,
+  .table tr,
+  .table td {
+    display: block;
+  }
+  .table tr {
+    margin-bottom: 40px;
+  }
+  .table td {
+    position: relative;
+  }
+}
+
+.VolverDin {
+  padding: 5px;
+  margin-left: 42%;
+}

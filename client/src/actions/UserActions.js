@@ -1,159 +1,186 @@
-<<<<<<< HEAD
-import { ADD_USER, GET_USER_LOGGED, MODIFY_USER , GET_PROFILE, GET_WALLET, LOGOUT, GET_TRANSACTIONS, GET_USER_CONTACTS } from "../constants/userConstants";
-=======
-import { ADD_USER, GET_USER_LOGGED, MODIFY_USER , GET_PROFILE, GET_WALLET, LOGOUT, GET_TRANSACTIONS, GET_ADDRESS } from "../constants/userConstants";
->>>>>>> 51c5aa648f3c83f23fa9fc7c1629c82a6c6afd25
+import {
+  ADD_USER,
+  GET_PROFILE,
+  MODIFY_USER,
+  GET_WALLET,
+  LOGOUT,
+  GET_TRANSACTIONS,
+  RECARGAR_DINERO,
+  CARGAR_DINERO,
+  ENVIAR_DINERO,
+  LISTA_CONTACTOS,
+} from "../constants/userConstants";
 import axios from "axios";
 
 export function addUser(user) {
   return function (dispatch) {
-    axios.post("http://localhost:3001/auth/register", user).then((res) => {
+    axios
+      .post("http://localhost:3001/auth/register", user)
+      .then((res) => {
+        if (res.status === 200) {
+          alert("Se ha enviado un email de validación a " + user.email);
+          return (
+            dispatch({ type: ADD_USER }),
+            window.location.replace("http://localhost:3000")
+          );
+        }
+      })
+      .catch(() => {
+        alert("E-mail " + user.email + " ya está en uso");
+      });
+  };
+}
+
+export function getProfile() {
+  return (dispatch) => {
+    axios
+      .get("http://localhost:3001/auth/profileuser", { withCredentials: true })
+      .then((res) => {
+        if (res.status === 200) {
+          return dispatch({ type: GET_PROFILE, payload: res.data });
+        }
+      });
+  };
+}
+
+export function getWallet(id) {
+  return (dispatch) => {
+    axios.get(`http://localhost:3001/users/wallet/${id}`).then((res) => {
       if (res.status === 200) {
-        return dispatch({ type: ADD_USER }), window.location.replace('http://localhost:3000');
-      } else {
-        alert("Error en campos");
+        return dispatch({ type: GET_WALLET, payload: res.data });
       }
     });
   };
 }
 
-export function modifyUser(id, user) {
-  axios.put(`http://localhost:3001/users/modify/${id}`, user).then((res) => {
-    // if (res.status === 200) {
-    //   window.location.replace('http://localhost:3000/login')
-    //   return dispatch({ type: MODIFY_USER, payload: res.data });
-    // } else {
-    //   alert("Error en campos");
-    // }
-  })
-}
-
-export function getProfile(){
+export function getTransactions(idUser) {
   return (dispatch) => {
-    axios.get('http://localhost:3001/auth/profileuser', {withCredentials: true}).then((res) => {
-      if (res.status === 200) {
-        return dispatch({ type: GET_PROFILE, payload: res.data });
-      } 
-    })
-  }
+    axios
+      .get(`http://localhost:3001/transactions/history/${idUser}`)
+      .then((res) => {
+        if (res.status === 200) {
+          return dispatch({ type: GET_TRANSACTIONS, payload: res.data });
+        }
+      });
+  };
+}
+export function getAddress(address, id, user) {
+  return function (dispatch) {
+    axios
+      .post("http://localhost:3001/auth/validate/street", address)
+      .then((res) => {
+        if (res.status === 200) {
+          axios
+            .put(`http://localhost:3001/users/modify/${id}`, user)
+            .then((res) => {
+              if (res.status === 200) {
+                dispatch({ type: MODIFY_USER, payload: res.data });
+                return window.location.replace("http://localhost:3000/login");
+              }
+            });
+        }
+      })
+      .catch(() => {
+        alert("Ubicación inválida");
+      });
+  };
 }
 
-export function getWallet(id){
-  return (dispatch) => {
-    axios.get(`http://localhost:3001/users/wallet/${id}`).then((res) => {
-      if (res.status === 200) {
-        return dispatch({ type: GET_WALLET, payload: res.data });
-      } 
-    })
-  }
-}
-
-export function getTransactions(idUser){
-  return (dispatch) => {
-    axios.get(`http://localhost:3001/transactions/history/${idUser}`).then((res) => {
-      if (res.status === 200) {
-        return dispatch({ type: GET_TRANSACTIONS, payload: res.data });
-      } 
-    })
-  }
-}
-
-export function getUserLoggedIn(email) {
-  return function(dispatch) {
-      return fetch('http://localhost:3001/users/' + email, {
-              headers: {
-                  'Accept': '*/*',
-                  'Content-Type': 'application/json'
-              },
-              method: 'GET',
-              credentials: 'include'
-
-          })
-          .then((res) => res.json())
-          .then((json) => {
-              return dispatch({ type: GET_USER_LOGGED, payload: json })
-          })
-          .catch(() => {
-              console.log("error")
-          })
-
-  }
-}
-
- export function logout() {
-
+export function logout() {
   return function (dispatch) {
     axios.get("http://localhost:3001/auth/logout").then((res) => {
       if (res.status === 200) {
-       return dispatch({ type: LOGOUT });
+        return dispatch({ type: LOGOUT });
       } else {
         alert("No fue posible desloguearse");
       }
     });
   };
+}
 
-} 
-
-/* 
-export function getAddress() {
-  return (dispatch) => {
-    axios.get(`http://localhost:3001/auth/validate/street`).then((res) => {
-      if (res.status === 200) {
-        console.log(res.data, "esto es la respuesta de getaddress");
-        return dispatch({ type: GET_ADDRESS, payload: res.data });
-      }
-    });
-  };
-} */
-
-<<<<<<< HEAD
-export function getContacts(id) {
-
+export function recarDinero(idUser, money) {
   return function (dispatch) {
-    axios.get("http://localhost:3001/contacts/ "+ id)
-    .then((res) => {
-      if (res.status === 200) {       
-        console.log(res)
-        return dispatch({ type: GET_USER_CONTACTS, payload: res.data.contactos });
-      } else {
-        alert(res.message);
+    axios
+      .post(`http://localhost:3001/transactions/loadBalance/${idUser}`, money)
+      .then((res) => {
+        if (res.status === 200) {
+          return dispatch({ type: RECARGAR_DINERO });
+        } else {
+          alert("No se pudo recargar");
+        }
+      });
+  };
+}
+
+export function enviarDinero(from, to, money) {
+  return function (dispatch) {
+    const myBody = {
+      money: money,
+      transactiontype: "UsertoUser",
+    };
+    axios
+      .put(`http://localhost:3001/transactions/${from}/${to}`, myBody)
+      .then((res) => {
+        if (res.status === 200) {
+          return dispatch({
+            type: GET_USER_CONTACTS,
+            payload: res.data.contactos,
+          });
+        } else {
+          alert(res.message);
+        }
+      });
+  };
+}
+
+export function listaContactos(idContact) {
+  return function (dispatch) {
+    axios.get(`http://localhost:3001/users/${idContact}`).then((res) => {
+      if (res.status === 200) {
+        return dispatch({
+          type: LISTA_CONTACTOS,
+          payload: {
+            nombreContacto: res.data.firstName + " " + res.data.lastName,
+            idContacto: res.data.id,
+          },
+        });
       }
     });
   };
+}
 
-} 
-
-
-=======
 export function getAddress(address, id, user) {
-  return function(dispatch) {
-    return fetch('http://localhost:3001/auth/validate/street', {
-            method: 'POST', 
-            body: JSON.stringify(address), 
-            headers:{
-            'Content-Type': 'application/json'
-            }
-        }) 
-        .then((res) => { 
-          if(res.status === 200){
-              axios.put(`http://localhost:3001/users/modify/${id}`, user).then((res) => {
+  return function (dispatch) {
+    axios
+      .post("http://localhost:3001/auth/validate/street", address)
+      .then((res) => {
+        if (res.status === 200) {
+          axios
+            .put(`http://localhost:3001/users/modify/${id}`, user)
+            .then((res) => {
               if (res.status === 200) {
                 dispatch({ type: MODIFY_USER, payload: res.data });
-                return window.location.replace('http://localhost:3000/login');
-              } 
-            })
-          } else{
-            alert("Ubicación inválida");
-          }
-        })   
-        .catch(() => {
-          alert("No funca")
-        })           
-  }
-  
+                alert("Tus datos fueron modificados con éxitos");
+                return window.location.replace("http://localhost:3000/login");
+              }
+            });
+        }
+      })
+      .catch(() => {
+        alert("Ubicación inválida");
+      });
+  };
 }
->>>>>>> 51c5aa648f3c83f23fa9fc7c1629c82a6c6afd25
 
-
-
-
+export function cargarDinero(id) {
+  return function (dispatch) {
+    axios
+      .post(`http://localhost:3001/transactions/loadBalance/${id}`)
+      .then((res) => {
+        if (res.status === 200) {
+          window.location.replace("http://localhost:3000/cliente");
+          return dispatch({ type: CARGAR_DINERO });
+        }
+      });
+  };
+}

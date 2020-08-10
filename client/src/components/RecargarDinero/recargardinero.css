@@ -1,88 +1,75 @@
-#recargardinero{
-    position: relative;
-  }
-  #recargardinero .titulo{
-    display: flex;
-    position: absolute;
-    top: 20px;
-    left: 20px;
-    z-index: 10;
-  }
-  #recargardinero .titulo img{
-    width: 125px;
-  }
-  #recargardinero .titulo h1{
-    color: rgb(255, 255, 255);
-    margin-left: 35px;
-    margin-top: auto;
-    margin-bottom: auto;
-    font-weight: bold;
-    font-size: 50px;
-  }
-  #recargardinero .titulo h2{
-    color: white;
-    margin-left: 60px;
-    margin-top: auto;
-    margin-bottom: auto;
-    font-weight: bold;
-    font-size: 50px;
-    
-  }
-  
-  #recargardinero #svg1{
-    position: absolute;
-    top: 0px;
-    z-index: 2;
-  }
-  #recargardinero #svg2{
-    transform: scaleX(-1);
-    position: relative;
-    top: 50px;
-    z-index: 1;
-  }
-  #recargardinero #svg3{
-    position: relative;
-    top: 100px;
-    z-index: 0;
-  }
-  #recargardinero #svg3 path{
-    fill: #ebeb1e77;
-  }
-  
-  #recargardinero .estilo{
-    font-family: 'Roboto', sans-serif;
-    color: #000;
-    border: none;
-    font-weight: 800;
-    border-radius: 0%;
-    width: 250px;
-    height: 50px;
-    font-size: 23px;
-  }
-  
-  #recargardinero .login{
-    margin: 0px auto;
-    padding-left: 0px;
-    padding-right: 0px;
-    width: 250px;
-    position: relative;
-    top: 20px;
-    z-index: 5;
-   }
-  
-.btn-dark {
-    background-color: #cf3232;
-    box-shadow: 3px 3px 5px rgba(51, 50, 50, 0.575);
-  }
+#recargardinero {
+  position: relative;
+}
+#recargardinero .titulo {
+  display: flex;
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  z-index: 10;
+}
+#recargardinero .titulo img {
+  width: 125px;
+}
+#recargardinero .titulo h1 {
+  color: rgb(255, 255, 255);
+  margin-left: 35px;
+  margin-top: auto;
+  margin-bottom: auto;
+  font-weight: bold;
+  font-size: 50px;
+}
+#recargardinero .titulo h2 {
+  color: white;
+  margin-left: 60px;
+  margin-top: auto;
+  margin-bottom: auto;
+  font-weight: bold;
+  font-size: 50px;
+}
 
-  
-.signin{
-    margin: 0px auto;
-    padding-left: 0px;
-    padding-right: 0px;
-    width: 250px;
-    position: relative;
-    top: 60px;
-    z-index: 5;
-  }
-  
+#recargardinero #svg1 {
+  position: absolute;
+  top: 0px;
+  z-index: 2;
+}
+#recargardinero #svg2 {
+  transform: scaleX(-1);
+  position: relative;
+  top: 50px;
+  z-index: 1;
+}
+#recargardinero #svg3 {
+  position: relative;
+  top: 100px;
+  z-index: 0;
+}
+#recargardinero #svg3 path {
+  fill: #ebeb1e77;
+}
+
+#recargardinero .estilo {
+  font-family: "Roboto", sans-serif;
+  color: #000;
+  border: none;
+  font-weight: 800;
+  border-radius: 0%;
+  width: 250px;
+  height: 50px;
+  font-size: 23px;
+}
+
+#recargardinero .login {
+  margin: 0px auto;
+  padding-left: 0px;
+  padding-right: 0px;
+  width: 250px;
+  position: relative;
+  top: 20px;
+  z-index: 5;
+}
+
+.btn-dark {
+  background-color: black;
+  box-shadow: 3px 3px 5px rgba(51, 50, 50, 0.575);
+}

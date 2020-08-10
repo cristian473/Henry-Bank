@@ -15,7 +15,7 @@ const {
 server.post("/loadBalance/:idUser", async (req, res) => {
   const { idUser } = req.params;
   const saldo = await Wallet.findOne({
-    where: { userId: req.params.idUser },
+    where: { userId: idUser },
   });
   const value = Math.floor(Math.random() * 10000 + 1);
   const saldoConsolidado = parseFloat(saldo.balance) + parseFloat(value);
@@ -68,7 +68,7 @@ server.put("/:idSender/:idReceiver", async (req, res) => {
   //busqueda de wallets
 
   let userSender = await Wallet.findOne({ where: { userId: idSender } });
-  let balanceInt = parseInt(userSender.balance);
+  let moneyFloat = parseFloat(money);
   switch (transactiontype) {
     //Transferencia entre usuarios billetera
     case "UsertoUser":
@@ -76,11 +76,15 @@ server.put("/:idSender/:idReceiver", async (req, res) => {
         where: { userId: idReceiver },
       });
       let check = await Users.findOne({ where: { id: idReceiver } });
-      if (check && check.status == "Validado" && balanceInt >= money) {
+      if (
+        check &&
+        check.status == "Validado" &&
+        userSender.balance >= moneyFloat
+      ) {
         Promise.all([userSender, userReceiver])
           .then((users) => {
             //convertir los valores a decimal
-            let moneyFloat = parseFloat(money);
+
             let balanceReceiver = parseFloat(users[1].balance);
             let balanceSender = parseFloat(users[0].balance);
             //suma y resta de montos
@@ -161,7 +165,7 @@ server.put("/:idSender/:idReceiver", async (req, res) => {
       //Validacion
       let checkMerch = await Merchants.findOne({ where: { id: idReceiver } });
       console.log(userSender.balance);
-      if (checkMerch && userSender && balanceInt >= money) {
+      if (checkMerch && userSender && userSender.balance >= moneyFloat) {
         Promise.all([userSender, merchants])
           .then((users) => {
             //convertir los valores a decimal
@@ -236,7 +240,7 @@ server.put("/:idSender/:idReceiver", async (req, res) => {
       });
       //Validacion
       let checkBank = await Banks.findOne({ where: { id: idReceiver } });
-      if (checkBank && userSender && balanceInt >= money) {
+      if (checkBank && userSender && userSender.balance >= moneyFloat) {
         Promise.all([userSender, banks])
           .then((users) => {
             //convertir los valores a decimal

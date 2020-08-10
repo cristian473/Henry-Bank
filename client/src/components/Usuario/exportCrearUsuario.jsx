@@ -20,10 +20,7 @@ const Form = ({ handleSubmit, initialValues}) => {
     const dispatch = useDispatch()
 function handleSubmit(values) {
     dispatch(addUser(values));
-    console.log('esto es dispatch')
-    alert(JSON.stringify('Se ha enviado un mail de validación a ' + values.email))
-     }
-
+    }
   const cancelar = function (e) {
     window.location.replace('http://localhost:3000')
  }
@@ -71,4 +68,3 @@ Form.propTypes = {
 
 
 export default Form
-

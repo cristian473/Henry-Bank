@@ -10,10 +10,10 @@ server.get("/", (req, res) => {
   });
 });
 
-server.get("/:email", (req, res) => {
-  const { email } = req.params;
+server.get("/:id", (req, res) => {
+  const { id } = req.params;
   Users.findOne({
-    where: { email: email },
+    where: { id: id },
   }).then((result) => {
     res.send(result);
   });
@@ -28,9 +28,10 @@ server.post("/new", async (req, res) => {
     identification,
     phone,
     birthDate,
-    address,
+    street,
     city,
     country,
+    complemento
   } = req.body;
   const hashedPassword = await bcrypt.hash(password, 10);
   Users.create({
@@ -41,9 +42,10 @@ server.post("/new", async (req, res) => {
     identification,
     phone,
     birthDate,
-    address,
+    street,
     city,
     country,
+    complemento,
     email_hash: email,
   })
     .then((user) => {
@@ -78,9 +80,10 @@ server.put("/modify/:id", async (req, res) => {
       identification,
       phone,
       birthDate,
-      address,
+      street,
       city,
       country,
+      complemento
     } = req.body;
     Users.update(
       {
@@ -89,9 +92,10 @@ server.put("/modify/:id", async (req, res) => {
         identification,
         phone,
         birthDate,
-        address,
+        street,
         city,
         country,
+        complemento
       },
       {
         where: {
