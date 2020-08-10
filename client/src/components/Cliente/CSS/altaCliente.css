@@ -66,3 +66,19 @@ margin-top: 20px;
     position: relative;
    
   }
+
+  #login .altaButtons input{
+    margin-left: 20px;
+    background-color: yellow;
+    color: #000;
+    border: none;
+    font-weight: bold;
+    border-radius: 0%;
+    padding: 10px 40px !important;
+    box-shadow: 5px 5px 5px rgb(167, 167, 167);
+  }
+
+  #login .altaButtons input:hover{
+    color: #fff;
+    box-shadow: none;
+  }

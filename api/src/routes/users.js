@@ -5,15 +5,15 @@ const { Users, Wallet } = require("../models/index.js");
 server.get("/", (req, res) => {
   Users.findAll({
     order: [["id", "ASC"]],
-  }).then((e) => {
-    res.send(e);
+  }).then((result) => {
+    res.send(result);
   });
 });
 
-server.get("/:email", (req, res) => {
-  const { email } = req.params;
+server.get("/:id", (req, res) => {
+  const { id } = req.params;
   Users.findOne({
-    where: { email: email },
+    where: { id: id },
   }).then((result) => {
     res.send(result);
   });
@@ -28,9 +28,10 @@ server.post("/new", async (req, res) => {
     identification,
     phone,
     birthDate,
-    address,
+    street,
     city,
     country,
+    complemento
   } = req.body;
   const hashedPassword = await bcrypt.hash(password, 10);
   Users.create({
@@ -41,26 +42,27 @@ server.post("/new", async (req, res) => {
     identification,
     phone,
     birthDate,
-    address,
+    street,
     city,
     country,
+    complemento,
     email_hash: email,
   })
-  .then((user) => {
-    Wallet.create({
-      userId: user.id,
+    .then((user) => {
+      Wallet.create({
+        userId: user.id,
+      });
+      return res.json(user);
+    })
+    .catch((err) => {
+      if (err.original) res.send(err.original.messageDetail);
+      else res.send("Error de validación de datos");
+      //res.status(500).json({ err });
     });
-    return res.json(user);
-  })
-  .catch((err) => {
-    if (err.original) res.send(err.original.messageDetail);
-    else res.send("Error de validación de datos");
-    //res.status(500).json({ err });
-  });
 });
 
 //Edita un Usuario por ID
-server.put('/modify/:id', async (req, res) => {
+server.put("/modify/:id", async (req, res) => {
   const { id } = req.params;
   const user = await Users.findOne({
     where: {
@@ -68,46 +70,48 @@ server.put('/modify/:id', async (req, res) => {
     },
   });
   if (user === null) {
-    res
-      .status(404)
-      .send({
-        status: `No se ha encontrado al Usuario especificado. Contacte a su Administrador`,
-      });
+    res.status(404).send({
+      status: `No se ha encontrado al Usuario especificado. Contacte a su Administrador`,
+    });
   } else {
-    const { 
+    const {
       firstName,
       lastName,
       identification,
       phone,
       birthDate,
-      address,
-      city,
-      country, 
-    } = req.body;
-    Users.update({
-      firstName,
-      lastName,
-      identification,
-      phone,
-      birthDate,
-      address,
+      street,
       city,
       country,
-    },
-    {
-      where: {
+      complemento
+    } = req.body;
+    Users.update(
+      {
+        firstName,
+        lastName,
+        identification,
+        phone,
+        birthDate,
+        street,
+        city,
+        country,
+        complemento
+      },
+      {
+        where: {
           id,
+        },
       }
-    })
-    .then(() => {
-      res.send({
-        status: `El Usuario ${user.email} ha sido actualizado correctamente`,
+    )
+      .then(() => {
+        res.send({
+          status: `El Usuario ${user.email} ha sido actualizado correctamente`,
+        });
+      })
+      .catch((err) => {
+        if (err.original) res.send(err.original.messageDetail);
+        else res.send("Error de validación de datos");
       });
-    })
-    .catch((err) => {
-      if (err.original) res.send(err.original.messageDetail);
-      else res.send("Error de validación de datos");
-    });
   }
 });
 
@@ -126,11 +130,9 @@ server.delete("/delete/:id", async (req, res, next) => {
     ],
   });
   if (user === null) {
-    res
-      .status(404)
-      .send({
-        status: `No se ha encontrado al Usuario especificado. Contacte a su Administrador`,
-      });
+    res.status(404).send({
+      status: `No se ha encontrado al Usuario especificado. Contacte a su Administrador`,
+    });
   } else {
     const balance = parseFloat(user.wallet.balance);
     if (balance > 0) {
@@ -143,15 +145,15 @@ server.delete("/delete/:id", async (req, res, next) => {
           id,
         },
       })
-      .then(() => {
-        res.send({
-          status: `El Usuario ${user.email} ha sido eliminado correctamente`,
+        .then(() => {
+          res.send({
+            status: `El Usuario ${user.email} ha sido eliminado correctamente`,
+          });
+        })
+        .catch((err) => {
+          if (err.original) res.send(err.original.messageDetail);
+          else res.send("Error de validación de datos");
         });
-      })
-      .catch((err) => {
-        if (err.original) res.send(err.original.messageDetail);
-        else res.send("Error de validación de datos");
-      });
     }
   }
 });

@@ -1,9 +1,27 @@
-import { ADD_USER, GET_USER_LOGGED, GET_PROFILE, GET_WALLET, LOGOUT,RESET_PASS_USER } from '../constants/userConstants';
+import { 
+    ADD_USER, 
+    GET_USER_CONTACTS, 
+    SELECT_CONTACT, 
+    GET_USER_LOGGED, 
+    GET_PROFILE, 
+    GET_WALLET, 
+    LOGOUT, 
+    RESET_PASS_USER, 
+    GET_TRANSACTIONS, 
+    GET_ADDRESS, 
+    LISTA_CONTACTOS,
+    CARGAR_DINERO, 
+    GET_VALID_USER
+} from '../constants/userConstants';
 
 const initialState = {
     usuarios: [],
     usuarioConectado: {},
-    wallet: {}
+    wallet: {},
+    transactions: {},
+    listContact: [],
+    contacts: [],
+    contactSelected: ''
 };
 
 export default function usuario(state = initialState, action) {
@@ -14,11 +32,22 @@ export default function usuario(state = initialState, action) {
                 ...state,
                 usuarios: state.usuarios
             }
+        case GET_VALID_USER:
+            return {
+                ...state,
+                usuarios: action.payload
+            }
 
         case GET_PROFILE:
             return {
                 ...state,
-                usuarioConectado: action.payload[0]
+                usuarioConectado: action.payload
+            }
+
+        case GET_ADDRESS:
+            return {
+                ...state,
+                usuarioConectado: action.payload
             }
 
         case GET_WALLET:
@@ -27,21 +56,54 @@ export default function usuario(state = initialState, action) {
                 wallet: action.payload
             }
 
+        case GET_TRANSACTIONS:
+            return {
+                ...state,
+                transactions: action.payload
+            }
+        
         case GET_USER_LOGGED:
             return {
                 ...state,
                 usuarioConectado: action.payload
             }
-            case LOGOUT:
+
+        case LOGOUT:
             return {
                 ...state,
                 usuarioConectado: {}
-            }
-            case RESET_PASS_USER:
+        }
+        
+        case RESET_PASS_USER:
             return {
                 ...state,
                 usuarios: state.usuarios
             }
+
+        case LISTA_CONTACTOS:
+            return{
+                ...state,
+                listContact: state.listContact.concat(action.payload)
+            }
+
+        case GET_USER_CONTACTS:
+            return{
+                ...state,
+                contacts: action.payload
+            }
+
+        case SELECT_CONTACT:
+            return {
+                ...state,
+                contactSelected: action.payload
+            }
+
+        case CARGAR_DINERO:
+            return {
+                ...state,
+                transactions: action.payload
+            }
+
         default:
             return state
     }
