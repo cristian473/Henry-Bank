@@ -14,8 +14,9 @@ export function validEmailUser (email) {
   
     axios.post('http://localhost:3001/auth/validate/resetpassword/', {email})
       .then(res =>{
-        alert('Por favor verifique su casilla de correos!')
+        alert('Por favor, verifica tu casilla de correos')
         // window.location.replace('http://localhost:3000/resetpassword/'+ res.data[1][0].id)
+        window.location.replace('http://localhost:3000/login');
       }
         
       )
@@ -28,7 +29,7 @@ export function resetPassUser (data) {
 
     axios.put('http://localhost:3001/auth/resetpassword/'+ data.code, data)
       .then(res => {
-        alert('contraseña cambiada con exito!');
+        alert('¡contraseña cambiada con exito!');
         window.location.replace('http://localhost:3000/login')
       })
 

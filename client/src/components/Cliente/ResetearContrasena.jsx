@@ -21,7 +21,7 @@ const ResetearContrasena = () => {
                 <label  htmlFor="contraUser" className="sr-only">Constraseña*</label>
                 <input  className="form-control" required type="email" placeholder="Email" name="email"  onChange={(e)=>handleInputChange(e)}/>
                            
-                <button type="submit" className=" btn-lg btn-primary btn-block"  value="Enviar" onClick={() => handlerClick()} >Recibir codigo de validación!</button>
+                <button type="submit" className=" btn-lg btn-primary btn-block"  value="Enviar" onClick={() => handlerClick()} >¡Recibir codigo de validación!</button>
             </form>
             <br/>
         </div>
