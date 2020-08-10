@@ -3,10 +3,10 @@ import Form from './exportCrearUsuario'
 
 const handleSubmit = values => console.log("")
 const initialValues = {}
-const CrearUsuario = () => (
+const exportCrearUsuario = () => (
     <div className="exportform">
         <Form handleSubmit={() => handleSubmit()} initialValues={initialValues}/>
     </div>
 )
 
-export default CrearUsuario
+export default exportCrearUsuario

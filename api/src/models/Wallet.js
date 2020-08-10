@@ -8,9 +8,9 @@ const Wallet = (sequelize, S) => {
       autoIncrement: true,
     },
     type: {
-      type: S.ENUM,
-      values: ["Cuenta Corriente", "Cuenta de Ahorro", "Línea de Crédito"],
+      type: S.STRING,
       defaultValue: "Cuenta Corriente",
+      allowNull: true,
     },
     balance: {
       type: S.DECIMAL(10, 2),
@@ -21,9 +21,8 @@ const Wallet = (sequelize, S) => {
       },
     },
     currency: {
-      type: S.ENUM,
-      values: ["Pesos", "Dólares", "Euros"],
-      defaultValue: "Pesos",
+      type: S.TEXT,
+      allowNull: true,
     },
   });
 

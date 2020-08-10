@@ -13,12 +13,8 @@ const Transactions = (sequelize, S) => {
       type: S.DECIMAL(10, 2),
       allowNull: true,
     },
-    transactions_type: {
-      type: S.ENUM([
-        "Transferencia a usuario",
-        "Pago Comercio",
-        "Transferencia Bancaria",
-      ]),
+    type: {
+      type: S.STRING,
       allowNull: true,
     },
     state: {
@@ -32,7 +28,7 @@ const Transactions = (sequelize, S) => {
     transactionNumber: {
       type: S.INTEGER,
       allowNull: false,
-    },
+    }
   });
 
   return T;
