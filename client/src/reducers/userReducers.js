@@ -1,4 +1,5 @@
-import { ADD_USER, 
+import { 
+    ADD_USER, 
     GET_USER_CONTACTS, 
     SELECT_CONTACT, 
     GET_USER_LOGGED, 
@@ -9,7 +10,8 @@ import { ADD_USER,
     GET_TRANSACTIONS, 
     GET_ADDRESS, 
     LISTA_CONTACTOS,
-    CARGAR_DINERO } from '../constants/userConstants';
+    CARGAR_DINERO 
+} from '../constants/userConstants';
 
 const initialState = {
     usuarios: [],
@@ -36,11 +38,11 @@ export default function usuario(state = initialState, action) {
                 usuarioConectado: action.payload
             }
 
-            case GET_ADDRESS:
-                return {
-                    ...state,
-                    usuarioConectado: action.payload
-                }
+        case GET_ADDRESS:
+            return {
+                ...state,
+                usuarioConectado: action.payload
+            }
 
         case GET_WALLET:
             return {
@@ -59,6 +61,7 @@ export default function usuario(state = initialState, action) {
                 ...state,
                 usuarioConectado: action.payload
             }
+
         case LOGOUT:
             return {
                 ...state,
@@ -78,7 +81,6 @@ export default function usuario(state = initialState, action) {
             }
 
         case GET_USER_CONTACTS:
-            console.log(action.payload)
             return{
                 ...state,
                 contacts: action.payload
@@ -90,7 +92,7 @@ export default function usuario(state = initialState, action) {
                 contactSelected: action.payload
             }
 
-            case CARGAR_DINERO:
+        case CARGAR_DINERO:
             return {
                 ...state,
                 transactions: action.payload
