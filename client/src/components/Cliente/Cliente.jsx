@@ -6,6 +6,7 @@ import { connect, useDispatch } from 'react-redux';
 import { getProfile, getWallet, getTransactions } from "../../actions/UserActions";
 import BotonLogout from "./BotonLogout.jsx";
 import { AiFillEdit} from 'react-icons/ai';
+import Container from 'react-bootstrap/Container';
 
 function Cliente({ usuarioConectado, wallet, transactions, getProfile, getWallet, getTransactions, history }){
   useEffect(() => {
@@ -30,8 +31,9 @@ function Cliente({ usuarioConectado, wallet, transactions, getProfile, getWallet
   
     
   return(
-    <div id="cliente">  
-      <div className="left">
+    <Container id="contecliente1"> 
+   
+      <div className="contecliente2">
         <div className="header">
           <div className="perfil">
             {usuarioConectado ?           
@@ -60,25 +62,23 @@ function Cliente({ usuarioConectado, wallet, transactions, getProfile, getWallet
             :
               <h3>$2,002.50</h3>
             }      
-            <p>Balance de mi cuenta</p>
+            <div className="balance">     
+
+            <h3>Balance de mi cuenta</h3>
           </div>
-          </span>}</div> 
+          </div>
+          </span>}
+          </div> 
+          <div className="clientegeneral">
+
           {usuarioConectado.firstName!==null && <span><General transacciones={transactions}/>
-        <div className="acciones">
-          <ul>
-            <li>
-              <a href="/recargar" className="btn">RECARGAR</a>
-            </li>
-            <li>
-              <a href="/enviar" className="btn">ENVIAR</a>
-            </li>
-          </ul> 
-          <div className="navBar">
+        
+        
+          <div id="navbarcont">
             <NavBar/>
           </div>
-
-        </div></span>}
-
+          </span>}
+          </div>
 
         {usuarioConectado.firstName===null && 
     <form className="form-signin needs-validation"> 
@@ -95,25 +95,8 @@ function Cliente({ usuarioConectado, wallet, transactions, getProfile, getWallet
 
       </div>  
 
-      <div className="right">
-        <div className="rutas">
-          <ul>
-            <li>
-              <a href="/">TRANSACCIONES</a> 
-            </li>
-            <li>
-              <a href="/">ESTADÍSTICAS</a>           
-            </li>
-            <li>
-              <a href="/">MIS DATOS</a>
-            </li>
-            <li>
-              <a href="/">MIS PRODUCTOS</a>
-            </li>
-          </ul>   
-        </div>
-      </div>
-    </div>
+  
+    </Container>
   )
 }
 
