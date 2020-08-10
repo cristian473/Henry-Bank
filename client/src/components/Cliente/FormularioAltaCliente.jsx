@@ -1,10 +1,11 @@
 import React, { useState } from "react";
+
 import { getAddress } from "../../actions/UserActions";
-import { connect } from 'react-redux';
+import { connect } from "react-redux";
 import "./CSS/altaCliente.css";
 import header from "./Images/header.png";
 
-const AddUserForm = function ({ id, getAddress }){
+const AddUserForm = function ({ id, getAddress }) {
   const initialUserState = {
     id: id,
     firstName: "",
@@ -13,24 +14,17 @@ const AddUserForm = function ({ id, getAddress }){
     identification: "",
     phone: "",
     birthDate: "",
-    street: "", 
+    street: "",
     city: "",
     country: "",
-    complemento:""
-     };
+    complemento: "",
+  };
   const [user, setUser] = useState(initialUserState);
 
- const address =  {
-    street: user.street, 
+  const address = {
+    street: user.street,
     city: user.city,
-    country: user.country
-  }; 
-
- 
-
-  const handleInputChange = (event) => {
-    const { name, value } = event.target;
-    setUser({ ...user, [name]: value });
+    country: user.country,
   };
 
   function getEdad(dateString) {
@@ -46,10 +40,15 @@ const AddUserForm = function ({ id, getAddress }){
     }
     return edad
   }
-  
+
   const cancelar = function (e) {
     window.location.replace('http://localhost:3000')
  }
+
+  const handleInputChange = (event) => {
+    const { name, value } = event.target;
+    setUser({ ...user, [name]: value });
+  };
 
   return (
     <div>
@@ -58,10 +57,11 @@ const AddUserForm = function ({ id, getAddress }){
         <form
           onSubmit={(event) => {
             event.preventDefault();
-            if (getEdad(user.birthDate) >= 16 ) {
-            getAddress(address, id, user)} else {
-                alert ('Debes ser mayor de 16 años')
-            }    
+            if (getEdad(user.birthDate) >= 16) {
+              getAddress(address, id, user);
+            } else {
+              alert("Debes ser mayor de 16 años");
+            }
           }}
         >
           <div class="input-gruop mb-3">
@@ -97,12 +97,12 @@ const AddUserForm = function ({ id, getAddress }){
               onChange={handleInputChange}
               required
             />
-            <input 
-              class='form-control' 
-              name="phone" 
-              placeholder="Teléfono" 
+            <input
+              class="form-control"
+              name="phone"
+              placeholder="Teléfono"
               value={user.phone}
-              onChange={handleInputChange} 
+              onChange={handleInputChange}
               required
             />
             <p>Fecha de nacimiento</p>
@@ -115,42 +115,53 @@ const AddUserForm = function ({ id, getAddress }){
               onChange={handleInputChange}
               required
             />
-            <input 
-              class='form-control' 
-              name="street" 
-              placeholder="Domicilio calle + Número" 
-              value={user.street} 
-              onChange={handleInputChange} 
+            <input
+              class="form-control"
+              name="street"
+              placeholder="Domicilio calle + Número"
+              value={user.street}
+              onChange={handleInputChange}
               required
             />
-          <input 
-              class='form-control' 
-              name="complemento" 
-              placeholder="Piso y Depto" 
-              value={user.complemento} 
-              onChange={handleInputChange} 
+            <input
+              class="form-control"
+              name="complemento"
+              placeholder="Piso y Depto"
+              value={user.complemento}
+              onChange={handleInputChange}
             />
-            <input 
-              class='form-control' 
-              name="city" 
-              placeholder="Ciudad" 
-              value={user.city} 
-              onChange={handleInputChange} 
+            <input
+              class="form-control"
+              name="city"
+              placeholder="Ciudad"
+              value={user.city}
+              onChange={handleInputChange}
               required
             />
-            <input 
-              class='form-control' 
-              name="country" 
-              placeholder="Pais" 
-              value={user.country} 
-              onChange={handleInputChange} 
+            <input
+              class="form-control"
+              name="country"
+              placeholder="Pais"
+              value={user.country}
+              onChange={handleInputChange}
               required
             />
           </div>
-        
+
           <div className="altaButtons">
-          <input type="submit" className="btn btn-outline-dark" value="Crear" />
-              <button type="button" className="btn btn-outline-danger" value="Cancelar"  onClick={cancelar} >Cancelar</button>
+            <input
+              type="submit"
+              className="btn btn-outline-dark"
+              value="Crear"
+            />
+            <button
+              type="button"
+              className="btn btn-outline-danger"
+              value="Cancelar"
+              onClick={cancelar}
+            >
+              Cancelar
+            </button>
           </div>
         </form>
         <a href="/help">¿Necesitás ayuda?</a>

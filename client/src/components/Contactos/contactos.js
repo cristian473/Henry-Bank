@@ -17,10 +17,9 @@ const Contacts = () => {
   const contacts = useSelector((store) => store.usuario.contacts);
   const userSelected = useSelector((store) => store.usuario.contactSelected);
   const userContected = useSelector((store) => store.usuario.usuarioConectado);
-  
+
   useEffect(() => dispatch(getProfile()), []);
   useEffect(() => dispatch(getContacts(userContected.id)), [userContected]);
-  
 
   const selectedUser = (user) => {
     dispatch({ type: SELECT_CONTACT, payload: user });
@@ -41,8 +40,8 @@ const Contacts = () => {
   };
 
   const volver = function (e) {
-    window.location.replace('http://localhost:3000/enviar')
- }
+    window.location.replace("http://localhost:3000/enviar");
+  };
 
   return (
     <div id="onboarding">
@@ -83,22 +82,23 @@ const Contacts = () => {
                 <th>Email</th>
               </tr>
             </thead>
-            {console.log(contacts)}
+
             {contacts.length == 0 ? (
               <th>No tiene contactos aún!</th>
-            ):(
+            ) : (
               <tbody>
-              {contacts.map((contact) => (
-                <tr>
-                  <td>
-                    {contact.firstName} {contact.lastName}
-                  </td>
-                  <td onClick={() => selectedUser(contact)}>{contact.email}</td>
-                </tr>
-              ))}
-            </tbody>
+                {contacts.map((contact) => (
+                  <tr>
+                    <td>
+                      {contact.firstName} {contact.lastName}
+                    </td>
+                    <td onClick={() => selectedUser(contact)}>
+                      {contact.email}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
             )}
-            
           </Table>
         </div>
       </div>
@@ -123,7 +123,9 @@ const Contacts = () => {
               className="btn btn-dark"
               variant="top"
               size="lg"
-              onClick={() => deleteHandler(userSelected.email, userContected.id)}
+              onClick={() =>
+                deleteHandler(userSelected.email, userContected.id)
+              }
             >
               Eliminar
             </Button>
@@ -141,16 +143,21 @@ const Contacts = () => {
             <Button disabled className="btn btn-dark" variant="top" size="lg">
               Eliminar
             </Button>
-                        
           </div>
         )}
       </div>
-      <div className="VolverDin"> <Button
-              onClick={volver}
-              className="btn btn-dark"
-              variant="top"
-              size="lg"
-            > Volver a Enviar Dinero</Button></div>
+      <div className="VolverDin">
+        {" "}
+        <Button
+          onClick={volver}
+          className="btn btn-dark"
+          variant="top"
+          size="lg"
+        >
+          {" "}
+          Volver a Enviar Dinero
+        </Button>
+      </div>
     </div>
   );
 };
