@@ -32,7 +32,7 @@ export default function LoginForm() {
         </div>
         <div class="form-row contenedor">
           <div className="form-group col-md-6 link" >
-            <a href="/">¿Olvidaste tu contraseña?</a>
+            <a href="/resetpassword">¿Olvidaste tu contraseña?</a>
             <a href="/">¿Necesitas ayuda?</a>
           </div>
           <div className="form-group col-md-6 inicio">

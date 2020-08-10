@@ -22,8 +22,8 @@ const Contacts = () => {
   useEffect(() => dispatch(getContacts(userContected.id)), [userContected]);
   
 
-  const selectedUser = (email) => {
-    dispatch({ type: SELECT_CONTACT, payload: email });
+  const selectedUser = (user) => {
+    dispatch({ type: SELECT_CONTACT, payload: user });
   };
 
   var emailValue = "";
@@ -37,8 +37,7 @@ const Contacts = () => {
   };
 
   const addHandler = () => {
-    dispatch(addContact(emailValue));
-    emailValue = "";
+    dispatch(addContact(emailValue, userContected.id));
   };
 
   return (
@@ -80,7 +79,11 @@ const Contacts = () => {
                 <th>Email</th>
               </tr>
             </thead>
-            <tbody>
+            {console.log(contacts)}
+            {contacts == [] ? (
+              <th>No tiene contactos aún!</th>
+            ):(
+              <tbody>
               {contacts.map((contact) => (
                 <tr>
                   <td>
@@ -90,6 +93,8 @@ const Contacts = () => {
                 </tr>
               ))}
             </tbody>
+            )}
+            
           </Table>
         </div>
       </div>
@@ -106,7 +111,7 @@ const Contacts = () => {
               className="btn btn-dark"
               variant="top"
               size="lg"
-              onClick={() => addHandler(contacts.email)}
+              onClick={() => addHandler()}
             >
               Agregar
             </Button>

@@ -123,39 +123,3 @@ export function getAddress(address, id, user) {
         })           
    }
 }
-
-export function getContacts(id) {
-  return function (dispatch) {
-    axios.get("http://localhost:3001/contacts/ " + id).then((res) => {
-      if (res.status === 200) {
-        return dispatch({
-          type: GET_USER_CONTACTS,
-          payload: res.data.contactos,
-        });
-      } else {
-        alert(res.message);
-      }
-    });
-  };
-}
-
-export function deleteContacts(email, id) {
-  return function (dispatch) {
-    axios
-      .delete("http://localhost:3001/contacts/" + id + "/deleteContact", {
-        email,
-      })
-      .then((res) => {
-        if (res.status === 200) {
-          axios.get("http://localhost:3001/contacts/" + id).then((response) => {
-            return dispatch({
-              type: DELETE_CONTACT,
-              payload: response.data.contactos,
-            });
-          });
-        } else {
-          alert(res.message);
-        }
-      });
-  };
-}

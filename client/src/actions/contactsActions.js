@@ -19,12 +19,11 @@ export function getContacts(id) {
   }
 
 
-export const addContact = (email) => {
-console.log(email)
+export const addContact = (email, id) => {
     return function (dispatch) {
-        axios.post('http://localhost:3001/contacts/'+ 1 +'/addContact', {email})
+        axios.post('http://localhost:3001/contacts/'+ id +'/addContact', {email})
             .then(res => {
-                axios.get("http://localhost:3001/contacts/" + 1).then((response) => {
+                axios.get("http://localhost:3001/contacts/" + id).then((response) => {
                 return dispatch({
                     type: GET_USER_CONTACTS,
                     payload: response.data.contactos,
