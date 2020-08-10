@@ -40,6 +40,10 @@ const Contacts = () => {
     dispatch(addContact(emailValue, userContected.id));
   };
 
+  const volver = function (e) {
+    window.location.replace('http://localhost:3000/enviar')
+ }
+
   return (
     <div id="onboarding">
       <div class="titulo">
@@ -80,7 +84,7 @@ const Contacts = () => {
               </tr>
             </thead>
             {console.log(contacts)}
-            {contacts == [] ? (
+            {contacts.length == 0 ? (
               <th>No tiene contactos aún!</th>
             ):(
               <tbody>
@@ -137,9 +141,16 @@ const Contacts = () => {
             <Button disabled className="btn btn-dark" variant="top" size="lg">
               Eliminar
             </Button>
+                        
           </div>
         )}
       </div>
+      <div className="VolverDin"> <Button
+              onClick={volver}
+              className="btn btn-dark"
+              variant="top"
+              size="lg"
+            > Volver a Enviar Dinero</Button></div>
     </div>
   );
 };

@@ -1,10 +1,25 @@
-import { ADD_USER, GET_USER_CONTACTS, GET_VALID_USER, SELECT_CONTACT, GET_USER_LOGGED, GET_PROFILE, GET_WALLET, LOGOUT, RESET_PASS_USER, GET_TRANSACTIONS, GET_ADDRESS } from '../constants/userConstants';
+import { 
+    ADD_USER, 
+    GET_USER_CONTACTS, 
+    SELECT_CONTACT, 
+    GET_USER_LOGGED, 
+    GET_PROFILE, 
+    GET_WALLET, 
+    LOGOUT, 
+    RESET_PASS_USER, 
+    GET_TRANSACTIONS, 
+    GET_ADDRESS, 
+    LISTA_CONTACTOS,
+    CARGAR_DINERO, 
+    GET_VALID_USER
+} from '../constants/userConstants';
 
 const initialState = {
     usuarios: [],
     usuarioConectado: {},
     wallet: {},
     transactions: {},
+    listContact: [],
     contacts: [],
     contactSelected: ''
 };
@@ -29,11 +44,11 @@ export default function usuario(state = initialState, action) {
                 usuarioConectado: action.payload
             }
 
-            case GET_ADDRESS:
-                return {
-                    ...state,
-                    usuarioConectado: action.payload
-                }
+        case GET_ADDRESS:
+            return {
+                ...state,
+                usuarioConectado: action.payload
+            }
 
         case GET_WALLET:
             return {
@@ -53,29 +68,41 @@ export default function usuario(state = initialState, action) {
                 usuarioConectado: action.payload
             }
 
-            case LOGOUT:
+        case LOGOUT:
             return {
                 ...state,
                 usuarioConectado: {}
-            }
-
-            case RESET_PASS_USER:
+        }
+        
+        case RESET_PASS_USER:
             return {
                 ...state,
                 usuarios: state.usuarios
             }
 
-            case GET_USER_CONTACTS:
-                return{
-                    ...state,
-                    contacts: action.payload
-                }
+        case LISTA_CONTACTOS:
+            return{
+                ...state,
+                listContact: state.listContact.concat(action.payload)
+            }
 
-            case SELECT_CONTACT:
-                return {
-                    ...state,
-                    contactSelected: action.payload
-                }
+        case GET_USER_CONTACTS:
+            return{
+                ...state,
+                contacts: action.payload
+            }
+
+        case SELECT_CONTACT:
+            return {
+                ...state,
+                contactSelected: action.payload
+            }
+
+        case CARGAR_DINERO:
+            return {
+                ...state,
+                transactions: action.payload
+            }
 
         default:
             return state

@@ -5,10 +5,8 @@ export default function SearchAutocomplete ({ misContactos}) {
 
   function autocomplete(inp, arr) {
     var currentFocus;
-    var arr=[];
     inp.addEventListener("input", function(e) {
         var a, b, i, val = this.value;
-        
         closeAllLists();
         if (!val) { return false;}
         currentFocus = -1;
@@ -17,7 +15,6 @@ export default function SearchAutocomplete ({ misContactos}) {
         a.setAttribute("id", this.id + "autocomplete-list");
         a.setAttribute("class", "autocomplete-items");
         this.parentNode.appendChild(a);
-       
         for (i = 0; i < arr.length; i++) {
           if (arr[i].nombreContacto.substr(0, val.length).toUpperCase() === val.toUpperCase()) {
             b = document.createElement("DIV");
