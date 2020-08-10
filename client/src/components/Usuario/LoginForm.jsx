@@ -1,42 +1,64 @@
-import React from 'react';
-import loginPortada from './images/login.png';
-import './CSS/login.css';
-import Form from 'react-bootstrap/Form';
-import Button from 'react-bootstrap/Button';
-import Container from 'react-bootstrap/Container';
+import React from "react";
+import loginPortada from "./images/login.png";
+import "./CSS/login.css";
+import Form from "react-bootstrap/Form";
+import Button from "react-bootstrap/Button";
+import Container from "react-bootstrap/Container";
 
 export default function LoginForm() {
   let signUp = function (e) {
-    window.location.replace('http://localhost:3000/FormularioAltaCliente')
-  }
-  const onSubmit = () => {
-  }
+    window.location.replace("http://localhost:3000/FormularioAltaCliente");
+  };
+  const onSubmit = () => {};
 
   return (
-    <Container id="conte1">
-      <img id="row"   src="https://fotos.subefotos.com/f807c25bc9510155673fc2acf1d82a39o.png" ></img>
-      <Form className="login2" action="http://localhost:3001/auth/login" method="POST" size="lg">
-        <Form.Group controlId="formBasicEmail">
-          <Form.Label>Iniciar Sesión</Form.Label>
-          <Form.Control type="email" placeholder="Enter email" required/>
-        </Form.Group>
-        <Form.Group controlId="formBasicPassword">
-          <Form.Label>Password</Form.Label>
-          <Form.Control type="password" placeholder="Password" required />
-          <Form.Text className="text-muted">
-            Anota la contraseña en un lugar seguro!
-          </Form.Text>
-        </Form.Group>
-          <Button variant="primary" type="submit">
-            Iniciar Sesión
-          </Button>
-          <Button variant="primary" type="signup" onClick={signUp}>
-            Registrate
-          </Button>
-          <Button variant="primary" type="submit">
-            ¿Olvidaste tu contraseña?
-          </Button>  
-    </Form>
-
-  </Container>
-)};
+    <div id="login">
+      <form action="http://localhost:3001/auth/login" method="POST">
+        <img src={loginPortada} alt="loginPortada" />
+        <div className="form-group col-md-12">
+          <h4>Iniciar Sesión</h4>
+          <div className="input-group mb-3">
+            <input
+              name="email"
+              className="form-control"
+              placeholder="E-mail"
+              required
+            />
+          </div>
+        </div>
+        <div className="form-group col-md-12 ">
+          <div className="input-group mb-3">
+            <input
+              name="password"
+              type="password"
+              className="form-control"
+              placeholder="Contraseña"
+              required
+            />
+          </div>
+        </div>
+        <div class="form-row contenedor">
+          <div className="form-group col-md-6 link">
+            <a href="/resetpassword">¿Olvidaste tu contraseña?</a>
+            <a href="/">¿Necesitas ayuda?</a>
+          </div>
+          <div className="form-group col-md-6 inicio">
+            <input
+              type="submit"
+              className="btn btn-outline-dark"
+              value="Iniciar Sesión"
+            />
+            <button
+              type="button"
+              className="btn btn-outline-danger"
+              value="Cancelar"
+              onClick={cancelar}
+            >
+              Cancelar
+            </button>
+          </div>
+        </div>
+      </form>
+    </div>
+  );
+}

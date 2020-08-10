@@ -1,15 +1,14 @@
 import {
   ADD_USER,
-  GET_USER_LOGGED,
-  MODIFY_USER,
   GET_PROFILE,
+  MODIFY_USER,
   GET_WALLET,
   LOGOUT,
   GET_TRANSACTIONS,
-  GET_USER_CONTACTS,
-  GET_ADDRESS,
-  DELETE_CONTACT,
+  RECARGAR_DINERO,
+  CARGAR_DINERO,
   ENVIAR_DINERO,
+  LISTA_CONTACTOS,
 } from "../constants/userConstants";
 import axios from "axios";
 
@@ -87,26 +86,6 @@ export function getAddress(address, id, user) {
   };
 }
 
-export function getUserLoggedIn(email) {
-  return function (dispatch) {
-    return fetch("http://localhost:3001/users/" + email, {
-      headers: {
-        Accept: "*/*",
-        "Content-Type": "application/json",
-      },
-      method: "GET",
-      credentials: "include",
-    })
-      .then((res) => res.json())
-      .then((json) => {
-        return dispatch({ type: GET_USER_LOGGED, payload: json });
-      })
-      .catch(() => {
-        console.log("error");
-      });
-  };
-}
-
 export function logout() {
   return function (dispatch) {
     axios.get("http://localhost:3001/auth/logout").then((res) => {
@@ -119,51 +98,88 @@ export function logout() {
   };
 }
 
-export function enviarDinero(from, to, money) {
+export function recarDinero(idUser, money) {
   return function (dispatch) {
     axios
-      .put("http://localhost:3001/transactions/" + from + "/" + to, { money })
+      .post(`http://localhost:3001/transactions/loadBalance/${idUser}`, money)
       .then((res) => {
         if (res.status === 200) {
-          return dispatch({ type: ENVIAR_DINERO });
+          return dispatch({ type: RECARGAR_DINERO });
         } else {
-          alert("No se pudo realizar el envío");
+          alert("No se pudo recargar");
         }
       });
   };
 }
 
-export function getContacts(id) {
+export function enviarDinero(from, to, money) {
   return function (dispatch) {
-    axios.get("http://localhost:3001/contacts/ " + id).then((res) => {
+    const myBody = {
+      money: money,
+      transactiontype: "UsertoUser",
+    };
+    axios
+      .put(`http://localhost:3001/transactions/${from}/${to}`, myBody)
+      .then((res) => {
+        if (res.status === 200) {
+          return dispatch({
+            type: GET_USER_CONTACTS,
+            payload: res.data.contactos,
+          });
+        } else {
+          alert(res.message);
+        }
+      });
+  };
+}
+
+export function listaContactos(idContact) {
+  return function (dispatch) {
+    axios.get(`http://localhost:3001/users/${idContact}`).then((res) => {
       if (res.status === 200) {
         return dispatch({
-          type: GET_USER_CONTACTS,
-          payload: res.data.contactos,
+          type: LISTA_CONTACTOS,
+          payload: {
+            nombreContacto: res.data.firstName + " " + res.data.lastName,
+            idContacto: res.data.id,
+          },
         });
-      } else {
-        alert(res.message);
       }
     });
   };
 }
 
-export function deleteContacts(email, id) {
+export function getAddress(address, id, user) {
   return function (dispatch) {
     axios
-      .delete("http://localhost:3001/contacts/" + id + "/deleteContact", {
-        email,
-      })
+      .post("http://localhost:3001/auth/validate/street", address)
       .then((res) => {
         if (res.status === 200) {
-          axios.get("http://localhost:3001/contacts/" + id).then((response) => {
-            return dispatch({
-              type: GET_USER_CONTACTS,
-              payload: response.data.contactos,
+          axios
+            .put(`http://localhost:3001/users/modify/${id}`, user)
+            .then((res) => {
+              if (res.status === 200) {
+                dispatch({ type: MODIFY_USER, payload: res.data });
+                alert("Tus datos fueron modificados con éxitos");
+                return window.location.replace("http://localhost:3000/login");
+              }
             });
-          });
-        } else {
-          alert(res.message);
+        }
+      })
+      .catch(() => {
+        alert("Ubicación inválida");
+      });
+  };
+}
+
+export function cargarDinero(id) {
+  return function (dispatch) {
+    axios
+      .post(`http://localhost:3001/transactions/loadBalance/${id}`)
+      .then((res) => {
+        if (res.status === 200) {
+          window.location.replace("http://localhost:3000/cliente");
+          return dispatch({ type: CARGAR_DINERO });
         }
       });
   };

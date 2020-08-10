@@ -1,42 +1,31 @@
 import React, { useState } from 'react'
-import { connect } from 'react-redux'
-import { resetPassUser } from '../actions/UserActions'
+import { validEmailUser } from '../../actions/resetPasswordActions'
 
-function ResetearContrasena({id,resetPassUser}){
+const ResetearContrasena = () => {
 
-    const [input, setInput] = useState({
-        contraUser : null
-    })
+    var email = '';
 
-    const handleInputChange = function(e){
-        e.preventDefault()
-        setInput({
-            ...input,
-            [e.target.name] : e.target.value
-        })
+    const handleInputChange = (e) => {
+        email = e.target.value;
+    }
+
+    const handlerClick =() => {
+        validEmailUser(email)
     }
     
-    const cambiarPass = function(e){
-        e.preventDefault()
-        const user= {
-            idUser: id,
-            contraUser: input.contraUser
-        }
-        resetPassUser(user)
-    }
 
     return(
         <div className="container">
             <form  className="form-signin" onSubmit={(e)=>e.preventDefault()}>
-                <h1>Nueva Contraseña </h1>
+                <h1>Ingrese su email:  </h1>
                 <label  htmlFor="contraUser" className="sr-only">Constraseña*</label>
-                <input  className="form-control" required type="password" placeholder="Contraseña" name="contraUser"  onChange={handleInputChange}/>
+                <input  className="form-control" required type="email" placeholder="Email" name="email"  onChange={(e)=>handleInputChange(e)}/>
                            
-                <button type="submit" className=" btn-lg btn-primary btn-block"  value="Enviar" onClick={cambiarPass} >Cambiar Contraseña</button>
+                <button type="submit" className=" btn-lg btn-primary btn-block"  value="Enviar" onClick={() => handlerClick()} >Recibir codigo de validación!</button>
             </form>
             <br/>
         </div>
     )
 }
 
-export default connect (null,{resetPassUser})( ResetearContrasena )
+export default ResetearContrasena
