@@ -219,7 +219,7 @@ function resetPassword(email, req, res) {
       });
 
       const message = {
-        text: `Se adjunta codigo para resetear contraseña :${user[1][0].password_hash}, ingresa tu clave aqui: ${ressetLink}`,
+        text: `Se adjunta codigo para resetear contraseña: ${user[1][0].password_hash}, ingresa tu clave aqui: ${ressetLink}`,
         from: "Henry Bank FT02 <henrybank@mauricioarizaga.com.ar>",
         to: `Reset password <${email}>`,
         // cc: 'else <else@your-email.com>',
@@ -235,6 +235,7 @@ function resetPassword(email, req, res) {
     }
    
   )
+  .catch(err => res.send(400))
 
 }
 
@@ -243,7 +244,6 @@ server.post ('/validate/resetpassword', (req,res) => {
 })
 
 server.put('/resetpassword/:hash', (req,res) => {
-
   const hash = req.params.hash;
   const {newPassword , email} = req.body;
   const contraseñahash = bcrypt.hashSync(newPassword, 10);
