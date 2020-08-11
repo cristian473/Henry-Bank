@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
   getContacts,
@@ -17,6 +17,8 @@ const Contacts = () => {
   const userSelected = useSelector((store) => store.usuario.contactSelected);
   const userContected = useSelector((store) => store.usuario.usuarioConectado);
 
+  const [emailValue, setEmailValue] = useState('');
+
   useEffect(() => dispatch(getProfile()), []);
   useEffect(() => dispatch(getContacts(userContected.id)), [userContected]);
 
@@ -25,18 +27,13 @@ const Contacts = () => {
     dispatch({ type: SELECT_CONTACT, payload: user });
   };
 
-  var emailValue = "";
-
-  const inputHandlerChange = (e) => {
-    emailValue = e.target.value;
-  };
-
   const deleteHandler = (email, id) => {
     dispatch(deleteContacts(email, id));
   };
 
   const addHandler = () => {
     dispatch(addContact(emailValue, userContected.id));
+    setEmailValue('');
   };
 
   const volver = function (e) {
@@ -101,6 +98,13 @@ const Contacts = () => {
           </Table>
         </div>
       </Container>
+      <div class="btns">
+        <input
+          value={emailValue}
+          onChange={(e) => {
+            setEmailValue(e.target.value);
+          }}
+        ></input>
 
       <div id="wholeBottom">
         <div id="btns">
