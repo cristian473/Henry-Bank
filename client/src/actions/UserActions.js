@@ -124,17 +124,17 @@ export function enviarDinero(from, to, money) {
       money: money,
       transactiontype: 'UsertoUser'
     }
-    axios.put(`http://localhost:3001/transactions/${from}/${to}`, myBody)
+    axios.put(`http://localhost:3001/transactions/${from}/${to.idContacto}`, myBody)
     .then(res => {
       if (res.status === 200) {
           swal({
           title: "¡Buen trabajo!",
-          text: "Se ha realizado la carga satisfactoriamente",
+          text: "Se ha enviado $" + money + " a " + to.nombreContacto,
           icon: "success",
         })
         .then((value) => {
           swal(dispatch({ type: ENVIAR_DINERO }) && window.location.replace('http://localhost:3000/cliente'));
-        });       
+        });   
       } 
     })
     .catch(() => {

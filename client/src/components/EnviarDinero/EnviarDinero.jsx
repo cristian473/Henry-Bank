@@ -69,12 +69,12 @@ function RecargarDinero({ usuarioConectado, getProfile, enviarDinero, listContac
           </div>
           <div className="send">
           {usuarioConectado.contacts && usuarioConectado.contacts.length !== 0 ?
-              <Button className="btn btn-dark" href="/cliente" size="lg"
+              <Button className="btn btn-dark" size="lg"
                 onClick={() => {
                   const nombre = document.getElementById('myInput').value;
                   for( let i = 0; i < listContact.length; i++ ){
                     if (listContact[i].nombreContacto === nombre) {
-                      enviarDinero(usuarioConectado.id, listContact[i].idContacto, cantidad)
+                      enviarDinero(usuarioConectado.id, listContact[i], cantidad)
                     }
                   }
                 }}
