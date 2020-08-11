@@ -14,6 +14,7 @@ import axios from "axios";
 import swal from 'sweetalert';
 
 
+
 export function addUser(user) {
   return function (dispatch) {
     axios.post("http://localhost:3001/auth/register", user)
@@ -93,31 +94,6 @@ export function logout() {
   }
 }
 
-export function recarDinero(idUser, money) {
-  return function (dispatch) {
-    axios.post(`http://localhost:3001/transactions/loadBalance/${idUser}`, money)
-    .then(res => {
-      if (res.status === 200) {
-        swal({
-          title: "¡Buen trabajo!",
-          text: "Se ha realizado la carga satisfactoriamente",
-          icon: "success",
-        })
-        .then((value) => {
-          swal(dispatch({ type: RECARGAR_DINERO }) && window.location.replace('http://localhost:3000/cliente'));
-        });
-      }       
-    })
-    .catch(() => {
-      swal({
-        title: "¡Qué mal!",
-        text: "No se pudo recargar =c",
-        icon: "error",
-      });
-    })
-  }
-} 
-
 export function enviarDinero(from, to, money) {
   return function (dispatch) {
     const myBody = {
@@ -137,10 +113,11 @@ export function enviarDinero(from, to, money) {
         });   
       } 
     })
-    .catch(() => {
+    .catch((error) => {
+      const { data } = error.response;
       swal({
         title: "¡Qué mal!",
-        text: "No se pudo realizar el envío =c",
+        text: data.message,
         icon: "error",
       });
     })
