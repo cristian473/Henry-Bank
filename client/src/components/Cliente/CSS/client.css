@@ -1,24 +1,29 @@
-#cliente {
-  display: flex;
+#contecliente1 {
   width: 100%;
-  height: 100vh;
-  color: white;
+  height: 100%;
 }
 
-#cliente .left .buttonsUser .log {
+.contecliente2 .header{
+  display: flex;
+  width: 600px;
+  height: 350px;
+  margin-top: 2%;
+  margin-bottom: 0%;
+  margin-left: 25%;
+  margin-right: 20%;
+  background-color: black;
+  border-radius: 15px;
+  opacity: 0.8;
+}
+
+#contecliente1 .contecliente2 .buttonsUser .log {
   font-size: 15px;
   color:red;
-
-
 }
 
-#cliente .left .buttonsUser .editar {
+#cliente .contecliente2 .buttonsUser .editar {
   font-size: 15px;
   color:yellow;
-
-
-
-
 }
 
 .buttonsUser {
@@ -26,169 +31,70 @@
   justify-content: space-around;
 }
 
-.left{
-  width: 75%;
-  background-color: black;
-  color: white;
-}
-.left .header{
-  display: flex;
-  width: 600px;
-  margin: 0px auto;
-}
-.left .header .perfil{
-  font-size: 12px;
-  text-align: center;
-}
-.left .header .perfil h2{
-  font-weight: 200;
+.contecliente2 .header .perfil h2{
+  font-weight: 500;
   padding: 0px 20px;
   padding-top: 15px;
-  font-size: 20px;
-  color: rgb(167, 167, 167);
+  font-size: 30px;
+  color: rgb(255, 255, 255);
 }
-.left .header .perfil span{
-  font-weight: 600;
+.contecliente2 .header .perfil span{
+  font-weight: 500;
   color: white;
 }
-.left .header .perfil img{
-  width: 120px;
-  height: 125px;
-}
-.left .header .saldo{
-  margin-left: 30px;
-}
-.left .header .saldo h3{
-  font-size: 2.3em;
-  margin-bottom: 0px;
-  margin-top: 33%;
-  color: white;
-  text-align: center;
-}
-.left .header .saldo p{
-  text-align: center;
-  color: rgb(87, 86, 86);
-}
-.left .acciones{
-  position: relative;
-  top: 15%;
-  text-align: center;
-}
-.left .acciones ul{
-  margin-bottom: 0px;
-  padding-left: 0px;
-  list-style: none;
-  display: flex;
-}
-.left .acciones ul li:first-child{
-  margin-left: auto;
-  margin-right: 15px;
-}
-.left .acciones ul li:last-child{
-  margin-right: auto;
-}
-.left .acciones ul li a{
-  border-radius: 0px;
-  font-size: 18px;
-  height: 45px;
+.contecliente2 .header .perfil img{
   width: 200px;
-  border: white solid 1px;
-  font-weight: 600;
+  height: 200px;
+  border-radius: 15px;
+  border-style: solid;
+  margin-left: 10%;
+  margin-top: 3%;
+  margin-right:5%;
+  margin-bottom:5%;
+}
+.contecliente2 .header .saldo {
+  width: 100%;
+  height: 80%;
+  margin-left: 20%;
+  margin-top:15%;
+  margin-right: 5%;
+  margin-bottom: 5%;
+  border-style: solid;
+  border-color: gray;
+  border-radius: 15px;
+
+}
+
+.contecliente2 .header .saldo h3{
+  font-size: 30px;
+  margin-bottom: 5%;
+  margin-top: 20%;
+  margin-left: 15%;
+  margin-right: 15%;
   color: white;
-}
-.left .acciones ul li:hover{
-  background-color: rgba(37, 37, 37, 0.541);
-}
-.left .acciones .navBar{
-  display: none;
+  text-align: center;
+
 }
 
-
-
-
-.right{
-  width: 25%;
-  background-color: #fffe00;
+.contecliente2 .clientegeneral {
   display: flex;
-}
-.right .rutas{
-  margin: auto;
-  font-weight: 800;
-  font-size: 20px;
-  text-align: left;
-}
-.right .rutas ul{
-  margin-bottom: 0px;
-  padding-left: 0px;
-  list-style: none;
-}
-.right .rutas ul li{
-  padding-bottom: 7px;
-}
-.right .rutas ul li a{
-  text-decoration: none;
-  color: black;
-}
-.right .rutas  ul li a:hover{
-  color: rgb(77, 77, 77);
+  width: 600px;
+  height: 350px;
+  margin-top: 0%;
+  margin-bottom: 0%;
+  margin-left: 25%;
+  margin-right: 20%;
+  background-color: black;
+  border-radius: 20px;
+  opacity: 0.8;
 }
 
+#contecliente1 .contecliente2 #navbarcont{
+margin-bottom: 0%;
+margin-right: 100%;
+margin-left: 25%;
+margin-top: 0%;
 
-@media only screen and (max-width: 850px){
-  .left{
-    width: 70%;
-  }
-  .left .header{
-    display: flex;
-    width: 380px;
-    margin: 0px auto;
-  }
-  .left .acciones{
-     top: 15%;
-  }
-  .left .acciones ul li a{
-    width: 150px;
-  }
-  .right{
-      width: 30%;
-  }
+
 }
 
-
-
-@media only screen and (max-width: 650px){
-  .left{
-    width: 100%;
-    background-color: rgb(228, 228, 228);
-    background-image: url('../Images/background.png');
-    background-size: 150%;
-    background-repeat: no-repeat;
-  }
-  .left .header{
-    width: 100%;
-    height: 20%;
-    margin-top: 5%;
-    padding: 0px 20px;
-  }
-  .left .header .perfil img{
-    width: 90px;
-    height: 90px;
-  }
-  .left .header .saldo{
-    margin-left: 15px;
-  }
-  .left .header .saldo h3{
-    margin-top: 45px;
-    font-size: 30px;
-  }
-  .left .acciones ul{
-    display: none;
-  }
-  .left .acciones .navBar{
-    display: block;
-  }
-  .right{
-    display: none;
-  }
-
-}

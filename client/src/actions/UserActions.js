@@ -11,6 +11,8 @@ import {
   LISTA_CONTACTOS 
 } from "../constants/userConstants";
 import axios from "axios";
+import swal from 'sweetalert';
+
 
 export function addUser(user) {
   return function (dispatch) {
@@ -125,14 +127,27 @@ export function getAddress(address, id, user) {
           .then((res) => {
             if (res.status === 200) {
               dispatch({ type: MODIFY_USER, payload: res.data });
-              alert ('Tus datos fueron modificados con éxitos')
-              return window.location.replace('http://localhost:3000/login');
+            /*   alert ('Tus datos fueron modificados con éxitos') */
+            swal({
+              title: "¡Buen trabajo!",
+              text: "Tus datos fueron modificados con éxitos",
+              icon: "success",
+            })
+            .then((value) => {
+              swal(window.location.replace('http://localhost:3000/cliente'));
+            });
+
+              
             } 
           })
         } 
       })   
       .catch(() => {
-        alert("Ubicación inválida")
+        swal({
+          title: "¡Qué mal!",
+          text: "La dirección ingresada no es válida =(",
+          icon: "error",
+        });
       })           
    }
 }

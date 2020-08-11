@@ -1,28 +1,77 @@
-#nav{
-    background-color: transparent !important;
-    display:flex;
-    padding: 0px;
-    width: 100%;
-}
-.btn-light{
-    margin-right: 15px;
+.contenavbar {
+    height: 160px;
+    width: 600px;  
+    opacity: 0.9;
+    background-color: black;
+    border-radius: 20px;
+    opacity: 0.8;
+   }
+   
+   .conttop {
+       position: absolute;
+       top:15%;
+       margin-left: 0%;
+       margin-right: 30%;
+       height: 100%;
+       width: 100%;
+   }
+   .conttop a{
+       font-size: 10px;
+       width: 70px;
+       height: 70px;
+       margin: 0px;
+       padding: 0px;
+       padding-top: 10px;
+   }
+   .conttop a:not(:last-child){
+       margin-right: 3%;
+   }
+   
+   
+   .contbot {
+       position: absolute;
+       text-align: center;
+       top:65%;
+       right: 70%;
+       left: 0%;
+       padding: 10px;
+       width: 100%;
+           
+   }
+   
+
+.buttonSW {
+    height: 80px; 
+    width: 80px;
+    text-align: center;
+    font-size: medium;
+    margin-right: 5% !important;
+    margin-left: 5% !important;
+    margin-bottom: 0% !important;
+    margin-top: -3%  !important;
     border-radius: 0px;
     border-color: transparent !important;
     transition: box-shadow .2s ease;
     box-shadow: 2px 2px 3px 3px gray;
+    
 }
 .btn-light:hover {
     background-color: rgb(167, 167, 167) !important;
     box-shadow: none !important;
 }
 
-.btn-dark{
-    margin-right: 15px;
+.buttonSB {
+    font-size: medium;
+    margin-right: 5% !important;
+    margin-left: 5% !important;
+    margin-bottom: 0% !important;
+    margin-top: -3%  !important;
     border-radius: 0px;
     border-color: transparent !important;
     background-color: black !important;
     transition: box-shadow .2s ease;
-    box-shadow: 2px 2px 3px 3px gray !important;
+    box-shadow: 2px 2px 3px 3px gray;
+    height: 80px;
 }
 
 .btn-dark:hover {
@@ -30,35 +79,16 @@
     box-shadow: none !important;
 }
 
-.m-auto {
-    height: 200px;
-    margin-bottom: 10%;
+.buttonRB {
+    margin-right: 5%;
+    transition: box-shadow .2s ease;
+    box-shadow: 2px 2px 3px 3px gray;
 }
 
-.conttop {
-    margin: 0px auto;
-    width: 100%;
-}
-.conttop a{
-    font-size: 10px;
-    width: 70px;
-    height: 70px;
-    margin: 0px;
-    padding: 0px;
-    padding-top: 10px;
-}
-.conttop a:not(:last-child){
-    margin-right: 3%;
-}
+.buttonWR {
+    margin-left:5%;
 
+    transition: box-shadow .2s ease;
+    box-shadow: 2px 2px 3px 3px gray;
 
-.contbot {
-    top:70%;
-    padding: 10px;
-    width: 100%;
-    display: flex;
-    margin: 0px auto;
-}
-.contbot a{
-    margin: 0px auto;
 }
