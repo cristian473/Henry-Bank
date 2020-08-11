@@ -35,11 +35,11 @@ const NavBar = () => {
         </Button>
       </div>
       <div className="contbot" align="center">
-        <Button className="buttonRB" href="/reloadmoney'"  variant="bbtn btn-dark" size="sm" >
+        <Button className="buttonRB" href="/recargar"  variant="bbtn btn-dark" size="sm" >
             <RiDownload2Line size="32"/>
                 Recargar Dinero
         </Button>
-        <Button className="buttonWR" href="/sendmoney"  variant="bbtn btn-light" size="sm">
+        <Button className="buttonWR" href="/enviar"  variant="bbtn btn-light" size="sm">
             <RiUpload2Line size="32"/>
                 Mandar Dinero
         </Button>

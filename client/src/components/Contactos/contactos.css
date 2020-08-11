@@ -50,7 +50,11 @@
 }
 
 #rowTable{
-    cursor: pointer; 
+    cursor: pointer;
+}
+
+#rowData{
+    background-color: lightgrey;
 }
 
 /* #wholeBottom{
