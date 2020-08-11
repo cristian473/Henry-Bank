@@ -1,21 +1,60 @@
 #login{
-  margin: 20px auto;
-  width: 400px;
-  background-color: rgba(243, 242, 242, 0.233);
+  width: auto;
+  height: auto;
+  background-color: rgb(167, 167, 167) !important;
+  box-shadow: none !important;
+  border-color: transparent !important;
+  margin-top: 0%;
+  margin-bottom: 0%;
 }
-#login img{
-  width: 400px;
+#login #henrybanklogin {
+  width: 70%;
+  height: 70%;
+  align-self: center;
+
+  margin-top: 0% !important;
 }
-#login div h4{
-  position: relative;
-  top: -5px;
-  margin-bottom: 30px;
+
+#login #formlogin {
+  background-color: white;
+  border-radius: 15px;
+  opacity: 0.8;
+  width: 70%;
+  height: 70%;
+  align-self: center;
+}
+
+#login #contelogin2 {
+
+  background-color: white;
+  border-radius: 15px;
+  opacity: 0.8;
+
+}
+
+#login #contelogin2 h4{
   text-align: center;
+  font-size: x-large;
+  margin-top: 3%;
+  margin-bottom: 2%;
+  color: black;
+  font-weight: 700;
 }
-#login .contenedor{
-  margin-top: 30px;
-  padding-bottom: 20px;
+
+#login #contelogin2 .contelogin3 {
+  width: 100%;
+
 }
+
+#login #contelogin2 .contelogin3 input {
+  width: 80%;
+  
+}
+
+#login #contelogin2 .contelogin4 input {
+  width: 80%;
+}
+
 #login .link{
   margin-left: 0px;
 }
@@ -45,3 +84,6 @@
   padding: 12px 58px !important;
   box-shadow: 5px 5px 5px rgb(167, 167, 167);
 }
+
+
+
