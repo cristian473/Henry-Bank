@@ -72,17 +72,11 @@ const Contacts = () => {
       </div> */}
 
       <Container id="tableCont" class="row justify-content-center">
-        <div>
+        <div id="bodyTable">
           <Table id="tableContacts" striped bordered hover borderless="true">
-            <thead>
-              <tr>
-                <th>Nombre</th>
-                <th>Email</th>
-              </tr>
-            </thead>
             {console.log(contacts)}
             {contacts.length == 0 ? (
-              <th>No tienes contactos aún!</th>
+              <div id="emptyContacts">No tienes contactos aún!</div>
             ) : (
                 <tbody>
                   {contacts.map((contact) => {
@@ -93,15 +87,15 @@ const Contacts = () => {
                             {contact.firstName} {contact.lastName}
                           </td>
                           <td onClick={() => selectedUser(contact)}>{contact.email}</td>
-                      </tr>
+                        </tr>
                       ) : (
-                        <tr id="rowTable">
-                          <td>
-                            {contact.firstName} {contact.lastName}                            
-                          </td>
-                          <td onClick={() => selectedUser(contact)}>{contact.email}</td>
-                      </tr>
-                      )
+                          <tr id="rowTable">
+                            <td>
+                              {contact.firstName} {contact.lastName}
+                            </td>
+                            <td onClick={() => selectedUser(contact)}>{contact.email}</td>
+                          </tr>
+                        )
                     )
                     // <tr id="rowTable">
                     //   <td>
@@ -116,65 +110,65 @@ const Contacts = () => {
         </div>
       </Container>
       <div class="btns">
-      <div id="wholeBottom">
-        <div id="btns">
-          <Form>
-            <input
-            placeholder="Ingrese email de contacto"
-            value={emailValue}
-            onChange={(e) => {
-              setEmailValue(e.target.value);
-            }}
-          ></input>
-          </Form>
+        <div id="wholeBottom">
           <div id="btns">
-            {userSelected !== "" ? (
-              <div id="btnsDisplay">
-                <Button id="addDisplay"
-                  className="btn btn-dark"
-                  variant="top"
-                  size="lg"
-                  onClick={() => addHandler()}
-                >
-                  Agregar
-              </Button>
-                <Button id="deleteDisplay"
-                  className="btn btn-dark"
-                  variant="top"
-                  size="lg"
-                  onClick={() => deleteHandler(userSelected.email, userContected.id)}
-                >
-                  Eliminar
-              </Button>
-              </div>
-            ) : (
-                <div id="btnsDisabled">
-                  <Button
-                    onClick={() => addHandler(contacts.email)}
+            <Form>
+              <input
+                placeholder="Ingrese email de contacto"
+                value={emailValue}
+                onChange={(e) => {
+                  setEmailValue(e.target.value);
+                }}
+              ></input>
+            </Form>
+            <div id="btns">
+              {userSelected !== "" ? (
+                <div id="btnsDisplay">
+                  <Button id="addDisplay"
                     className="btn btn-dark"
                     variant="top"
                     size="lg"
+                    onClick={() => addHandler()}
                   >
                     Agregar
-              </Button>
-                  <Button id="deleteBtn" disabled style={{ pointerEvents: 'none' }} className="btn btn-dark" variant="top" size="lg">
+              </Button><div id="betweenButtons"></div>
+                  <Button id="deleteDisplay"
+                    className="btn btn-dark"
+                    variant="top"
+                    size="lg"
+                    onClick={() => deleteHandler(userSelected.email, userContected.id)}
+                  >
                     Eliminar
               </Button>
-
                 </div>
-              )}
+              ) : (
+                  <div id="btnsDisabled">
+                    <Button
+                      onClick={() => addHandler(contacts.email)}
+                      className="btn btn-dark"
+                      variant="top"
+                      size="lg"
+                    >
+                      Agregar
+              </Button><div id="betweenButtons"></div>
+                    <Button id="deleteBtn" disabled style={{ pointerEvents: 'none' }} className="btn btn-dark" variant="top" size="lg">
+                      Eliminar
+              </Button>
+
+                  </div>
+                )}
+            </div>
           </div>
-        </div>
-        <div id="backSend" class="row justify-content-center"> <Button
-          onClick={volver}
-          className="btn btn-dark"
-          variant="top"
-          size="lg"
-        >Volver a Enviar Dinero</Button>
+          <div id="backSend" class="row justify-content-center"> <Button
+            onClick={volver}
+            className="btn btn-dark"
+            variant="top"
+            size="lg"
+          >Volver a Enviar Dinero</Button>
+          </div>
         </div>
       </div>
     </div>
-  </div>
   );
 };
 
