@@ -58,7 +58,11 @@ function AddUserForm ({ id, getAddress, usuarioConectado, getProfile }){
             event.preventDefault();
             if (getEdad(user.birthDate) >= 16 ) {
             getAddress(address, id, user)} else {
-                alert ('Debes ser mayor de 16 años')
+              swal({
+                title: "¡Upps!",
+                text: "Debes ser mayor de 16 años :c",
+                icon: "error",
+              })
             }    
           }}
         >
