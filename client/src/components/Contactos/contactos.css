@@ -1,5 +1,6 @@
-.table {
-    table-layout: auto;
+#root{
+    padding-left: 20%;
+    padding-right: 20%;
 }
 
 #btns{
@@ -15,8 +16,10 @@
     text-align: center;
 }
 
-/* #backSend{
-} */
+#emptyContacts{
+    display: flex;
+    justify-content: center;
+}
 
 #input{
     border-color: black;
@@ -57,10 +60,17 @@
     background-color: lightgrey;
 }
 
-/* #wholeBottom{
+#bodyTable{
+    text-align: center;
+}
 
-} */
+#thead{
+    display: inline;
+}
 
+#betweenButtons {
+    padding: 10px;
+}
 /*table responsive*/
 
 @media(max-width: 500px){
