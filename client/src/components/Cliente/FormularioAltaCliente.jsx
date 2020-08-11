@@ -1,37 +1,35 @@
-import React, { useState } from "react";
-import { getAddress } from "../../actions/UserActions";
+import React, { useState, useEffect } from "react";
+import { getAddress, getProfile } from "../../actions/UserActions";
 import { connect } from 'react-redux';
 import "./CSS/altaCliente.css";
 import header from "./Images/header.png";
+import swal from 'sweetalert';
 
-const AddUserForm = function ({ id, getAddress }){
-  const initialUserState = {
-    id: id,
-    firstName: "",
-    lastName: "",
-    documentType: "",
-    identification: "",
-    phone: "",
-    birthDate: "",
-    street: "", 
-    city: "",
-    country: "",
-    complemento:""
-     };
-  const [user, setUser] = useState(initialUserState);
 
- const address =  {
+function AddUserForm ({ id, getAddress, usuarioConectado, getProfile }){
+ 
+  const [user, setUser] = useState({});
+
+  const handleInputChange = (event) => {
+    const { name, value } = event.target;
+    setUser({ 
+      ...user, 
+      [name]: value 
+    })
+  };
+
+  const address =  {
     street: user.street, 
     city: user.city,
     country: user.country
   }; 
-
- 
-
-  const handleInputChange = (event) => {
-    const { name, value } = event.target;
-    setUser({ ...user, [name]: value });
-  };
+  
+  useEffect(() => {
+    getProfile()
+  }, []);
+  useEffect(() => {
+    setUser(usuarioConectado);
+  }, [usuarioConectado]);
 
   function getEdad(dateString) {
     let hoy = new Date()
@@ -60,7 +58,11 @@ const AddUserForm = function ({ id, getAddress }){
             event.preventDefault();
             if (getEdad(user.birthDate) >= 16 ) {
             getAddress(address, id, user)} else {
-                alert ('Debes ser mayor de 16 años')
+              swal({
+                title: "¡Upps!",
+                text: "Debes ser mayor de 16 años :c",
+                icon: "error",
+              })
             }    
           }}
         >
@@ -118,7 +120,7 @@ const AddUserForm = function ({ id, getAddress }){
             <input 
               class='form-control' 
               name="street" 
-              placeholder="Domicilio calle + Número" 
+              placeholder="Calle y altura" 
               value={user.street} 
               onChange={handleInputChange} 
               required
@@ -159,4 +161,9 @@ const AddUserForm = function ({ id, getAddress }){
   );
 };
 
-export default connect(null, { getAddress })(AddUserForm);
+function mapStateToProps(state){
+  return {
+    usuarioConectado: state.usuario.usuarioConectado
+  }
+}
+export default connect(mapStateToProps, { getAddress, getProfile })(AddUserForm);
