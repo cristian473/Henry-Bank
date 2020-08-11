@@ -8,8 +8,7 @@ import {
 import { SELECT_CONTACT } from "../../constants/userConstants";
 import henry from "../Usuario/images/henry.svg";
 import "./contactos.css";
-import Button from "react-bootstrap/Button";
-import Table from "react-bootstrap/Table";
+import { Button, Table, Container, Form } from "react-bootstrap";
 import { getProfile } from "../../actions/UserActions";
 
 const Contacts = () => {
@@ -17,10 +16,10 @@ const Contacts = () => {
   const contacts = useSelector((store) => store.usuario.contacts);
   const userSelected = useSelector((store) => store.usuario.contactSelected);
   const userContected = useSelector((store) => store.usuario.usuarioConectado);
-  
+
   useEffect(() => dispatch(getProfile()), []);
   useEffect(() => dispatch(getContacts(userContected.id)), [userContected]);
-  
+
 
   const selectedUser = (user) => {
     dispatch({ type: SELECT_CONTACT, payload: user });
@@ -42,15 +41,15 @@ const Contacts = () => {
 
   const volver = function (e) {
     window.location.replace('http://localhost:3000/enviar')
- }
+  }
 
   return (
-    <div id="onboarding">
-      <div class="titulo">
+    <div>
+      {/* <div>
         <img class="logo" src={henry} alt="logo"></img>
-        <h1 class="title">Contactos</h1>
-      </div>
-      <div>
+        <h1>Contactos</h1>
+      </div> */}
+      {/* <div>
         <svg
           id="svg1"
           xmlns="http://www.w3.org/2000/svg"
@@ -73,10 +72,11 @@ const Contacts = () => {
             d="M0,288L80,277.3C160,267,320,245,480,240C640,235,800,245,960,213.3C1120,181,1280,107,1360,69.3L1440,32L1440,0L1360,0C1280,0,1120,0,960,0C800,0,640,0,480,0C320,0,160,0,80,0L0,0Z"
           ></path>
         </svg>
-      </div>
-      <div id="container" class="row justify-content-center">
-        <div class="col-auto">
-          <Table size="lg" borderless="true" hover="true">
+      </div> */}
+
+      <Container id="tableCont" class="row justify-content-center">
+        <div>
+          <Table id="tableContacts" striped bordered hover borderless="true">
             <thead>
               <tr>
                 <th>Nombre</th>
@@ -85,72 +85,78 @@ const Contacts = () => {
             </thead>
             {console.log(contacts)}
             {contacts.length == 0 ? (
-              <th>No tiene contactos aún!</th>
-            ):(
-              <tbody>
-              {contacts.map((contact) => (
-                <tr>
-                  <td>
-                    {contact.firstName} {contact.lastName}
-                  </td>
-                  <td onClick={() => selectedUser(contact)}>{contact.email}</td>
-                </tr>
-              ))}
-            </tbody>
-            )}
-            
+              <th>No tienes contactos aún!</th>
+            ) : (
+                <tbody>
+                  {contacts.map((contact) => (
+                    <tr id="rowTable">
+                      <td>
+                        {contact.firstName} {contact.lastName}
+                      </td>
+                      <td onClick={() => selectedUser(contact)}>{contact.email}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              )}
           </Table>
         </div>
-      </div>
-      <div class="btns">
-        <input
-          onChange={(e) => {
-            inputHandlerChange(e);
-          }}
-        ></input>
+      </Container>
 
-        {userSelected !== "" ? (
-          <div>
-            <Button
-              className="btn btn-dark"
-              variant="top"
-              size="lg"
-              onClick={() => addHandler()}
-            >
-              Agregar
-            </Button>
-            <Button
-              className="btn btn-dark"
-              variant="top"
-              size="lg"
-              onClick={() => deleteHandler(userSelected.email, userContected.id)}
-            >
-              Eliminar
-            </Button>
+      <div id="wholeBottom">
+        <div id="btns">
+          <Form>
+            <input id="input"
+              onChange={(e) => {
+                inputHandlerChange(e);
+              }}
+            ></input>
+          </Form>
+          <div id="btns">
+            {userSelected !== "" ? (
+              <div id="btnsDisplay">
+                <Button id="addDisplay"
+                  className="btn btn-dark"
+                  variant="top"
+                  size="lg"
+                  onClick={() => addHandler()}
+                >
+                  Agregar
+              </Button>
+                <Button id="deleteDisplay"
+                  className="btn btn-dark"
+                  variant="top"
+                  size="lg"
+                  onClick={() => deleteHandler(userSelected.email, userContected.id)}
+                >
+                  Eliminar
+              </Button>
+              </div>
+            ) : (
+                <div id="btnsDisabled">
+                  <Button
+                    onClick={() => addHandler(contacts.email)}
+                    className="btn btn-dark"
+                    variant="top"
+                    size="lg"
+                  >
+                    Agregar
+              </Button>
+                  <Button id="deleteBtn" disabled style={{ pointerEvents: 'none' }} className="btn btn-dark" variant="top" size="lg">
+                    Eliminar
+              </Button>
+
+                </div>
+              )}
           </div>
-        ) : (
-          <div>
-            <Button
-              onClick={() => addHandler(contacts.email)}
-              className="btn btn-dark"
-              variant="top"
-              size="lg"
-            >
-              Agregar
-            </Button>
-            <Button disabled className="btn btn-dark" variant="top" size="lg">
-              Eliminar
-            </Button>
-                        
-          </div>
-        )}
+        </div>
+        <div id="backSend" class="row justify-content-center"> <Button
+          onClick={volver}
+          className="btn btn-dark"
+          variant="top"
+          size="lg"
+        >Volver a Enviar Dinero</Button>
+        </div>
       </div>
-      <div className="VolverDin"> <Button
-              onClick={volver}
-              className="btn btn-dark"
-              variant="top"
-              size="lg"
-            > Volver a Enviar Dinero</Button></div>
     </div>
   );
 };
