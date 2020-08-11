@@ -116,7 +116,7 @@ function AddUserForm ({ id, getAddress, usuarioConectado, getProfile }){
             <input 
               class='form-control' 
               name="street" 
-              placeholder="Domicilio calle + Número" 
+              placeholder="Calle y altura" 
               value={user.street} 
               onChange={handleInputChange} 
               required
