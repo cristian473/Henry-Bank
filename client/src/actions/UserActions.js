@@ -19,12 +19,22 @@ export function addUser(user) {
     axios.post("http://localhost:3001/auth/register", user)
     .then((res) => {
       if (res.status === 200) {
-        alert("Se ha enviado un email de validación a " + user.email)
-        return dispatch({ type: ADD_USER }), window.location.replace('http://localhost:3000');
-      } 
+        swal({
+          title: "¡Registro realizado!",
+          text: "Se ha enviado un email de validación a " + user.email + " =)",
+          icon: "success",
+        })
+        .then((value) => {
+          swal(dispatch({ type: ADD_USER }) && window.location.replace('http://localhost:3000/login'));
+        });  
+      }       
     })
     .catch(() => {
-      alert("E-mail " + user.email + " ya está en uso")
+      swal({
+        title: "¡Qué mal!",
+        text: "E-mail " + user.email + " ya está en uso =c" ,
+        icon: "error",
+      });
     })
   }
 }
@@ -63,10 +73,22 @@ export function logout() {
   return function (dispatch) {
     axios.get('http://localhost:3001/auth/logout').then((res) => {
       if (res.status === 200) {
-       return dispatch({ type: LOGOUT });
-      } else {
-        alert("No fue posible desloguearse");
-      }
+        swal({
+          title: "¡Buen trabajo!",
+          text: "Se ha deslogueado satisfactoriamente",
+          icon: "success",
+        })
+        .then((value) => {
+          swal(dispatch({ type: LOGOUT }) && window.location.replace('http://localhost:3000/login'));
+        });  
+      }       
+    })
+    .catch(() => {
+      swal({
+        title: "¡Qué mal!",
+        text: "No se pudo desloguear =c",
+        icon: "error",
+      });
     })
   }
 }
@@ -76,10 +98,22 @@ export function recarDinero(idUser, money) {
     axios.post(`http://localhost:3001/transactions/loadBalance/${idUser}`, money)
     .then(res => {
       if (res.status === 200) {
-        return dispatch({ type: RECARGAR_DINERO });
-      } else {
-        alert("No se pudo recargar");
-      }
+        swal({
+          title: "¡Buen trabajo!",
+          text: "Se ha realizado la carga satisfactoriamente",
+          icon: "success",
+        })
+        .then((value) => {
+          swal(dispatch({ type: RECARGAR_DINERO }) && window.location.replace('http://localhost:3000/cliente'));
+        });
+      }       
+    })
+    .catch(() => {
+      swal({
+        title: "¡Qué mal!",
+        text: "No se pudo recargar =c",
+        icon: "error",
+      });
     })
   }
 } 
@@ -93,10 +127,22 @@ export function enviarDinero(from, to, money) {
     axios.put(`http://localhost:3001/transactions/${from}/${to}`, myBody)
     .then(res => {
       if (res.status === 200) {
-        return dispatch({ type: ENVIAR_DINERO });
-      } else {
-        alert("No se pudo realizar el envío");
-      }
+          swal({
+          title: "¡Buen trabajo!",
+          text: "Se ha realizado la carga satisfactoriamente",
+          icon: "success",
+        })
+        .then((value) => {
+          swal(dispatch({ type: ENVIAR_DINERO }) && window.location.replace('http://localhost:3000/cliente'));
+        });       
+      } 
+    })
+    .catch(() => {
+      swal({
+        title: "¡Qué mal!",
+        text: "No se pudo realizar el envío =c",
+        icon: "error",
+      });
     })
   }
 } 
@@ -126,8 +172,7 @@ export function getAddress(address, id, user) {
           axios.put(`http://localhost:3001/users/modify/${id}`, user)
           .then((res) => {
             if (res.status === 200) {
-              dispatch({ type: MODIFY_USER, payload: res.data });
-            /*   alert ('Tus datos fueron modificados con éxitos') */
+              dispatch({ type: MODIFY_USER, payload: res.data });          
             swal({
               title: "¡Buen trabajo!",
               text: "Tus datos fueron modificados con éxitos",
@@ -136,8 +181,6 @@ export function getAddress(address, id, user) {
             .then((value) => {
               swal(window.location.replace('http://localhost:3000/cliente'));
             });
-
-              
             } 
           })
         } 
@@ -156,9 +199,16 @@ export function cargarDinero(id) {
   return function (dispatch){
     axios.post(`http://localhost:3001/transactions/loadBalance/${id}`)
     .then(res => {
+      
       if (res.status === 200) {
-        window.location.replace('http://localhost:3000/cliente');
-        return dispatch({ type: CARGAR_DINERO });
+        swal({
+          title: "¡Buen trabajo!",
+          text: "Se ha realizado la carga satisfactoriamente",
+          icon: "success",
+        })
+        .then((value) => {
+          swal(window.location.replace('http://localhost:3000/cliente') &&  dispatch({ type: CARGAR_DINERO }));
+        });       
       } 
     })
   }
