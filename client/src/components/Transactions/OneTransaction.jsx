@@ -1,7 +1,7 @@
 import React from "react";
 import "./Transactions.css";
 
-export default function OneTransaction(transaction) {
+export default function OneTransaction(transaction, usuarioConectado) {
   if (
     usuarioConectado.id == transaction.idSender ||
     usuarioConectado.id == transaction.idReceiver
@@ -35,4 +35,3 @@ export default function OneTransaction(transaction) {
     return <div> El usuario no tiene movimientos</div>;
   }
 }
-export default OneTransaction;
