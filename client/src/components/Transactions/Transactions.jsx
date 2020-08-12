@@ -1,25 +1,26 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import "./Transactions.css";
-import OneTransaction from "../OneTransaction";
 import { Container, Row, Col } from "react-bootstrap";
+import "./Transactions.css";
+import OneTransaction from "./OneTransaction";
+import { transactionsHistory } from "../../actions/UserActions";
 
 export class Transactions extends Component {
-  /* componentDidMount() {
-    if (!this.productos) {
-      this.props.buscarTodos();
+  componentDidMount() {
+    if (!this.transactions) {
+      this.props.transactionsHistory(usuarioConectado.id, moment);
+    } else {
+      return "Esto no esta bien del todo";
     }
-    this.props.traerCategorias();
   }
- */
   render() {
     return (
       <Container className="">
         <Row>
           <Col sm={4}></Col>
           <Col sm={8} className="">
-            {this.props.transactions.map((transaction, moment) => (
-              <OneTransaction key={transaction.id} />
+            {this.props.transactionsHistory.map((transactionsHistory) => (
+              <OneTransaction key={transactionsHistory.transactions_type} />
             ))}
           </Col>
         </Row>
@@ -27,13 +28,14 @@ export class Transactions extends Component {
     );
   }
 }
-
 function mapStateToProps(state) {
-  return {};
+  return {
+    history: state.history,
+  };
 }
-
 function mapDispatchToProps(dispatch) {
-  return {};
+  return {
+    transactionsHistory: (data) => dispatch(transactionsHistory(data)),
+  };
 }
-
 export default connect(mapStateToProps, mapDispatchToProps)(Transactions);

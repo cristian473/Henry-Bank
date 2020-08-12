@@ -29,7 +29,8 @@ server.post("/loadBalance/:idUser", async (req, res) => {
 
   await Merchants.findOne({
     where: { id: 1 },
-  }).then(async (result) => {
+  })
+    .then(async (result) => {
       const balanceUpdate = await Wallet.update(
         {
           balance: saldoConsolidado,
@@ -38,15 +39,14 @@ server.post("/loadBalance/:idUser", async (req, res) => {
           returning: true,
           where: { userId: idUser },
         }
-      )
+      );
       const transactions = await Transactions.create({
         idSender: 0,
         idReceiver: idUser,
         transactions_type: "Recarga billetera",
         value: value,
         state: "Aceptada",
-        transactionNumber:
-          idUser.toString() + randomTransactionNumber(),
+        transactionNumber: idUser.toString() + randomTransactionNumber(),
       });
       const prom = await Promise.all([result, balanceUpdate, transactions]);
       res.status(200).json(prom);
@@ -61,7 +61,7 @@ server.post("/loadBalance/:idUser", async (req, res) => {
 //transferencia de dinero//
 
 server.put("/:idSender/:idReceiver", async (req, res) => {
-  let { money, transactiontype } = req.body;
+  let { money, transactions_type } = req.body;
   const { idSender, idReceiver } = req.params;
   const randomTransactionNumber = function () {
     return Math.floor(Math.random() * 500000 + 1);
@@ -73,7 +73,7 @@ server.put("/:idSender/:idReceiver", async (req, res) => {
 
   let userSender = await Wallet.findOne({ where: { userId: idSender } });
   let moneyFloat = parseFloat(money);
-  switch (transactiontype) {
+  switch (transactions_type) {
     //Transferencia entre usuarios billetera
     case "UsertoUser":
       let userReceiver = await Wallet.findOne({
@@ -156,7 +156,9 @@ server.put("/:idSender/:idReceiver", async (req, res) => {
           );
       } else {
         if (!check || check.status !== "Validado") {
-          res.status(400).json({ message: "El contacto aún no se ha validado"});
+          res
+            .status(400)
+            .json({ message: "El contacto aún no se ha validado" });
         } else {
           res.status(400).json({ message: "No tienes fondos suficientes" });
         }
@@ -385,16 +387,13 @@ server.post("/history/time/:idUser", async (req, res) => {
 
         .catch((err) =>
           res.status(400).json({
-            message:
-              `No se pudo realizar la consulta de transacciones con rango ${moment}`,
+            message: `No se pudo realizar la consulta de transacciones con rango ${moment}`,
           })
         );
-    }
-    catch (error) {
+    } catch (error) {
       res.status(404).json({
-        message:
-          `Los parámetros de rango de fecha no son correctos. Intente nuevamente`,
-      })
+        message: `Los parámetros de rango de fecha no son correctos. Intente nuevamente`,
+      });
     }
   }
 
@@ -444,7 +443,7 @@ server.post("/history/time/:idUser", async (req, res) => {
     case "custom":
       var startDate = req.body.startDate + "T00:00:00.000Z";
       var endDate = req.body.endDate + "T23:59:59.999Z";
-      
+
       moneyFlow(startDate, endDate, "personalizado");
       break;
     default:

@@ -9,6 +9,7 @@ import {
   CARGAR_DINERO,
   ENVIAR_DINERO,
   LISTA_CONTACTOS,
+  TRANSACTIONS_HISTORY,
 } from "../constants/userConstants";
 import axios from "axios";
 import swal from "sweetalert";
@@ -79,11 +80,11 @@ export function logout() {
   };
 }
 
-export function enviarDinero(from, to, money) {
+export function enviarDinero(from, to, money, transactions_type) {
   return function (dispatch) {
     const myBody = {
       money: money,
-      transactiontype: "UsertoUser",
+      transactions_type: transactions_type,
     };
     axios
       .put(
@@ -178,6 +179,27 @@ export function cargarDinero(id) {
           window.location.replace("http://localhost:3000/cliente");
           dispatch({ type: CARGAR_DINERO });
         });
+      })
+      .catch((res) => {
+        Swal.fire({
+          title: "Error",
+          text: "No se pudo recargar dinero",
+          icon: "error",
+        });
+      });
+  };
+}
+
+export function transactionsHistory(id, moment) {
+  return function (dispatch) {
+    axios
+      .post(
+        "http://localhost:3001/transactions/history/time/" +
+          id`?moment=` +
+          moment
+      )
+      .then((result) => {
+        dispatch({ type: TRANSACTIONS_HISTORY });
       })
       .catch((res) => {
         Swal.fire({

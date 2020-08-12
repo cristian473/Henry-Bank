@@ -1,14 +1,14 @@
 import React from "react";
 import "./Transactions.css";
 
-export default function Transaction(transaction) {
+export default function OneTransaction(transaction) {
   if (
     usuarioConectado.id == transaction.idSender ||
     usuarioConectado.id == transaction.idReceiver
   ) {
     return (
       !!transaction && (
-        //switch case pdoriamos hacerlo
+        //switch case podriamos hacerlo
         <div className="container">
           <div className="props">
             <div className="">
@@ -35,4 +35,4 @@ export default function Transaction(transaction) {
     return <div> El usuario no tiene movimientos</div>;
   }
 }
-export default Transaction;
+export default OneTransaction;
