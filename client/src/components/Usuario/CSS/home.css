@@ -1,5 +1,5 @@
 body {
-  background-color: lightgray;
+  background-image: linear-gradient(rgb(241, 241, 241), rgb(128, 128, 128));
   background-size: cover;
   width: 100%;
   
@@ -10,7 +10,7 @@ body {
   height: 70%;
   display: flex;
   align-items: center;
-  background-color: rgb(167, 167, 167) !important;
+  background-color: linear-gradient(rgb(241, 241, 241), rgb(128, 128, 128));
   box-shadow: none !important;
   border-color: transparent !important;
 
