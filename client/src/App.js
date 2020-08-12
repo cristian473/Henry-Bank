@@ -35,7 +35,11 @@ function App() {
       <Route exact path="/enviar" component={EnviarDinero} />
       <Route exact path="/logout" component={BotonLogout} />
       <Route path="/contactos" component={Contacts} />
-      <Route path="/transactions" component={Transactions} />
+      <Route
+        exact
+        path="/transactions/:moment"
+        component={({ match }) => <Transactions moment={match.params.moment} />}
+      />
     </div>
   );
 }

@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { connect } from "react-redux";
 import "./General.css";
-import { Link } from "wouter";
+import { Link } from 'react-router-dom';
 import Transactions from "../Transactions/Transactions"
 import { transactionsHistory, getProfile } from "../../actions/UserActions";
 
@@ -35,22 +35,10 @@ function General({ usuarioConectado, getProfile, transactionsHistory, transaccio
         </div>
       </div>
       <div className="record">
-        <Link to="1days" className="link">
-          {<Transactions onClick={transactionsHistory(usuarioConectado.id, "day")}/>}
-          1Day{" "}
-        </Link>
-        <Link to="7days" className="link">
-          {" "}
-          7Days{" "}
-        </Link>
-        <Link to="30days" className="link">
-          {" "}
-          30Days{" "}
-        </Link>
-        <Link to="6months" className="link">
-          {" "}
-          6Months{" "}
-        </Link>
+        <Link to="/transactions/day">Day</Link>
+        <Link to="/transactions/week">Week</Link>
+        <Link to="/transactions/month">Month</Link>
+        <Link to="/transactions/year">Year</Link>
       </div>
     </div>
   );
@@ -62,5 +50,5 @@ function mapStateToProps(state){
       transactions: state.usuario.transactions,
     }
   }
-  
+
 export default connect(mapStateToProps,{ getProfile, transactionsHistory })(General)
