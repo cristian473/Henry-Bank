@@ -72,9 +72,9 @@ export function logout() {
   }
 }
 
-export function recarDinero(idUser, money) {
+export function recarDinero(idUser, value) {
   return function (dispatch) {
-    axios.post(`http://localhost:3001/transactions/loadBalance/${idUser}`, money)
+    axios.post(`http://localhost:3001/transactions/loadBalance/${idUser}`, value)
       .then(res => {
         if (res.status === 200) {
           return dispatch({ type: RECARGAR_DINERO });
@@ -126,27 +126,20 @@ export function getAddress(address, id, user) {
         if (res.status === 200) {
           axios.put(`http://localhost:3001/users/modify/${id}`, user)
             .then((res) => {
-              if (res.status === 200) {
-                dispatch({ type: MODIFY_USER, payload: res.data });
-                /*   alert ('Tus datos fueron modificados con éxitos') */
-                swal({
-                  title: "¡Buen trabajo!",
-                  text: "Tus datos fueron modificados con éxitos",
-                  icon: "success",
-                })
-                  .then((value) => {
-                    swal(window.location.replace('http://localhost:3000/cliente'));
-                  });
-
-
-              }
+              Swal.fire({
+                title: 'Fuiste dado de alta con éxito!',
+                icon: 'success',
+              })
+                .then(() => {
+                  window.location.replace('http://localhost:3000/login');
+                });
             })
         }
       })
       .catch(() => {
-        swal({
-          title: "¡Qué mal!",
-          text: "La dirección ingresada no es válida =(",
+        Swal.fire({
+          title: "Error",
+          text: "La dirección ingresada no es válida",
           icon: "error",
         });
       })

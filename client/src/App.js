@@ -12,6 +12,7 @@ import exportCrearUsuario from './components/Usuario/FormularioCrearUsuario.jsx'
 import Contacts from './components/Contactos/contactos'
 import ResetearContrasena from './components/Cliente/ResetearContrasena' 
 import ValidResetPassword from './components/Cliente/validResetPassword'
+import MontoRecarga from './components/RecargarDinero/montoRecarga.jsx'
 
 
 function App() {
@@ -35,6 +36,8 @@ function App() {
       <Route exact path='/enviar' component={EnviarDinero} />
       <Route exact path='/logout' component={BotonLogout}  />
       <Route path ="/contactos" component = {Contacts} />
+      <Route path ="/montorecarga" component = {MontoRecarga} />
+
     </div>
   );
 }

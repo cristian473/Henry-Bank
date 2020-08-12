@@ -3,7 +3,7 @@ import { getAddress, getProfile } from "../../actions/UserActions";
 import { connect } from 'react-redux';
 import "./CSS/altaCliente.css";
 import header from "./Images/header.png";
-import swal from 'sweetalert';
+import Swal from "sweetalert2";
 
 
 function AddUserForm ({ id, getAddress, usuarioConectado, getProfile }){
@@ -58,9 +58,9 @@ function AddUserForm ({ id, getAddress, usuarioConectado, getProfile }){
             event.preventDefault();
             if (getEdad(user.birthDate) >= 16 ) {
             getAddress(address, id, user)} else {
-              swal({
-                title: "¡Upps!",
-                text: "Debes ser mayor de 16 años :c",
+              Swal.fire({
+                title: "Error",
+                text: "Debes ser mayor de 16 años",
                 icon: "error",
               })
             }    
