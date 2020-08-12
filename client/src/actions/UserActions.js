@@ -190,16 +190,16 @@ export function cargarDinero(id) {
   };
 }
 
-export function transactionsHistory(id, moment) {
+export function transactionsHistory(id, moment, body) {
   return function (dispatch) {
     axios
       .post(
-        "http://localhost:3001/transactions/history/time/" +
-          id`?moment=` +
-          moment
+        `http://localhost:3001/transactions/history/time/${id}?moment=${moment}`,
+        body
       )
-      .then((data) => {
-        dispatch({ type: TRANSACTIONS_HISTORY, payload: data });
+      .then((res) => {
+        console.log(res);
+        dispatch({ type: TRANSACTIONS_HISTORY });
       })
       .catch((data) => {
         Swal.fire({

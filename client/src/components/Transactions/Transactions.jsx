@@ -5,26 +5,32 @@ import "./Transactions.css";
 import OneTransaction from "./OneTransaction";
 import { transactionsHistory, getProfile } from "../../actions/UserActions";
 
-function Transactions(usuarioConectado, moment) {
+function Transactions({usuarioConectado, moment, getProfile}) {
+  // const {usuarioConectado, moment} = props;
+  var transactioners = [];
+  console.log(`Usuario: ${{usuarioConectado}}`);
+  console.log(`Rango Horario: ${moment}`);
+
   useEffect(() => {
     getProfile();
-  }, {});
+  }, []);
 
-  /*ƒ (dispatch) {
-    axios__WEBPACK_IMPORTED_MODULE_1___default.a.post("http://localhost:3001/transactions/history/time/" + id`?moment=` + moment).then(data => {
-      dispatch({
-        type: _constants…*/
+  // /ƒ (dispatch) {
+  //   axiosWEBPACK_IMPORTED_MODULE1default.a.post("http://localhost:3001/transactions/history/time/" + id?moment= + moment).then(data => {
+  //     dispatch({
+  //       type: _constants…/
 
-  const transactioners = transactionsHistory(usuarioConectado.id, moment);
-  console.log(usuarioConectado);
+  transactioners = transactionsHistory(usuarioConectado.id, moment);
+  const transactioners2 = transactioners
+  console.log(transactioners);
   return (
     <Container className="">
       <Row>
         <Col sm={4}></Col>
         <Col sm={8} className="">
-          {transactioners.map((transactionsHistory) => (
+          {/* {transactioners.map((transactionsHistory) => {
             <OneTransaction key={transactionsHistory.id} />
-          ))}
+          })} */}
         </Col>
       </Row>
     </Container>
@@ -33,12 +39,14 @@ function Transactions(usuarioConectado, moment) {
 function mapStateToProps(state) {
   return {
     history: state.history,
+    usuarioConectado: state.usuario.usuarioConectado,
   };
 }
 function mapDispatchToProps(dispatch) {
   return {
-    transactionsHistory: (data) => dispatch(transactionsHistory(data)),
+    transactionsHistory: (data) => dispatch(transactionsHistory(data)), 
+    
   };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Transactions);
+export default connect(mapStateToProps, {transactionsHistory, getProfile})(Transactions);
