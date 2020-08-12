@@ -198,10 +198,10 @@ export function transactionsHistory(id, moment) {
           id`?moment=` +
           moment
       )
-      .then((result) => {
-        dispatch({ type: TRANSACTIONS_HISTORY });
+      .then((data) => {
+        dispatch({ type: TRANSACTIONS_HISTORY, payload: data });
       })
-      .catch((res) => {
+      .catch((data) => {
         Swal.fire({
           title: "Error",
           text: "No se pudo recargar dinero",

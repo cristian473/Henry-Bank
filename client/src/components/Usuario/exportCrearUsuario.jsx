@@ -4,8 +4,9 @@ import React from 'react'
 import { ErrorMessage, Formik, Form as FormikForm, Field } from 'formik'
 import { addUser } from '../../actions/UserActions'
 import {useDispatch} from 'react-redux'
-import loginPortada from './images/login.png';
 import './CSS/agregarusuario.css'
+import Container from 'react-bootstrap/esm/Container'
+import Image from 'react-bootstrap/Image'
 
 const validations = yup.object().shape({
     email: yup.string()
@@ -25,36 +26,36 @@ function handleSubmit(values) {
     window.location.replace('http://localhost:3000')
  }
     return (
+    <Container id="crearusuario">
         <div id="usuario">
         <Formik initialValues={initialValues} onSubmit={handleSubmit} validationSchema={validations}>
         <FormikForm className="Form">
-        <div className="form-group col-md-12">
-            
-        <img src={loginPortada} alt="loginPortada" />
+        <div className="form-group col-md-12">     
+        <Image id="henrybankcreateuser" src="https://fotos.subefotos.com/f807c25bc9510155673fc2acf1d82a39o.png" ></Image>
             <h4>Crear Usuario</h4>
             <div className="Form-Group">
                 <Field className="Form-Field" name="email" placeholder="E-mail" type="email"/>
                 <ErrorMessage name="email" className="Form-Error" component="span" />
             </div>
             <div className="Form-Group">
-                <Field className="Form-Field" name="password" placeholder="Contraseña" type="password"/>
+                <Field className="Form-Field"  name="password" placeholder="Contraseña" type="password"/>
                 <ErrorMessage className="Form-Error" component="span" name="password"/>
+            </div>
+            <div className="form-group col-md-6 inicio">
+              <input type="submit" className="btn btn-outline-dark" value="Crear Usuario" />
+              <button type="button" className="btn btn-outline-danger" value="Cancelar"  onClick={cancelar} >Cancelar</button>
+            </div>
             </div>
             <div class="form-row contenedor">
             <div className="form-group col-md-6 link" >
               <a href="/">¿Olvidaste tu contraseña?</a>
               <a href="/">¿Necesitas ayuda?</a>
             </div>
-            <div className="form-group col-md-6 inicio">
-              <input type="submit" className="btn btn-outline-dark" value="Crear" />
-              <button type="button" className="btn btn-outline-danger" value="Cancelar"  onClick={cancelar} >Cancelar</button>
-            </div>
-            </div>
-           
-            </div>
+        </div>
         </FormikForm>
     </Formik>
     </div>
+    </Container>
     )
 
 }

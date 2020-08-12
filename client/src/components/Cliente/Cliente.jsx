@@ -63,17 +63,13 @@ function Cliente({ usuarioConectado, wallet, transactions, getProfile, getWallet
               <h3>$2,002.50</h3>
             }      
             <div className="balance">     
-
             <h3>Balance de mi cuenta</h3>
           </div>
           </div>
           </span>}
           </div> 
           <div className="clientegeneral">
-
           {usuarioConectado.firstName!==null && <span><General transacciones={transactions}/>
-        
-        
           <div id="navbarcont">
             <NavBar/>
           </div>
@@ -83,19 +79,10 @@ function Cliente({ usuarioConectado, wallet, transactions, getProfile, getWallet
         {usuarioConectado.firstName===null && 
     <form className="form-signin needs-validation"> 
             <h1>Tu cuenta aún no ha sido activada, por favor, revisa tu mail y sigue los pasos para activarla.</h1>
-
-            
-            <br/>
             <div>             
-            
-
            </div>
     </form>}
-
-
       </div>  
-
-  
     </Container>
   )
 }
