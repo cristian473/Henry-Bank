@@ -15,6 +15,7 @@ import swal from 'sweetalert';
 
 
 
+
 export function addUser(user) {
   return function (dispatch) {
     axios.post("http://localhost:3001/auth/register", user)
