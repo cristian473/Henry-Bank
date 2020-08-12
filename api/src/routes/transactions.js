@@ -155,10 +155,10 @@ server.put("/:idSender/:idReceiver", async (req, res) => {
             })
           );
       } else {
-        if (!check || check.status == "Validado") {
-          res.json({ message: "El usuario no existe o no esta habilitado" });
+        if (!check || check.status !== "Validado") {
+          res.status(400).json({ message: "El contacto aún no se ha validado"});
         } else {
-          res.json({ message: "El usuario no tiene fondos suficientes" });
+          res.status(400).json({ message: "No tienes fondos suficientes" });
         }
       }
       break;

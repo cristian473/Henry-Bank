@@ -79,20 +79,6 @@ export function logout() {
   };
 }
 
-export function recarDinero(idUser, money) {
-  return function (dispatch) {
-    axios
-      .post(`http://localhost:3001/transactions/loadBalance/${idUser}`, money)
-      .then((res) => {
-        if (res.status === 200) {
-          return dispatch({ type: RECARGAR_DINERO });
-        } else {
-          alert("No se pudo recargar");
-        }
-      });
-  };
-}
-
 export function enviarDinero(from, to, money) {
   return function (dispatch) {
     const myBody = {
@@ -100,13 +86,31 @@ export function enviarDinero(from, to, money) {
       transactiontype: "UsertoUser",
     };
     axios
-      .put(`http://localhost:3001/transactions/${from}/${to}`, myBody)
+      .put(
+        `http://localhost:3001/transactions/${from}/${to.idContacto}`,
+        myBody
+      )
       .then((res) => {
         if (res.status === 200) {
-          return dispatch({ type: ENVIAR_DINERO });
-        } else {
-          alert("No se pudo realizar el envío");
+          swal({
+            title: "¡Buen trabajo!",
+            text: "Se ha enviado $" + money + " a " + to.nombreContacto,
+            icon: "success",
+          }).then((value) => {
+            swal(
+              dispatch({ type: ENVIAR_DINERO }) &&
+                window.location.replace("http://localhost:3000/cliente")
+            );
+          });
         }
+      })
+      .catch((error) => {
+        const { data } = error.response;
+        swal({
+          title: "¡Qué mal!",
+          text: data.message,
+          icon: "error",
+        });
       });
   };
 }
