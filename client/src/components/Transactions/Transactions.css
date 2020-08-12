@@ -1,0 +1,112 @@
+.container {
+    background-color: rgba(53, 53, 53, 0.39);
+    border: solid 1px black;
+    top: 5px;
+    display: flex;
+    flex-direction: column;
+    height: 300px;
+    width: 600px;
+    margin: 0px auto;
+}
+
+.general {
+    text-align: center;
+    margin-top: 7%;
+    color: rgb(150, 150, 150)
+}
+
+.props {
+    display: flex;
+    margin: 35px;
+}
+.props h3{
+    color: white;
+}
+
+.income {
+    text-align: center;
+    margin: 0px auto;
+    width: 150px;
+    color: rgb(150, 150, 150)
+}
+.expenses {
+    text-align: center;
+    margin: 0px auto;
+    width: 150px;
+    color: rgb(150, 150, 150)
+}
+
+.record{
+    background: transparent;
+    text-align: center; 
+}
+.record .link{
+    color: #fffe00;
+}
+.record .link:not(:last-child){
+    margin-right: 20px;
+}
+.record .link:hover{
+    text-decoration: none;
+    color: oldlace;
+}
+
+.value {
+    color: black;
+}
+
+
+@media only screen and (max-width: 850px){
+    .container{
+        width: 75%;
+        height: 30%;
+        margin-top: 15%;
+        min-width: 380px;
+    }
+    .general{
+        margin-top: 10px;
+    }
+    .props{
+        margin: 20px;
+    }
+}
+
+@media only screen and (max-width: 650px){
+    .container {
+        padding: 0px;
+        width: 90%;
+        min-width: 300px;
+        height: 25%;
+        min-height: 160px;
+        margin-top: 0px;
+        position: relative;
+        top: 5em;
+        background-color: white;
+        border-color: transparent;
+    }
+    .general h4{
+        font-size: 20px;
+        margin-bottom: 0px;
+        margin-top: 10px;
+    }
+    .props{
+        margin: 10px;
+    }
+    .props h5{
+        font-size: 15px;
+    }
+    .props h3{
+        font-size: 23px;
+        color: black;
+    }
+    .record .link{
+        color: black;
+    }
+    .record .link:hover{
+        color: #fffe00;
+        font-weight: bold;
+    }
+    .record .link:not(:last-child){
+        margin-right: 5px;
+    }
+}
