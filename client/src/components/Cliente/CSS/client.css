@@ -1,5 +1,5 @@
 #contecliente1 {
-  width: 100%;
+  width: 100%!important;
   height: 100%;
 }
 
@@ -89,11 +89,7 @@
   opacity: 0.8;
 }
 
-#contecliente1 .contecliente2 #navbarcont{
-margin-bottom: 0%;
-margin-right: 100%;
-margin-left: 25%;
-margin-top: 0%;
+#contecliente1 .contecliente2 .clientegeneral #navbarcont{
 
 
 }

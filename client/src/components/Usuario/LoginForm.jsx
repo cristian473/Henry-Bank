@@ -35,9 +35,8 @@ export default function LoginForm() {
         </div>
         <Image id="ondas" src="https://fotos.subefotos.com/e07505b47575212c24ec5fdb5ffc1cb8o.png" ></Image>
           <div className="form-group col-md-6 inicio">
-
-             <input type="submit"  className="btn btn-outline-dark" value="Iniciar Sesión" />
-              <button type="button"  className="btn btn-outline-danger" value="Cancelar"  onClick={cancelar} >Cancelar</button>
+            <input type="submit"  className="btn btn-outline-dark" value="Iniciar Sesión" />
+            <button type="button"  className="btn btn-outline-danger" value="Cancelar"  onClick={cancelar} >Cancelar</button>
           </div> 
           <div class="form-row contenedor">
           <div className="form-group col-md-6 link" >

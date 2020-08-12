@@ -3,11 +3,9 @@
   padding:0;  
 }
 body {
-  background-image: linear-gradient(rgb(241, 241, 241), rgb(128, 128, 128));
+  background-color: whitesmoke;
   background-size: cover;
   width: 100%;
-  margin:0;
-  padding:0;
   
 }
   
@@ -16,10 +14,10 @@ body {
   height: 70%;
   display: flex;
   align-items: center;
-  background-color: linear-gradient(rgb(241, 241, 241), rgb(128, 128, 128));
+  background-image: linear-gradient(rgb(53, 53, 53), rgb(255, 255, 255));
   box-shadow: none !important;
   border-color: transparent !important;
-
+  margin-top: 0px!important;
 
 }
 
