@@ -1,20 +1,34 @@
+
 import { ADD_USER, MODIFY_USER, GET_PROFILE, GET_WALLET, LOGOUT, GET_TRANSACTIONS, RECARGAR_DINERO, GET_USER_CONTACTS, DELETE_CONTACT, ENVIAR_DINERO, LISTA_CONTACTOS } from "../constants/userConstants";
 import axios from "axios";
+import swal from 'sweetalert';
+
+
+
 
 export function addUser(user) {
   return function (dispatch) {
     axios.post("http://localhost:3001/auth/register", user)
     .then((res) => {
       if (res.status === 200) {
-        alert("Se ha enviado un email de validación a " + user.email)
-        return dispatch({ type: ADD_USER }), window.location.replace('http://localhost:3000');
-      } 
+        swal({
+          title: "¡Registro realizado!",
+          text: "Se ha enviado un email de validación a " + user.email + " =)",
+          icon: "success",
+        })
+        .then((value) => {
+          swal(dispatch({ type: ADD_USER }) && window.location.replace('http://localhost:3000/login'));
+        });  
+      }       
     })
     .catch(() => {
-      alert("E-mail " + user.email + " ya está en uso")
+      swal({
+        title: "¡Qué mal!",
+        text: "E-mail " + user.email + " ya está en uso =c" ,
+        icon: "error",
+      });
     })
-
-  };
+  }
 }
 
 export function getProfile(){
@@ -51,115 +65,119 @@ export function logout() {
   return function (dispatch) {
     axios.get('http://localhost:3001/auth/logout').then((res) => {
       if (res.status === 200) {
-       return dispatch({ type: LOGOUT });
-      } else {
-        alert("No fue posible desloguearse");
-      }
+        swal({
+          title: "¡Buen trabajo!",
+          text: "Se ha deslogueado satisfactoriamente",
+          icon: "success",
+        })
+        .then((value) => {
+          swal(dispatch({ type: LOGOUT }) && window.location.replace('http://localhost:3000/login'));
+        });  
+      }       
+    })
+    .catch(() => {
+      swal({
+        title: "¡Qué mal!",
+        text: "No se pudo desloguear =c",
+        icon: "error",
+      });
     })
   }
 }
-
-export function recarDinero(idUser, money) {
-  return function (dispatch) {
-    axios.post(`http://localhost:3001/transactions/loadBalance/${idUser}`, money)
-    .then(res => {
-      if (res.status === 200) {
-        return dispatch({ type: RECARGAR_DINERO });
-      } else {
-        alert("No se pudo recargar");
-      }
-    })
-  }
-} 
 
 export function enviarDinero(from, to, money) {
   return function (dispatch) {
     const myBody = {
       money: money,
       transactiontype: 'UsertoUser'
-  }
-    axios.put(`http://localhost:3001/transactions/${from}/${to}`, myBody)
+    }
+    axios.put(`http://localhost:3001/transactions/${from}/${to.idContacto}`, myBody)
     .then(res => {
       if (res.status === 200) {
-        return dispatch({ type: ENVIAR_DINERO });
-      } else {
-        alert("No se pudo realizar el envío");
-      }
+          swal({
+          title: "¡Buen trabajo!",
+          text: "Se ha enviado $" + money + " a " + to.nombreContacto,
+          icon: "success",
+        })
+        .then((value) => {
+          swal(dispatch({ type: ENVIAR_DINERO }) && window.location.replace('http://localhost:3000/cliente'));
+        });   
+      } 
+    })
+    .catch((error) => {
+      const { data } = error.response;
+      swal({
+        title: "¡Qué mal!",
+        text: data.message,
+        icon: "error",
+      });
     })
   }
 } 
 
 export function listaContactos(idContact) {
   return function (dispatch) { 
-      axios.get(`http://localhost:3001/users/${idContact}`)
-      .then(res => {
-        if (res.status === 200) {
-          return dispatch({ 
-            type: LISTA_CONTACTOS, 
-            payload: {
-              nombreContacto: res.data.firstName + ' ' + res.data.lastName,
-              idContacto: res.data.id
-            }
-           });
-        } 
-      })
+    axios.get(`http://localhost:3001/users/${idContact}`)
+    .then(res => {
+      if (res.status === 200) {
+        return dispatch({ 
+          type: LISTA_CONTACTOS, 
+          payload: {
+            nombreContacto: res.data.firstName + ' ' + res.data.lastName,
+            idContacto: res.data.id
+          }
+        })
+      } 
+    })
   }
 } 
 
 export function getAddress(address, id, user) {
   return function(dispatch) {
     axios.post('http://localhost:3001/auth/validate/street', address)          
-        .then((res) => { 
-          if(res.status === 200){
-              axios.put(`http://localhost:3001/users/modify/${id}`, user)
-              .then((res) => {
-              if (res.status === 200) {
-                dispatch({ type: MODIFY_USER, payload: res.data });
-                alert ('Tus datos fueron modificados con éxitos')
-                return window.location.replace('http://localhost:3000/login');
-              } 
+      .then((res) => { 
+        if(res.status === 200){
+          axios.put(`http://localhost:3001/users/modify/${id}`, user)
+          .then((res) => {
+            if (res.status === 200) {
+              dispatch({ type: MODIFY_USER, payload: res.data });          
+            swal({
+              title: "¡Buen trabajo!",
+              text: "Tus datos fueron modificados con éxitos",
+              icon: "success",
             })
-          } 
-        })   
-      
-        .catch(() => {
-          alert("Ubicación inválida")
-        })           
+            .then((value) => {
+              swal(window.location.replace('http://localhost:3000/cliente'));
+            });
+            } 
+          })
+        } 
+      })   
+      .catch(() => {
+        swal({
+          title: "¡Qué mal!",
+          text: "La dirección ingresada no es válida =(",
+          icon: "error",
+        });
+      })           
    }
 }
 
-export function getContacts(id) {
-  return function (dispatch) {
-    axios.get("http://localhost:3001/contacts/ " + id).then((res) => {
+export function cargarDinero(id) {
+  return function (dispatch){
+    axios.post(`http://localhost:3001/transactions/loadBalance/${id}`)
+    .then(res => {
+      
       if (res.status === 200) {
-        return dispatch({
-          type: GET_USER_CONTACTS,
-          payload: res.data.contactos,
-        });
-      } else {
-        alert(res.message);
-      }
-    });
-  };
-}
-
-export function deleteContacts(email, id) {
-  return function (dispatch) {
-    axios
-      .delete("http://localhost:3001/contacts/" + id + "/deleteContact", {
-        email,
-      })
-      .then((res) => {
-        if (res.status === 200) {
-          axios.get("http://localhost:3001/contacts/" + id).then((response) => {
-            return dispatch({
-              type: DELETE_CONTACT,
-              payload: response.data.contactos,
-            });
-          });
-        } else {
-          alert(res.message);
-        }
-      });
-  };
-}
+        swal({
+          title: "¡Buen trabajo!",
+          text: "Se ha realizado la carga satisfactoriamente",
+          icon: "success",
+        })
+        .then((value) => {
+          swal(window.location.replace('http://localhost:3000/cliente') &&  dispatch({ type: CARGAR_DINERO }));
+        });       
+      } 
+    })
+  }
+} 

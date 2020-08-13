@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import './enviardinero.css';
 import Button from 'react-bootstrap/Button';
-import { FaUsers } from "react-icons/fa";
+import { FaUsers , FaUserPlus} from "react-icons/fa";
 import { connect } from 'react-redux';
 import { getProfile, enviarDinero, listaContactos } from "../../actions/UserActions";
 import SearchContact from "./searchContact.js";
@@ -22,6 +22,10 @@ function RecargarDinero({ usuarioConectado, getProfile, enviarDinero, listContac
 
   const [cantidad, setCantidad] = useState(0); 
   
+  const addcontactos = function (e) {
+    window.location.replace('http://localhost:3000/contactos')
+ }
+
   return (  
       <div id="enviardinero">  
         <div className="titulo">
@@ -39,9 +43,9 @@ function RecargarDinero({ usuarioConectado, getProfile, enviarDinero, listContac
         <div className="form-group col-md-5 envia">
           <div class="input-group mb-3 destino">
             <div class="input-group-prepend">
-              <span class="input-group-text" id="basic-addon1">
-              <FaUsers size="25"/>
-              </span>
+              <button class="input-group-text" id="basic-addon1">
+                <FaUserPlus size="30" onClick={addcontactos}/>
+              </button>
             </div>
             {usuarioConectado.contacts && usuarioConectado.contacts.length !== 0? 
               <SearchContact misContactos={listContact}/>
@@ -65,12 +69,13 @@ function RecargarDinero({ usuarioConectado, getProfile, enviarDinero, listContac
           </div>
           <div className="send">
           {usuarioConectado.contacts && usuarioConectado.contacts.length !== 0 ?
-              <Button className="btn btn-dark" href="/cliente" size="lg"
+              <Button className="btn btn-dark" size="lg"
                 onClick={() => {
                   const nombre = document.getElementById('myInput').value;
                   for( let i = 0; i < listContact.length; i++ ){
                     if (listContact[i].nombreContacto === nombre) {
                       enviarDinero(usuarioConectado.id, listContact[i].idContacto, cantidad)
+
                     }
                   }
                 }}

@@ -10,6 +10,8 @@ import EnviarDinero from './components/EnviarDinero/EnviarDinero.jsx';
 import BotonLogout from "./components/Cliente/BotonLogout.jsx";
 import exportCrearUsuario from './components/Usuario/FormularioCrearUsuario.jsx';
 import Contacts from './components/Contactos/contactos'
+import ResetearContrasena from './components/Cliente/ResetearContrasena' 
+import ValidResetPassword from './components/Cliente/validResetPassword'
 
 
 function App() {
@@ -25,6 +27,8 @@ function App() {
         } 
       />
       <Route exact path='/login' component={Login} />
+      <Route exact path='/resetpassword' component= {ResetearContrasena} />
+      <Route exact path='/resetpassword/:idUser' component ={ValidResetPassword} />
       <Route exact path='/registrarse' component={exportCrearUsuario} />
       <Route exact path='/cliente' component={Cliente} />
       <Route exact path='/recargar' component={RecargarDinero} />

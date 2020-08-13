@@ -1,4 +1,18 @@
-import { ADD_USER, GET_USER_CONTACTS, SELECT_CONTACT, GET_USER_LOGGED, GET_PROFILE, GET_WALLET, LOGOUT, RESET_PASS_USER, GET_TRANSACTIONS, GET_ADDRESS, LISTA_CONTACTOS } from '../constants/userConstants';
+import { 
+    ADD_USER, 
+    GET_USER_CONTACTS, 
+    SELECT_CONTACT, 
+    GET_USER_LOGGED, 
+    GET_PROFILE, 
+    GET_WALLET, 
+    LOGOUT, 
+    RESET_PASS_USER, 
+    GET_TRANSACTIONS, 
+    GET_ADDRESS, 
+    LISTA_CONTACTOS,
+    CARGAR_DINERO, 
+    GET_VALID_USER
+} from '../constants/userConstants';
 
 const initialState = {
     usuarios: [],
@@ -18,6 +32,11 @@ export default function usuario(state = initialState, action) {
                 ...state,
                 usuarios: state.usuarios
             }
+        case GET_VALID_USER:
+            return {
+                ...state,
+                usuarios: action.payload
+            }
 
         case GET_PROFILE:
             return {
@@ -25,11 +44,11 @@ export default function usuario(state = initialState, action) {
                 usuarioConectado: action.payload
             }
 
-            case GET_ADDRESS:
-                return {
-                    ...state,
-                    usuarioConectado: action.payload
-                }
+        case GET_ADDRESS:
+            return {
+                ...state,
+                usuarioConectado: action.payload
+            }
 
         case GET_WALLET:
             return {
@@ -48,6 +67,7 @@ export default function usuario(state = initialState, action) {
                 ...state,
                 usuarioConectado: action.payload
             }
+
         case LOGOUT:
             return {
                 ...state,
@@ -67,7 +87,6 @@ export default function usuario(state = initialState, action) {
             }
 
         case GET_USER_CONTACTS:
-            console.log(action.payload)
             return{
                 ...state,
                 contacts: action.payload
@@ -77,6 +96,12 @@ export default function usuario(state = initialState, action) {
             return {
                 ...state,
                 contactSelected: action.payload
+            }
+
+        case CARGAR_DINERO:
+            return {
+                ...state,
+                transactions: action.payload
             }
 
         default:

@@ -209,6 +209,7 @@ function resetPassword(email, req, res) {
     .then(user => {
       // const valUrl = `http://localhost:3001/auth/resetpassword/${hash}`;
 
+      const ressetLink = 'http://localhost:3000/resetpassword/'+user[1][0].id
       const client = new SMTPClient({
         user: "henrybank@mauricioarizaga.com.ar",
         password: "Henrybank12345",
@@ -218,7 +219,7 @@ function resetPassword(email, req, res) {
       });
 
       const message = {
-        text: `Se adjunta codigo para resetear contraseña :${user[1][0].password_hash}`,
+        text: `Se adjunta codigo para resetear contraseña :${user[1][0].password_hash}, ingresa tu clave aqui: ${ressetLink}`,
         from: "Henry Bank FT02 <henrybank@mauricioarizaga.com.ar>",
         to: `Reset password <${email}>`,
         // cc: 'else <else@your-email.com>',
