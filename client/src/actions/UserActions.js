@@ -1,15 +1,5 @@
-import { 
-  ADD_USER,
-  GET_PROFILE, 
-  MODIFY_USER, 
-  GET_WALLET, 
-  LOGOUT, 
-  GET_TRANSACTIONS, 
-  RECARGAR_DINERO,
-  CARGAR_DINERO,
-  ENVIAR_DINERO, 
-  LISTA_CONTACTOS 
-} from "../constants/userConstants";
+
+import { ADD_USER, MODIFY_USER, GET_PROFILE, GET_WALLET, LOGOUT, GET_TRANSACTIONS, RECARGAR_DINERO, GET_USER_CONTACTS, DELETE_CONTACT, ENVIAR_DINERO, LISTA_CONTACTOS } from "../constants/userConstants";
 import axios from "axios";
 import swal from 'sweetalert';
 

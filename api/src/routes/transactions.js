@@ -59,6 +59,7 @@ server.post("/loadBalance/:idUser", async (req, res) => {
 //transferencia de dinero//
 
 server.put("/:idSender/:idReceiver", async (req, res) => {
+  console.log(req.body)
   let { money, transactiontype } = req.body;
   const { idSender, idReceiver } = req.params;
   const randomTransactionNumber = function () {
