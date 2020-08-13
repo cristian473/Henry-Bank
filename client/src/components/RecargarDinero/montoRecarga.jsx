@@ -1,12 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import './montoRecarga.css';
 import Button from 'react-bootstrap/Button';
-import { FaUsers, FaUserPlus } from "react-icons/fa";
 import { connect } from 'react-redux';
 import { getProfile, enviarDinero, listaContactos } from "../../actions/UserActions";
 import { Link } from 'react-router-dom';
 
-function RecargarDinero({ usuarioConectado, getProfile, enviarDinero, listContact, listaContactos }) {
+function RecargarDinero({ usuarioConectado, getProfile, listaContactos }) {
 
     useEffect(() => {
         getProfile();
@@ -21,10 +20,6 @@ function RecargarDinero({ usuarioConectado, getProfile, enviarDinero, listContac
     }, [usuarioConectado])
 
     const [cantidad, setCantidad] = useState(0);
-
-    const addcontactos = function (e) {
-        window.location.replace('http://localhost:3000/contactos')
-    }
 
     return (
         <div id="enviardinero">
@@ -49,16 +44,12 @@ function RecargarDinero({ usuarioConectado, getProfile, enviarDinero, listContac
                         onInput={e => setCantidad(e.target.value)}
                     />
                 </div>
-                <div className="send">
-                    <Link
-                        to={{
-                            pathname: "/recargar",
-                            state: {
-                                cantidad
-                            }
-                        }
-                        }>
-                        <Button className="btn btn-dark" size="lg">Recargar</Button>
+                <div>
+                    <Link to={{
+                        pathname: "/recargar",
+                        state: { cantidad }
+                    }
+                    }><Button className="btn btn-dark" size="lg">Recargar</Button>
                     </Link>
 
                 </div>

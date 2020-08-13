@@ -82,7 +82,7 @@ export function logout() {
 
 export function recarDinero(idUser, value) {
   return function (dispatch) {
-    axios.post(`http://localhost:3001/transactions/loadBalance/${idUser}`, value)
+    axios.post(`http://localhost:3001/transactions/loadBalance/${idUser}`, {value})
       .then(res => {
         if (res.status === 200) {
           return dispatch({ type: RECARGAR_DINERO });
@@ -174,10 +174,10 @@ export function getAddress(address, id, user) {
   };
 }
 
-export function cargarDinero(id) {
+export function cargarDinero(id, value) {
   return function (dispatch) {
     axios
-      .post(`http://localhost:3001/transactions/loadBalance/${id}`)
+      .post(`http://localhost:3001/transactions/loadBalance/${id}`, {value})
       .then((res) => {
         Swal.fire({
           title: "Recarga exitosa!",

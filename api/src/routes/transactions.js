@@ -1,4 +1,6 @@
+const { Router } = require("express");
 const server = require("express").Router();
+const router = Router();
 const { Op } = require("sequelize");
 const {
   Wallet,
@@ -11,57 +13,53 @@ const {
 //do transactions
 
 //cargar dinero//
-//De momento no se usará el randomToken para buscar un Comercio;
-//Se le puede pasar un ID o un número predefinido como ahora
+
 server.post("/loadBalance/:idUser", async (req, res) => {
   const { idUser } = req.params;
   const saldo = await Wallet.findOne({
     where: { userId: idUser },
   });
-  const { value } = req.body;
+  const value = Math.floor(Math.random() * 10000 + 1);
   const saldoConsolidado = parseFloat(saldo.balance) + parseFloat(value);
-  // const randomToken = function () {
-  //   return Math.floor(Math.random() * 5 + 1);
-  // };
-  const randomTransactionNumber = function () {
-    return Math.floor(Math.random() * 500000 + 1);
-  };
-
-  await Merchants.findOne({
-    where: { id: 1 },
-  })
-    .then(async (result) => {
-      const balanceUpdate = await Wallet.update(
-        {
-          balance: saldoConsolidado,
-        },
-        {
-          returning: true,
-          where: { userId: idUser },
-        }
-      );
-      const transactions = await Transactions.create({
+  await Wallet.update(
+    {
+      balance: saldoConsolidado,
+    },
+    {
+      returning: true,
+      where: { userId: idUser },
+    }
+  )
+    .then(async (newBalance) => {
+      const randomToken = function () {
+        return Math.floor(Math.random() * 5 + 1);
+      };
+      const randomTransactionNumber = function () {
+        return Math.floor(Math.random() * 500000 + 1);
+      };
+      const merchant = Merchants.findOne({
+        where: { id: randomToken() },
+      });
+      const transactions = Transactions.create({
         idSender: 0,
         idReceiver: idUser,
-        transactions_type: "Recarga billetera",
+        type: "Carga",
         value: value,
         state: "Aceptada",
-        transactionNumber: idUser.toString() + randomTransactionNumber(),
+        transactionNumber: randomTransactionNumber(),
       });
-      const prom = await Promise.all([result, balanceUpdate, transactions]);
+      const prom = await Promise.all([merchant, newBalance, transactions]);
       res.status(200).json(prom);
     })
-    .catch(() => {
-      res.status(400).json({
-        message: "No se pudo cargar el saldo a la billetera",
-      });
+    .catch((err) => {
+      res.status(400).json({ err });
     });
 });
 
 //transferencia de dinero//
 
 server.put("/:idSender/:idReceiver", async (req, res) => {
-  let { money, transactions_type } = req.body;
+  let { money, transactiontype } = req.body;
   const { idSender, idReceiver } = req.params;
   const randomTransactionNumber = function () {
     return Math.floor(Math.random() * 500000 + 1);
@@ -73,7 +71,7 @@ server.put("/:idSender/:idReceiver", async (req, res) => {
 
   let userSender = await Wallet.findOne({ where: { userId: idSender } });
   let moneyFloat = parseFloat(money);
-  switch (transactions_type) {
+  switch (transactiontype) {
     //Transferencia entre usuarios billetera
     case "UsertoUser":
       let userReceiver = await Wallet.findOne({
@@ -155,12 +153,10 @@ server.put("/:idSender/:idReceiver", async (req, res) => {
             })
           );
       } else {
-        if (!check || check.status !== "Validado") {
-          res
-            .status(400)
-            .json({ message: "El contacto aún no se ha validado" });
+        if (!check || check.status == "Validado") {
+          res.json({ message: "El usuario no existe o no esta habilitado" });
         } else {
-          res.status(400).json({ message: "No tienes fondos suficientes" });
+          res.json({ message: "El usuario no tiene fondos suficientes" });
         }
       }
       break;
@@ -325,27 +321,27 @@ server.put("/:idSender/:idReceiver", async (req, res) => {
 server.get("/history/:idUser", (req, res) => {
   //busco todas las transacciones del cliente y las separo por ingresos y decrementos
   const { idUser } = req.params;
-  let income = Transactions.findAll({
+  let ingresos = Transactions.findAll({
     where: { idReceiver: idUser },
   });
-  let outcome = Transactions.findAll({
+  let decrements = Transactions.findAll({
     where: { idSender: idUser },
   });
 
-  Promise.all([income, outcome])
-    .then((transactions) => {
+  Promise.all([ingresos, decrements])
+    .then((transacciones) => {
       var ing = 0.0;
       var dec = 0.0;
 
-      transactions[0].forEach((element) => {
+      transacciones[0].forEach((element) => {
         //parseo a Decimal de nuevo ¬¬
         ing = parseFloat(ing) + parseFloat(element.value);
       });
 
-      transactions[1].forEach((element) => {
+      transacciones[1].forEach((element) => {
         dec = parseFloat(dec) + parseFloat(element.value);
       });
-      res.status(200).json({ income: ing, outcome: dec });
+      res.status(200).json({ ingresos: ing, decrements: dec });
     })
 
     .catch((err) =>
@@ -354,105 +350,47 @@ server.get("/history/:idUser", (req, res) => {
 });
 
 //RUTA PARA RETORNAR SUMA GENERAL POR FECHA DE INGRESOS Y EGRESOS X USUARIO//
-//Fecha de incorporación a base: 10-08-2020
-//Última actualización: 11-08-2020
-server.post("/history/time/:idUser", async (req, res) => {
-  const { idUser } = req.params;
-  const { moment } = req.query;
 
-  async function moneyFlow(start, end, moment) {
-    try {
-      //busco todas las transacciones del cliente y las separo por ingresos y decrementos
-      var income = await Transactions.findAll({
-        where: {
-          idReceiver: idUser,
-          createdAt: {
-            [Op.between]: [start, end],
-          },
-        },
-      });
-      var outcome = await Transactions.findAll({
-        where: {
-          idSender: idUser,
-          createdAt: {
-            [Op.between]: [start, end],
-          },
-        },
+server.get("/history/time/:idUser", async (req, res) => {
+  //LA FECHA LE LLEGA POR BODY.DATE EN FORMATO "new Date()"
+  var d = req.body.date;
+  const idUser = req.params.idUser;
+  //busco todas las transacciones del cliente y las separo por ingresos y decrementos
+  let ingresos = await Transactions.findAll({
+    where: { idReceiver: req.params.idUser, createdAt: { [Op.gt]: d } },
+  });
+  let decrements = await Transactions.findAll({
+    where: { idSender: req.params.idUser, createdAt: { [Op.gt]: d } },
+  });
+
+  Promise.all([ingresos, decrements])
+    .then((transacciones) => {
+      var ing = 0.0;
+      var dec = 0.0;
+
+      transacciones[0].forEach((element) => {
+        //parseo a Decimal de nuevo ¬¬
+        const e = element.dataValues;
+        ing = parseFloat(ing) + parseFloat(e.value);
       });
 
-      Promise.all([income, outcome])
-        .then((transactions) => {
-          res.status(200).json({ income, outcome });
-        })
-
-        .catch((err) =>
-          res.status(400).json({
-            message: `No se pudo realizar la consulta de transacciones con rango ${moment}`,
-          })
-        );
-    } catch (error) {
-      res.status(404).json({
-        message: `Los parámetros de rango de fecha no son correctos. Intente nuevamente`,
+      transacciones[1].forEach((element) => {
+        const e = element.dataValues;
+        dec = parseFloat(dec) + parseFloat(e.value);
       });
-    }
-  }
+      res.status(200).json({ ingresos: ing, decrements: dec });
+    })
 
-  switch (moment) {
-    case "day":
-      //LA FECHA LE LLEGA POR BODY.DATE EN FORMATO "new Date()"
-      var baseDate = new Date();
-      //Arreglo de Offset de zona horaria; con esto siempre obtendremos el día actual independiente de donde estemos
-      baseDate.setMinutes(baseDate.getMinutes() - baseDate.getTimezoneOffset());
-      //Luego, a nuestros rangos le separamos la fecha corregida de la hora, y la seteamos nosotros, de tal forma
-      //que siempre busquemos desde el inicio del día de uno hasta el final del otro
-      var dayStart = baseDate.toISOString().split("T")[0] + "T00:00:00.000Z";
-      var dayEnd = baseDate.toISOString().split("T")[0] + "T23:59:59.999Z";
-
-      moneyFlow(dayStart, dayEnd, "diario");
-      break;
-    case "week":
-      var baseDate = new Date();
-      baseDate.setMinutes(baseDate.getMinutes() - baseDate.getTimezoneOffset());
-      var pastWeek =
-        new Date(
-          baseDate.getFullYear(),
-          baseDate.getMonth(),
-          baseDate.getDate() - 7
-        )
-          .toISOString()
-          .split("T")[0] + "T00:00:00.000Z";
-      var currentDay = baseDate.toISOString().split("T")[0] + "T23:59:59.999Z";
-
-      moneyFlow(pastWeek, currentDay, "semanal");
-      break;
-    case "month":
-      var baseDate = new Date();
-      baseDate.setMinutes(baseDate.getMinutes() - baseDate.getTimezoneOffset());
-      var pastMonth =
-        new Date(
-          baseDate.getFullYear(),
-          baseDate.getMonth(),
-          baseDate.getDate() - 28
-        )
-          .toISOString()
-          .split("T")[0] + "T00:00:00.000Z";
-      var currentDay = baseDate.toISOString().split("T")[0] + "T23:59:59.999Z";
-
-      moneyFlow(pastMonth, currentDay, "mensual");
-      break;
-    case "custom":
-      var startDate = req.body.startDate + "T00:00:00.000Z";
-      var endDate = req.body.endDate + "T23:59:59.999Z";
-
-      moneyFlow(startDate, endDate, "personalizado");
-      break;
-    default:
-      res.status(404).json({
-        message:
-          "Debe seleccionar un rango de fechas válido para consultar sus transacciones",
-      });
-      break;
-  }
+    .catch((err) =>
+      res.status(400).json({ message: "no se pudo realizar la consulta" })
+    );
 });
+
+// server.get('/recargatoken', (req, res) =>{
+//   var token = function () {
+//     return Math.floor((Math.random() * 10000000000) + 1)
+//   };
+//   res.json(token());
+// });
 
 module.exports = server;
